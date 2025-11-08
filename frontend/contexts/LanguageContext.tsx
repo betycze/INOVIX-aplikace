@@ -94,6 +94,13 @@ const translations = {
     catalogDescription: 'Browse our products and services',
     downloading: 'Downloading...',
     openingCatalog: 'Opening catalog...',
+    pageOf: 'Page',
+    of: 'of',
+    loading: 'Loading...',
+    previousPage: 'Previous',
+    nextPage: 'Next',
+    catalogEnd: 'You\'ve reached the end of the catalog! If you\'ve made your choice, please contact our staff team.',
+    catalogEndTitle: 'End of Catalog',
     
     // Rating
     rateUs: 'Rate Us',
