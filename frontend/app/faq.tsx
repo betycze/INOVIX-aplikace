@@ -85,13 +85,8 @@ export default function FAQScreen() {
 
         <View style={styles.contactBox}>
           <Ionicons name="mail" size={32} color="#FEC11B" />
-          <Text style={styles.contactTitle}>
-            {t('language') === 'cs' ? 'Potřebujete další informace?' : 'Need more information?'}
-          </Text>
           <Text style={styles.contactText}>
-            {t('language') === 'cs'
-              ? 'Navštivte náš stánek nebo kontaktujte naše zástupce na veletrhu.'
-              : 'Visit our booth or contact our representatives at the fair.'}
+            {t('faqContact')}
           </Text>
         </View>
       </ScrollView>
