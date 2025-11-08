@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,54 @@ import {
   Dimensions,
   Platform,
   Modal,
+  ScrollView,
+  Image,
+  Animated,
 } from 'react-native';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
+import { PinchGestureHandler, State } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
-const CATALOG_URL = 'https://customer-assets.emergentagent.com/job_6b820d1c-1449-49e6-ad5b-db28ee6bd9c9/artifacts/96v7mst8_KATALOG%20PRODUKT%C5%AW%20%281%29.pdf';
+
+interface CatalogImage {
+  id: number;
+  filename: string;
+  url: string;
+}
 
 export default function CatalogScreen() {
   const { t } = useLanguage();
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages] = useState(12); // Total pages in the catalog
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showEndMessage, setShowEndMessage] = useState(false);
+  const [catalogImages, setCatalogImages] = useState<CatalogImage[]>([]);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const BACKEND_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL || '';
+
+  useEffect(() => {
+    fetchCatalogImages();
+  }, []);
+
+  const fetchCatalogImages = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/catalog/images`);
+      const data = await response.json();
+      
+      if (data.images && data.images.length > 0) {
+        setCatalogImages(data.images);
+        setTotalPages(data.total);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching catalog images:', error);
+      setLoading(false);
+    }
+  };
 
   const goToNextPage = () => {
     if (currentPage < totalPages) {
