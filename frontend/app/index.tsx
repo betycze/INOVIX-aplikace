@@ -402,4 +402,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     flex: 1,
   },
+  quizButton: {
+    backgroundColor: '#FEC11B',
+    borderColor: '#FEC11B',
+  },
+  quizButtonText: {
+    color: '#1B1B1B',
+  },
 });
