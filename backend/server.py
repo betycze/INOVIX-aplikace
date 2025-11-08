@@ -176,6 +176,62 @@ async def get_rating_stats():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching stats: {str(e)}")
 
+@app.post("/api/quiz/submit")
+async def submit_quiz_score(quiz_data: QuizScore):
+    """Submit quiz score"""
+    try:
+        score_doc = {
+            "score": quiz_data.score,
+            "total_questions": quiz_data.total_questions,
+            "correct_answers": quiz_data.correct_answers,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        result = quiz_scores_collection.insert_one(score_doc)
+        
+        # Calculate percentile
+        total_scores = quiz_scores_collection.count_documents({})
+        scores_below = quiz_scores_collection.count_documents({"score": {"$lt": quiz_data.score}})
+        percentile = (scores_below / total_scores * 100) if total_scores > 0 else 50
+        
+        return {
+            "success": True,
+            "id": str(result.inserted_id),
+            "percentile": round(percentile, 1)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error submitting quiz score: {str(e)}")
+
+@app.get("/api/quiz/stats")
+async def get_quiz_stats():
+    """Get quiz statistics"""
+    try:
+        total_attempts = quiz_scores_collection.count_documents({})
+        
+        if total_attempts == 0:
+            return {
+                "total_attempts": 0,
+                "average_score": 0,
+                "highest_score": 0
+            }
+        
+        # Calculate average
+        pipeline = [
+            {"$group": {"_id": None, "avg_score": {"$avg": "$score"}, "max_score": {"$max": "$score"}}}
+        ]
+        result = list(quiz_scores_collection.aggregate(pipeline))
+        
+        avg_score = result[0]["avg_score"] if result else 0
+        max_score = result[0]["max_score"] if result else 0
+        
+        return {
+            "total_attempts": total_attempts,
+            "average_score": round(avg_score, 1),
+            "highest_score": max_score
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching quiz stats: {str(e)}")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
