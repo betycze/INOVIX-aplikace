@@ -33,6 +33,7 @@ DB_NAME = os.getenv("DB_NAME", "inovix_portal")
 client = MongoClient(MONGO_URL)
 db = client[DB_NAME]
 ratings_collection = db["ratings"]
+quiz_scores_collection = db["quiz_scores"]
 
 # Models
 class RatingSubmission(BaseModel):
