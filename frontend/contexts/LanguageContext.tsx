@@ -153,6 +153,27 @@ const translations = {
     faqA4: 'No, we are a fictional company focused on selling electronics. We offer a Game Zone and aim to give you the best experience possible, like in a real electronics store.',
     faqContact: 'For more questions, contact us at kontakt@inovix.cz',
     
+    // Quiz
+    quizArena: 'INOVIX Quiz Arena',
+    quizDescription: 'Test your knowledge of electronics and logic!',
+    startQuiz: 'Start Quiz',
+    question: 'Question',
+    nextQuestion: 'Next Question',
+    finishQuiz: 'Finish Quiz',
+    yourScore: 'Your Score',
+    excellent: 'Excellent!',
+    goodJob: 'Good Job!',
+    tryAgain: 'Try Again!',
+    betterThan: 'You scored better than',
+    ofPlayers: 'of players',
+    playAgain: 'Play Again',
+    correctAnswers: 'Correct Answers',
+    showAnswers: 'Show Correct Answers',
+    hideAnswers: 'Hide Answers',
+    correct: 'Correct',
+    yourAnswer: 'Your Answer',
+    loading: 'Loading...',
+    
     // Common
     back: 'Back',
     close: 'Close',
