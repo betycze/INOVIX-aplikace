@@ -118,35 +118,70 @@ export default function CatalogScreen() {
     }
   };
 
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="#FEC11B" />
+          <Text style={styles.loadingText}>{t('loading')}</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (catalogImages.length === 0) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.emptyState}>
+          <Ionicons name="images-outline" size={80} color="#666" />
+          <Text style={styles.emptyText}>No catalog images available</Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {/* Page Counter */}
       <View style={styles.header}>
         <Text style={styles.pageCounter}>
-          {t('pageOf')} {currentPage} {t('of')} {totalPages || '...'}
+          {t('pageOf')} {currentPage} {t('of')} {totalPages}
         </Text>
       </View>
 
-      {/* PDF Viewer */}
-      <View style={styles.pdfContainer}>
-        <iframe
-          src={`https://docs.google.com/viewer?url=${encodeURIComponent(CATALOG_URL)}&embedded=true#page=${currentPage}`}
-          style={{
-            width: '100%',
-            height: '100%',
-            border: 'none',
-            backgroundColor: '#232426',
-          }}
-          title="Product Catalog"
-          onLoad={() => setLoading(false)}
-        />
-
-        {loading && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#FEC11B" />
-            <Text style={styles.loadingText}>{t('loading')}</Text>
-          </View>
-        )}
+      {/* Image Viewer */}
+      <View style={styles.viewerContainer}>
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          decelerationRate="fast"
+          snapToInterval={width}
+          snapToAlignment="center"
+        >
+          {catalogImages.map((image, index) => (
+            <View key={image.id} style={styles.imageContainer}>
+              <PinchGestureHandler
+                onGestureEvent={onPinchEvent}
+                onHandlerStateChange={onPinchStateChange}
+              >
+                <Animated.Image
+                  source={{ uri: `${BACKEND_URL}${image.url}` }}
+                  style={[
+                    styles.catalogImage,
+                    {
+                      transform: [{ scale: scale }],
+                    },
+                  ]}
+                  resizeMode="contain"
+                />
+              </PinchGestureHandler>
+            </View>
+          ))}
+        </ScrollView>
       </View>
 
       {/* Navigation Controls */}
