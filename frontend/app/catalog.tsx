@@ -11,7 +11,12 @@ import {
 } from 'react-native';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
-import Pdf from 'react-native-pdf';
+
+// Conditional import for native PDF viewer
+let Pdf: any = null;
+if (Platform.OS !== 'web') {
+  Pdf = require('react-native-pdf').default;
+}
 
 const { width, height } = Dimensions.get('window');
 const CATALOG_URL = 'https://customer-assets.emergentagent.com/job_6b820d1c-1449-49e6-ad5b-db28ee6bd9c9/artifacts/96v7mst8_KATALOG%20PRODUKT%C5%AW%20%281%29.pdf';
