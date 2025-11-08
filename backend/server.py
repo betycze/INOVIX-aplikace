@@ -50,6 +50,11 @@ class RatingResponse(BaseModel):
     company: str
     timestamp: str
 
+class QuizScore(BaseModel):
+    score: int  # percentage 0-100
+    total_questions: int
+    correct_answers: int
+
 @app.get("/api/health")
 async def health_check():
     return {"status": "ok", "message": "INOVIX Portal API is running"}
