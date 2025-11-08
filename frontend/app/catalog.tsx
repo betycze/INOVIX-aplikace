@@ -6,16 +6,13 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
-  Platform,
   Modal,
   ScrollView,
   Image,
-  Animated,
 } from 'react-native';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
-import { PinchGestureHandler, State } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
