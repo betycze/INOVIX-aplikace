@@ -63,46 +63,54 @@ export default function CatalogScreen() {
       {/* PDF Viewer */}
       <View style={styles.pdfContainer}>
         {Platform.OS === 'web' ? (
-          // Web fallback - use iframe
-          <iframe
-            src={`${CATALOG_URL}#page=${currentPage}`}
-            style={{
-              width: '100%',
-              height: '100%',
-              border: 'none',
-              backgroundColor: '#232426',
-            }}
-            title="Product Catalog"
-          />
+          // Web - use iframe with Google PDF viewer
+          <>
+            <iframe
+              src={`https://docs.google.com/viewer?url=${encodeURIComponent(CATALOG_URL)}&embedded=true&page=${currentPage}`}
+              style={{
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                backgroundColor: '#232426',
+              }}
+              title="Product Catalog"
+              onLoad={() => {
+                setLoading(false);
+                setTotalPages(12); // Fallback for web - actual page count
+              }}
+            />
+          </>
         ) : (
           // Native PDF viewer
-          <Pdf
-            ref={pdfRef}
-            source={{ uri: CATALOG_URL, cache: true }}
-            page={currentPage}
-            horizontal={false}
-            onLoadComplete={(numberOfPages) => {
-              setTotalPages(numberOfPages);
-              setLoading(false);
-            }}
-            onPageChanged={(page) => {
-              setCurrentPage(page);
-              if (page === totalPages) {
-                setShowEndMessage(true);
-              } else {
-                setShowEndMessage(false);
-              }
-            }}
-            onError={(error) => {
-              console.error('PDF Error:', error);
-              setLoading(false);
-            }}
-            style={styles.pdf}
-            trustAllCerts={false}
-            enablePaging={true}
-            spacing={0}
-            fitPolicy={0}
-          />
+          Pdf && (
+            <Pdf
+              ref={pdfRef}
+              source={{ uri: CATALOG_URL, cache: true }}
+              page={currentPage}
+              horizontal={false}
+              onLoadComplete={(numberOfPages: number) => {
+                setTotalPages(numberOfPages);
+                setLoading(false);
+              }}
+              onPageChanged={(page: number) => {
+                setCurrentPage(page);
+                if (page === totalPages) {
+                  setShowEndMessage(true);
+                } else {
+                  setShowEndMessage(false);
+                }
+              }}
+              onError={(error: any) => {
+                console.error('PDF Error:', error);
+                setLoading(false);
+              }}
+              style={styles.pdf}
+              trustAllCerts={false}
+              enablePaging={true}
+              spacing={0}
+              fitPolicy={0}
+            />
+          )
         )}
 
         {loading && (
