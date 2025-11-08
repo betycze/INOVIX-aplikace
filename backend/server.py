@@ -100,6 +100,14 @@ async def get_ratings():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching ratings: {str(e)}")
 
+@app.get("/api/static/catalog/{filename}")
+async def serve_catalog_image(filename: str):
+    """Serve catalog images under /api/static/ path"""
+    file_path = f"static/catalog/{filename}"
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(file_path)
+
 @app.get("/api/catalog/images")
 async def get_catalog_images():
     """Get list of catalog images in order"""
