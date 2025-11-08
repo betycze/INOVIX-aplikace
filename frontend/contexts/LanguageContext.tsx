@@ -67,6 +67,27 @@ const translations = {
     faqA4: 'Nejsme, jsme pouze fiktivní firma zaměřující se na prodej elektroniky. Nabízíme Game Zone a snažíme se vám udělat co nejlepší zážitek jako v reálném elektro shopu.',
     faqContact: 'Pokud máte další dotazy, kontaktujte nás na e-mailu kontakt@inovix.cz',
     
+    // Quiz
+    quizArena: 'INOVIX Quiz Arena',
+    quizDescription: 'Otestujte své znalosti z elektroniky a logiky!',
+    startQuiz: 'Začít kvíz',
+    question: 'Otázka',
+    nextQuestion: 'Další otázka',
+    finishQuiz: 'Dokončit kvíz',
+    yourScore: 'Vaše skóre',
+    excellent: 'Výborně!',
+    goodJob: 'Dobrá práce!',
+    tryAgain: 'Zkuste to znovu!',
+    betterThan: 'Jste lepší než',
+    ofPlayers: 'hráčů',
+    playAgain: 'Hrát znovu',
+    correctAnswers: 'Správné odpovědi',
+    showAnswers: 'Zobrazit správné odpovědi',
+    hideAnswers: 'Skrýt odpovědi',
+    correct: 'Správně',
+    yourAnswer: 'Vaše odpověď',
+    loading: 'Načítám...',
+    
     // Common
     back: 'Zpět',
     close: 'Zavřít',
