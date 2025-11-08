@@ -23,7 +23,6 @@ export default function FAQScreen() {
     { question: t('faqQ2'), answer: t('faqA2') },
     { question: t('faqQ3'), answer: t('faqA3') },
     { question: t('faqQ4'), answer: t('faqA4') },
-    { question: t('faqQ5'), answer: t('faqA5') },
   ];
 
   const toggleExpand = (index: number) => {
