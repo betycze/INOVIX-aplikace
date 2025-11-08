@@ -50,16 +50,15 @@ const translations = {
     
     // FAQ
     frequentlyAsked: 'Často kladené otázky',
-    faqQ1: 'Kde najdu více informací o produktech INOVIX?',
-    faqA1: 'Navštivte náš katalog produktů nebo se zeptejte našich zástupců na stánku.',
-    faqQ2: 'Nabízíte technickou podporu?',
-    faqA2: 'Ano, poskytujeme komplexní technickou podporu pro všechny naše produkty.',
-    faqQ3: 'Jak mohu objednat produkty?',
-    faqA3: 'Kontaktujte nás prostřednictvím našeho webu nebo přímo na veletrhu.',
-    faqQ4: 'Dodáváte i do zahraničí?',
-    faqA4: 'Ano, dodáváme po celé Evropě i do dalších zemí.',
-    faqQ5: 'Jaká je záruka na vaše produkty?',
-    faqA5: 'Všechny naše produkty mají standardní záruku 24 měsíců.',
+    faqQ1: 'Můžu si u vás fyzicky zakoupit nějaký produkt?',
+    faqA1: 'Co se týká produktů, tak ty fyzicky nenabízíme, avšak můžete se zapojit do tomboly po zakoupení produktů „fiktivně" a vyhrát fyzickou cenu. Šance na výhru je velká.',
+    faqQ2: 'Nevím si rady, kdo mi pomůže?',
+    faqA2: 'Na našem stánku jsou vám k dispozici naši zaměstnanci v černém tričku s visačkou INOVIX.',
+    faqQ3: 'Co nabízí Game Zone?',
+    faqA3: 'Pro Game Zone jsme si pro vás připravili virtuální realitu – neváhejte ji vyzkoušet!',
+    faqQ4: 'Jste autorizovaný prodejce?',
+    faqA4: 'Nejsme, jsme pouze fiktivní firma zaměřující se na prodej elektroniky. Nabízíme Game Zone a snažíme se vám udělat co nejlepší zážitek jako v reálném elektro shopu.',
+    faqContact: 'Pokud máte další dotazy, kontaktujte nás na e-mailu kontakt@inovix.cz',
     
     // Common
     back: 'Zpět',
