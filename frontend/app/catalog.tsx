@@ -146,21 +146,11 @@ export default function CatalogScreen() {
         >
           {catalogImages.map((image, index) => (
             <View key={image.id} style={styles.imageContainer}>
-              <PinchGestureHandler
-                onGestureEvent={onPinchEvent}
-                onHandlerStateChange={onPinchStateChange}
-              >
-                <Animated.Image
-                  source={{ uri: `${BACKEND_URL}${image.url}` }}
-                  style={[
-                    styles.catalogImage,
-                    {
-                      transform: [{ scale: scale }],
-                    },
-                  ]}
-                  resizeMode="contain"
-                />
-              </PinchGestureHandler>
+              <Image
+                source={{ uri: `${BACKEND_URL}${image.url}` }}
+                style={styles.catalogImage}
+                resizeMode="contain"
+              />
             </View>
           ))}
         </ScrollView>
