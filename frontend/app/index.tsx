@@ -214,6 +214,16 @@ export default function WelcomeScreen() {
               <Text style={styles.menuButtonText}>{t('faq')}</Text>
             </View>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.menuButton, styles.quizButton]}
+            onPress={() => router.push('/quiz')}
+          >
+            <View style={styles.menuButtonContent}>
+              <Ionicons name="trophy" size={40} color="#1B1B1B" />
+              <Text style={[styles.menuButtonText, styles.quizButtonText]}>{t('quizArena')}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
