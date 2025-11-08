@@ -99,6 +99,34 @@ async def get_ratings():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching ratings: {str(e)}")
 
+@app.get("/api/catalog/images")
+async def get_catalog_images():
+    """Get list of catalog images in order"""
+    try:
+        catalog_dir = "static/catalog"
+        if not os.path.exists(catalog_dir):
+            return {"images": [], "total": 0}
+        
+        # Get all PNG files and sort them by filename (numbered prefix ensures order)
+        image_files = sorted(glob.glob(os.path.join(catalog_dir, "*.png")))
+        
+        # Create URLs for each image
+        images = [
+            {
+                "id": idx + 1,
+                "filename": os.path.basename(f),
+                "url": f"/api/static/catalog/{os.path.basename(f)}"
+            }
+            for idx, f in enumerate(image_files)
+        ]
+        
+        return {
+            "images": images,
+            "total": len(images)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching catalog images: {str(e)}")
+
 @app.get("/api/ratings/stats")
 async def get_rating_stats():
     try:
