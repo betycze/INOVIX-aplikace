@@ -115,7 +115,7 @@ async def get_catalog_images():
             {
                 "id": idx + 1,
                 "filename": os.path.basename(f),
-                "url": f"/api/static/catalog/{os.path.basename(f)}"
+                "url": f"/static/catalog/{os.path.basename(f)}"
             }
             for idx, f in enumerate(image_files)
         ]
