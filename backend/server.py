@@ -29,8 +29,9 @@ app.add_middleware(
 
 # MongoDB connection
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DB_NAME", "inovix_portal")
 client = MongoClient(MONGO_URL)
-db = client["inovix_portal"]
+db = client[DB_NAME]
 ratings_collection = db["ratings"]
 
 # Models
