@@ -15,17 +15,22 @@ import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
-// Fair end date - Set to 7 days from now for demo
-const FAIR_END_DATE = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+// Fair end date - November 13, 2025, 12:00 PM Prague time (CET/CEST)
+// Prague is UTC+1 (CET) in winter, UTC+2 (CEST) in summer
+// November 13, 2025 is in winter, so UTC+1
+const FAIR_END_DATE = new Date('2025-11-13T11:00:00.000Z'); // 12:00 PM Prague (11:00 UTC)
 
 export default function WelcomeScreen() {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [fairEnded, setFairEnded] = useState(false);
 
   function calculateTimeLeft() {
-    const difference = FAIR_END_DATE.getTime() - new Date().getTime();
+    const now = new Date().getTime();
+    const fairEnd = FAIR_END_DATE.getTime();
+    const difference = fairEnd - now;
     
     if (difference > 0) {
       return {
@@ -35,6 +40,7 @@ export default function WelcomeScreen() {
         seconds: Math.floor((difference / 1000) % 60),
       };
     }
+    setFairEnded(true);
     return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   }
 
