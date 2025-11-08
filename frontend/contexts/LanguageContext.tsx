@@ -108,16 +108,15 @@ const translations = {
     
     // FAQ
     frequentlyAsked: 'Frequently Asked Questions',
-    faqQ1: 'Where can I find more information about INOVIX products?',
-    faqA1: 'Visit our product catalog or ask our representatives at the booth.',
-    faqQ2: 'Do you offer technical support?',
-    faqA2: 'Yes, we provide comprehensive technical support for all our products.',
-    faqQ3: 'How can I order products?',
-    faqA3: 'Contact us through our website or directly at the fair.',
-    faqQ4: 'Do you ship internationally?',
-    faqA4: 'Yes, we deliver throughout Europe and other countries.',
-    faqQ5: 'What warranty do your products have?',
-    faqA5: 'All our products come with a standard 24-month warranty.',
+    faqQ1: 'Can I buy a physical product from you?',
+    faqA1: 'We don\'t sell real products, but you can enter our tombola after a "fictional" purchase and win real prizes. The chance of winning is high!',
+    faqQ2: 'I\'m not sure what to do — who can help me?',
+    faqA2: 'Our staff members in black INOVIX T-shirts with name badges are ready to help you at the booth.',
+    faqQ3: 'What does the Game Zone offer?',
+    faqA3: 'We have prepared a virtual reality experience for you — don\'t hesitate to try it!',
+    faqQ4: 'Are you an authorized retailer?',
+    faqA4: 'No, we are a fictional company focused on selling electronics. We offer a Game Zone and aim to give you the best experience possible, like in a real electronics store.',
+    faqContact: 'For more questions, contact us at kontakt@inovix.cz',
     
     // Common
     back: 'Back',
