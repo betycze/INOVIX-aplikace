@@ -70,6 +70,8 @@ async def submit_rating(rating: RatingSubmission):
             "message": "Rating submitted successfully",
             "id": str(result.inserted_id)
         }
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error submitting rating: {str(e)}")
 
