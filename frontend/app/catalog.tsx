@@ -260,23 +260,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FEC11B',
   },
-  pdfContainer: {
+  viewerContainer: {
     flex: 1,
     backgroundColor: '#232426',
-    position: 'relative',
   },
-  pdf: {
-    flex: 1,
+  imageContainer: {
     width: width,
     height: height - 200,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#232426',
   },
+  catalogImage: {
+    width: width - 40,
+    height: height - 240,
+  },
   loadingOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     backgroundColor: '#232426',
     justifyContent: 'center',
     alignItems: 'center',
@@ -286,6 +286,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FEC11B',
     marginTop: 8,
+  },
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#666',
   },
   controls: {
     flexDirection: 'row',
