@@ -288,6 +288,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     fontWeight: 'bold',
   },
+  fairEndedContainer: {
+    paddingVertical: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fairEndedText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FEC11B',
+    textAlign: 'center',
+  },
   content: {
     flex: 1,
   },
