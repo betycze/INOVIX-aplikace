@@ -1,16 +1,21 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
 from pymongo import MongoClient
 from bson import ObjectId
 import os
+import glob
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = FastAPI()
+
+# Mount static files for catalog images
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # CORS middleware
 app.add_middleware(
