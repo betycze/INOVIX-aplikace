@@ -22,4 +22,17 @@ config.cacheStores = [
 // Reduce the number of workers to decrease resource usage
 config.maxWorkers = 2;
 
+// Platform-specific resolver for web
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  // Exclude react-native-pdf on web platform
+  if (platform === 'web' && moduleName === 'react-native-pdf') {
+    return {
+      type: 'empty',
+    };
+  }
+  
+  // Use default resolver for everything else
+  return context.resolveRequest(context, moduleName, platform);
+};
+
 module.exports = config;
