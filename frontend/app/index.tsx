@@ -90,30 +90,36 @@ export default function WelcomeScreen() {
           <View style={styles.progressBarBackground}>
             <View style={[styles.progressBarFill, { width: `${progressPercentage()}%` }]} />
           </View>
-          <Text style={styles.countdownText}>{t('fairEndsIn')}</Text>
+          <Text style={styles.countdownText}>KONEC VELETRHU ZA</Text>
         </View>
         
-        <View style={styles.countdownContainer}>
-          <View style={styles.timeBox}>
-            <Text style={styles.timeValue}>{timeLeft.days}</Text>
-            <Text style={styles.timeLabel}>{t('days')}</Text>
+        {fairEnded ? (
+          <View style={styles.fairEndedContainer}>
+            <Text style={styles.fairEndedText}>Veletrh právě probíhá!</Text>
           </View>
-          <Text style={styles.timeSeparator}>:</Text>
-          <View style={styles.timeBox}>
-            <Text style={styles.timeValue}>{String(timeLeft.hours).padStart(2, '0')}</Text>
-            <Text style={styles.timeLabel}>{t('hours')}</Text>
+        ) : (
+          <View style={styles.countdownContainer}>
+            <View style={styles.timeBox}>
+              <Text style={styles.timeValue}>{timeLeft.days}</Text>
+              <Text style={styles.timeLabel}>d</Text>
+            </View>
+            <Text style={styles.timeSeparator}>:</Text>
+            <View style={styles.timeBox}>
+              <Text style={styles.timeValue}>{String(timeLeft.hours).padStart(2, '0')}</Text>
+              <Text style={styles.timeLabel}>h</Text>
+            </View>
+            <Text style={styles.timeSeparator}>:</Text>
+            <View style={styles.timeBox}>
+              <Text style={styles.timeValue}>{String(timeLeft.minutes).padStart(2, '0')}</Text>
+              <Text style={styles.timeLabel}>m</Text>
+            </View>
+            <Text style={styles.timeSeparator}>:</Text>
+            <View style={styles.timeBox}>
+              <Text style={styles.timeValue}>{String(timeLeft.seconds).padStart(2, '0')}</Text>
+              <Text style={styles.timeLabel}>s</Text>
+            </View>
           </View>
-          <Text style={styles.timeSeparator}>:</Text>
-          <View style={styles.timeBox}>
-            <Text style={styles.timeValue}>{String(timeLeft.minutes).padStart(2, '0')}</Text>
-            <Text style={styles.timeLabel}>{t('minutes')}</Text>
-          </View>
-          <Text style={styles.timeSeparator}>:</Text>
-          <View style={styles.timeBox}>
-            <Text style={styles.timeValue}>{String(timeLeft.seconds).padStart(2, '0')}</Text>
-            <Text style={styles.timeLabel}>{t('seconds')}</Text>
-          </View>
-        </View>
+        )}
       </View>
 
       <ScrollView 
