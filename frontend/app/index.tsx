@@ -118,7 +118,7 @@ export default function WelcomeScreen() {
         {/* Logo and Welcome */}
         <View style={styles.welcomeSection}>
           <Image
-            source={{ uri: 'https://customer-assets.emergentagent.com/job_6b820d1c-1449-49e6-ad5b-db28ee6bd9c9/artifacts/5y4n1u40_Group%2027.png' }}
+            source={require('../assets/inovix-logo.png')}
             style={styles.logo}
             resizeMode="contain"
           />
