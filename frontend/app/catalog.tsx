@@ -1,110 +1,167 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Linking,
   ActivityIndicator,
-  Alert,
+  Dimensions,
   Platform,
+  Modal,
 } from 'react-native';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
-import * as FileSystem from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
+import Pdf from 'react-native-pdf';
 
-const CATALOG_URL = 'https://customer-assets.emergentagent.com/job_6b820d1c-1449-49e6-ad5b-db28ee6bd9c9/artifacts/96v7mst8_KATALOG%20PRODUKT%C5%AE%20%281%29.pdf';
+const { width, height } = Dimensions.get('window');
+const CATALOG_URL = 'https://customer-assets.emergentagent.com/job_6b820d1c-1449-49e6-ad5b-db28ee6bd9c9/artifacts/96v7mst8_KATALOG%20PRODUKT%C5%AW%20%281%29.pdf';
 
 export default function CatalogScreen() {
   const { t } = useLanguage();
-  const [downloading, setDownloading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [showEndMessage, setShowEndMessage] = useState(false);
+  const pdfRef = useRef<any>(null);
 
-  const handleViewPDF = async () => {
-    try {
-      // Open PDF in browser
-      const supported = await Linking.canOpenURL(CATALOG_URL);
-      if (supported) {
-        await Linking.openURL(CATALOG_URL);
-      } else {
-        Alert.alert(t('error'), 'Cannot open PDF');
+  const goToNextPage = () => {
+    if (currentPage < totalPages && pdfRef.current) {
+      const nextPage = currentPage + 1;
+      pdfRef.current.setPage(nextPage);
+      setCurrentPage(nextPage);
+      
+      // Show end message when reaching last page
+      if (nextPage === totalPages) {
+        setShowEndMessage(true);
       }
-    } catch (error) {
-      Alert.alert(t('error'), 'Failed to open PDF');
     }
   };
 
-  const handleDownload = async () => {
-    setDownloading(true);
-    try {
-      const filename = 'INOVIX_Catalog.pdf';
-      const fileUri = FileSystem.documentDirectory + filename;
-
-      // Download the file
-      const downloadResult = await FileSystem.downloadAsync(CATALOG_URL, fileUri);
-
-      if (downloadResult.status === 200) {
-        // Check if sharing is available
-        const canShare = await Sharing.isAvailableAsync();
-        if (canShare) {
-          await Sharing.shareAsync(downloadResult.uri);
-        } else {
-          Alert.alert(t('ok'), `File saved to ${fileUri}`);
-        }
-      } else {
-        Alert.alert(t('error'), 'Failed to download catalog');
-      }
-    } catch (error) {
-      Alert.alert(t('error'), 'Failed to download catalog');
-      console.error(error);
-    } finally {
-      setDownloading(false);
+  const goToPreviousPage = () => {
+    if (currentPage > 1 && pdfRef.current) {
+      const prevPage = currentPage - 1;
+      pdfRef.current.setPage(prevPage);
+      setCurrentPage(prevPage);
+      setShowEndMessage(false);
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <Ionicons name="document-text" size={100} color="#FEC11B" style={styles.icon} />
-        
-        <Text style={styles.title}>{t('productCatalog')}</Text>
-        <Text style={styles.description}>{t('catalogDescription')}</Text>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.primaryButton}
-            onPress={handleViewPDF}
-            disabled={downloading}
-          >
-            <Ionicons name="eye" size={24} color="#232426" />
-            <Text style={styles.primaryButtonText}>{t('viewPDF')}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.secondaryButton}
-            onPress={handleDownload}
-            disabled={downloading}
-          >
-            {downloading ? (
-              <ActivityIndicator color="#FEC11B" />
-            ) : (
-              <Ionicons name="download" size={24} color="#FEC11B" />
-            )}
-            <Text style={styles.secondaryButtonText}>
-              {downloading ? t('downloading') : t('downloadCatalog')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.infoBox}>
-          <Ionicons name="information-circle" size={20} color="#FEC11B" />
-          <Text style={styles.infoText}>
-            {t('language') === 'cs'
-              ? 'Katalog obsahuje kompletní informace o našich produktech a službách.'
-              : 'The catalog contains complete information about our products and services.'}
-          </Text>
-        </View>
+      {/* Page Counter */}
+      <View style={styles.header}>
+        <Text style={styles.pageCounter}>
+          {t('pageOf')} {currentPage} {t('of')} {totalPages || '...'}
+        </Text>
       </View>
+
+      {/* PDF Viewer */}
+      <View style={styles.pdfContainer}>
+        {Platform.OS === 'web' ? (
+          // Web fallback - use iframe
+          <iframe
+            src={`${CATALOG_URL}#page=${currentPage}`}
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              backgroundColor: '#232426',
+            }}
+            title="Product Catalog"
+          />
+        ) : (
+          // Native PDF viewer
+          <Pdf
+            ref={pdfRef}
+            source={{ uri: CATALOG_URL, cache: true }}
+            page={currentPage}
+            horizontal={false}
+            onLoadComplete={(numberOfPages) => {
+              setTotalPages(numberOfPages);
+              setLoading(false);
+            }}
+            onPageChanged={(page) => {
+              setCurrentPage(page);
+              if (page === totalPages) {
+                setShowEndMessage(true);
+              } else {
+                setShowEndMessage(false);
+              }
+            }}
+            onError={(error) => {
+              console.error('PDF Error:', error);
+              setLoading(false);
+            }}
+            style={styles.pdf}
+            trustAllCerts={false}
+            enablePaging={true}
+            spacing={0}
+            fitPolicy={0}
+          />
+        )}
+
+        {loading && (
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color="#FEC11B" />
+            <Text style={styles.loadingText}>{t('loading')}</Text>
+          </View>
+        )}
+      </View>
+
+      {/* Navigation Controls */}
+      <View style={styles.controls}>
+        <TouchableOpacity
+          style={[styles.controlButton, currentPage === 1 && styles.controlButtonDisabled]}
+          onPress={goToPreviousPage}
+          disabled={currentPage === 1}
+        >
+          <Ionicons 
+            name="chevron-back" 
+            size={24} 
+            color={currentPage === 1 ? '#666' : '#FEC11B'} 
+          />
+          <Text style={[styles.controlButtonText, currentPage === 1 && styles.controlButtonTextDisabled]}>
+            {t('previousPage')}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.controlButton, currentPage === totalPages && styles.controlButtonDisabled]}
+          onPress={goToNextPage}
+          disabled={currentPage === totalPages}
+        >
+          <Text style={[styles.controlButtonText, currentPage === totalPages && styles.controlButtonTextDisabled]}>
+            {t('nextPage')}
+          </Text>
+          <Ionicons 
+            name="chevron-forward" 
+            size={24} 
+            color={currentPage === totalPages ? '#666' : '#FEC11B'} 
+          />
+        </TouchableOpacity>
+      </View>
+
+      {/* End of Catalog Modal */}
+      <Modal
+        visible={showEndMessage}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowEndMessage(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Ionicons name="checkmark-circle" size={60} color="#FEC11B" />
+            <Text style={styles.modalTitle}>{t('catalogEndTitle')}</Text>
+            <Text style={styles.modalMessage}>{t('catalogEnd')}</Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setShowEndMessage(false)}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
