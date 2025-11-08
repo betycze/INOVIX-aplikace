@@ -85,21 +85,28 @@ export default function RateScreen() {
     }
 
     setSubmitting(true);
+    
+    // Use relative URL if BACKEND_URL is not set
+    const apiUrl = BACKEND_URL ? `${BACKEND_URL}/api/ratings` : '/api/ratings';
+    console.log('Submitting rating to:', apiUrl);
+    
     try {
-      const response = await fetch(`${BACKEND_URL}/api/ratings`, {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           stars: rating,
-          comment,
-          photo,
-          company,
+          comment: comment || '',
+          photo: photo || '',
+          company: company || '',
         }),
       });
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (response.ok) {
         setShowSuccess(true);
@@ -116,8 +123,8 @@ export default function RateScreen() {
         Alert.alert(t('error'), data.detail || t('ratingError'));
       }
     } catch (error) {
-      Alert.alert(t('error'), t('ratingError'));
-      console.error(error);
+      console.error('Rating submission error:', error);
+      Alert.alert(t('error'), `${t('ratingError')}: ${error.message || 'Unknown error'}`);
     } finally {
       setSubmitting(false);
     }
