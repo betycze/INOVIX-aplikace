@@ -30,7 +30,6 @@ export default function CatalogScreen() {
   const [showEndMessage, setShowEndMessage] = useState(false);
   const [catalogImages, setCatalogImages] = useState<CatalogImage[]>([]);
   const scrollViewRef = useRef<ScrollView>(null);
-  const scale = useRef(new Animated.Value(1)).current;
 
   const BACKEND_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL || '';
 
