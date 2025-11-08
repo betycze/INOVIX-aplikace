@@ -1,75 +1,130 @@
-from fastapi import FastAPI, APIRouter
-from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
-import logging
-from pathlib import Path
-from pydantic import BaseModel, Field
-from typing import List
-import uuid
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Optional, List
 from datetime import datetime
+from pymongo import MongoClient
+from bson import ObjectId
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
-
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-# Create the main app without a prefix
 app = FastAPI()
 
-# Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
-
-
-# Define Models
-class StatusCheck(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
-
-# Add your routes to the router instead of directly to app
-@api_router.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.dict()
-    status_obj = StatusCheck(**status_dict)
-    _ = await db.status_checks.insert_one(status_obj.dict())
-    return status_obj
-
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    status_checks = await db.status_checks.find().to_list(1000)
-    return [StatusCheck(**status_check) for status_check in status_checks]
-
-# Include the router in the main app
-app.include_router(api_router)
-
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# MongoDB connection
+MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+client = MongoClient(MONGO_URL)
+db = client["inovix_portal"]
+ratings_collection = db["ratings"]
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+# Models
+class RatingSubmission(BaseModel):
+    stars: int
+    comment: Optional[str] = ""
+    photo: Optional[str] = ""  # base64 encoded
+    company: Optional[str] = ""
+
+class RatingResponse(BaseModel):
+    id: str
+    stars: int
+    comment: str
+    photo: str
+    company: str
+    timestamp: str
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "ok", "message": "INOVIX Portal API is running"}
+
+@app.post("/api/ratings")
+async def submit_rating(rating: RatingSubmission):
+    try:
+        # Validate stars
+        if rating.stars < 1 or rating.stars > 5:
+            raise HTTPException(status_code=400, detail="Stars must be between 1 and 5")
+        
+        # Create rating document
+        rating_doc = {
+            "stars": rating.stars,
+            "comment": rating.comment or "",
+            "photo": rating.photo or "",
+            "company": rating.company or "",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        # Insert into database
+        result = ratings_collection.insert_one(rating_doc)
+        
+        return {
+            "success": True,
+            "message": "Rating submitted successfully",
+            "id": str(result.inserted_id)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error submitting rating: {str(e)}")
+
+@app.get("/api/ratings", response_model=List[RatingResponse])
+async def get_ratings():
+    try:
+        ratings = list(ratings_collection.find().sort("timestamp", -1))
+        
+        return [
+            RatingResponse(
+                id=str(rating["_id"]),
+                stars=rating["stars"],
+                comment=rating.get("comment", ""),
+                photo=rating.get("photo", ""),
+                company=rating.get("company", ""),
+                timestamp=rating["timestamp"]
+            )
+            for rating in ratings
+        ]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching ratings: {str(e)}")
+
+@app.get("/api/ratings/stats")
+async def get_rating_stats():
+    try:
+        total_ratings = ratings_collection.count_documents({})
+        
+        if total_ratings == 0:
+            return {
+                "total_ratings": 0,
+                "average_stars": 0,
+                "star_distribution": {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0}
+            }
+        
+        # Calculate average
+        pipeline = [
+            {"$group": {"_id": None, "avg_stars": {"$avg": "$stars"}}}
+        ]
+        avg_result = list(ratings_collection.aggregate(pipeline))
+        avg_stars = avg_result[0]["avg_stars"] if avg_result else 0
+        
+        # Star distribution
+        star_distribution = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0}
+        for i in range(1, 6):
+            count = ratings_collection.count_documents({"stars": i})
+            star_distribution[str(i)] = count
+        
+        return {
+            "total_ratings": total_ratings,
+            "average_stars": round(avg_stars, 2),
+            "star_distribution": star_distribution
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching stats: {str(e)}")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
