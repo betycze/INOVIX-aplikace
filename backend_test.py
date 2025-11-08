@@ -9,9 +9,10 @@ import json
 import base64
 from datetime import datetime
 import sys
+import os
 
 # Backend URL from environment
-BACKEND_URL = "https://fair-connect.preview.emergentagent.com/api"
+BACKEND_URL = os.getenv("BACKEND_URL", "https://fair-connect.preview.emergentagent.com/api")
 
 class BackendTester:
     def __init__(self):
