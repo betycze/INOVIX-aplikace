@@ -29,6 +29,13 @@ const translations = {
     catalogDescription: 'Prohlédněte si naše produkty a služby',
     downloading: 'Stahuji...',
     openingCatalog: 'Otevírám katalog...',
+    pageOf: 'Stránka',
+    of: 'z',
+    loading: 'Načítám...',
+    previousPage: 'Předchozí',
+    nextPage: 'Další',
+    catalogEnd: 'Jste na konci katalogu! Pokud máte vybráno, obraťte se na náš staff tým.',
+    catalogEndTitle: 'Konec katalogu',
     
     // Rating
     rateUs: 'Ohodnoťte nás',
