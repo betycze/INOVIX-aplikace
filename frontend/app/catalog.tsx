@@ -23,9 +23,8 @@ export default function CatalogScreen() {
   const [showEndMessage, setShowEndMessage] = useState(false);
 
   const goToNextPage = () => {
-    if (currentPage < totalPages && pdfRef.current) {
+    if (currentPage < totalPages) {
       const nextPage = currentPage + 1;
-      pdfRef.current.setPage(nextPage);
       setCurrentPage(nextPage);
       
       // Show end message when reaching last page
@@ -36,9 +35,8 @@ export default function CatalogScreen() {
   };
 
   const goToPreviousPage = () => {
-    if (currentPage > 1 && pdfRef.current) {
+    if (currentPage > 1) {
       const prevPage = currentPage - 1;
-      pdfRef.current.setPage(prevPage);
       setCurrentPage(prevPage);
       setShowEndMessage(false);
     }
