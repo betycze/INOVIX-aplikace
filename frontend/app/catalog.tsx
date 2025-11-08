@@ -62,9 +62,15 @@ export default function CatalogScreen() {
       const nextPage = currentPage + 1;
       setCurrentPage(nextPage);
       
+      // Scroll to next page
+      scrollViewRef.current?.scrollTo({
+        x: (nextPage - 1) * width,
+        animated: true,
+      });
+      
       // Show end message when reaching last page
       if (nextPage === totalPages) {
-        setShowEndMessage(true);
+        setTimeout(() => setShowEndMessage(true), 300);
       }
     }
   };
@@ -74,6 +80,41 @@ export default function CatalogScreen() {
       const prevPage = currentPage - 1;
       setCurrentPage(prevPage);
       setShowEndMessage(false);
+      
+      // Scroll to previous page
+      scrollViewRef.current?.scrollTo({
+        x: (prevPage - 1) * width,
+        animated: true,
+      });
+    }
+  };
+
+  const handleScroll = (event: any) => {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    const page = Math.round(offsetX / width) + 1;
+    
+    if (page !== currentPage && page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      
+      if (page === totalPages) {
+        setTimeout(() => setShowEndMessage(true), 300);
+      } else {
+        setShowEndMessage(false);
+      }
+    }
+  };
+
+  const onPinchEvent = Animated.event(
+    [{ nativeEvent: { scale: scale } }],
+    { useNativeDriver: true }
+  );
+
+  const onPinchStateChange = (event: any) => {
+    if (event.nativeEvent.oldState === State.ACTIVE) {
+      Animated.spring(scale, {
+        toValue: 1,
+        useNativeDriver: true,
+      }).start();
     }
   };
 
