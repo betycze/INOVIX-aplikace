@@ -143,6 +143,26 @@ async def get_catalog_images():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching catalog images: {str(e)}")
 
+@app.delete("/api/ratings/{rating_id}")
+async def delete_rating(rating_id: str):
+    """Delete a specific rating"""
+    try:
+        result = ratings_collection.delete_one({"_id": ObjectId(rating_id)})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Rating not found")
+        return {"success": True, "message": "Rating deleted"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting rating: {str(e)}")
+
+@app.delete("/api/ratings")
+async def delete_all_ratings():
+    """Delete all ratings"""
+    try:
+        result = ratings_collection.delete_many({})
+        return {"success": True, "deleted_count": result.deleted_count}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting ratings: {str(e)}")
+
 @app.get("/api/ratings/stats")
 async def get_rating_stats():
     try:
