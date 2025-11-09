@@ -379,23 +379,31 @@ export default function AdminScreen() {
                       {formatDate(rating.timestamp)}
                     </Text>
                   </View>
-                  {rating.comment || rating.photo ? (
-                    <TouchableOpacity
-                      onPress={() =>
-                        setExpandedId(expandedId === rating.id ? null : rating.id)
-                      }
-                    >
-                      <Ionicons
-                        name={
-                          expandedId === rating.id
-                            ? 'chevron-up'
-                            : 'chevron-down'
+                  <View style={styles.ratingHeaderRight}>
+                    {rating.comment || rating.photo ? (
+                      <TouchableOpacity
+                        onPress={() =>
+                          setExpandedId(expandedId === rating.id ? null : rating.id)
                         }
-                        size={24}
-                        color="#FEC11B"
-                      />
+                      >
+                        <Ionicons
+                          name={
+                            expandedId === rating.id
+                              ? 'chevron-up'
+                              : 'chevron-down'
+                          }
+                          size={24}
+                          color="#FEC11B"
+                        />
+                      </TouchableOpacity>
+                    ) : null}
+                    <TouchableOpacity
+                      style={styles.deleteIconButton}
+                      onPress={() => handleDeleteRating(rating.id)}
+                    >
+                      <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
                     </TouchableOpacity>
-                  ) : null}
+                  </View>
                 </View>
 
                 {/* Company */}
