@@ -241,6 +241,26 @@ async def get_quiz_scores():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching quiz scores: {str(e)}")
 
+@app.delete("/api/quiz/scores/{score_id}")
+async def delete_quiz_score(score_id: str):
+    """Delete a specific quiz score"""
+    try:
+        result = quiz_scores_collection.delete_one({"_id": ObjectId(score_id)})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Quiz score not found")
+        return {"success": True, "message": "Quiz score deleted"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting quiz score: {str(e)}")
+
+@app.delete("/api/quiz/scores")
+async def delete_all_quiz_scores():
+    """Delete all quiz scores"""
+    try:
+        result = quiz_scores_collection.delete_many({})
+        return {"success": True, "deleted_count": result.deleted_count}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting quiz scores: {str(e)}")
+
 @app.get("/api/quiz/stats")
 async def get_quiz_stats():
     """Get quiz statistics"""
