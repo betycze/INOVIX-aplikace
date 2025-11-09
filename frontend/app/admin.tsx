@@ -522,4 +522,61 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 8,
   },
+  quizSection: {
+    padding: 16,
+    backgroundColor: '#1B1B1B',
+    margin: 16,
+    marginTop: 0,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#FEC11B',
+  },
+  subsectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FEC11B',
+    marginBottom: 12,
+    marginTop: 16,
+  },
+  quizScoresContainer: {
+    marginTop: 8,
+  },
+  quizScoreCard: {
+    backgroundColor: '#232426',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#3a3b3d',
+  },
+  quizScoreHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  quizScoreBadge: {
+    backgroundColor: '#FEC11B',
+    borderRadius: 8,
+    padding: 8,
+    minWidth: 60,
+    alignItems: 'center',
+  },
+  quizScorePercentage: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1B1B1B',
+  },
+  quizScoreDetails: {
+    flex: 1,
+  },
+  quizScoreText: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
+  quizScoreTime: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
+  },
 });
