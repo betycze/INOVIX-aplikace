@@ -48,6 +48,8 @@ export default function AdminScreen() {
   const { t } = useLanguage();
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [quizScores, setQuizScores] = useState<QuizScore[]>([]);
+  const [quizStats, setQuizStats] = useState<QuizStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
