@@ -63,10 +63,20 @@ export default function AdminScreen() {
       const ratingsData = await ratingsResponse.json();
       setRatings(ratingsData);
 
-      // Fetch stats
+      // Fetch rating stats
       const statsResponse = await fetch(`${BACKEND_URL}/api/ratings/stats`);
       const statsData = await statsResponse.json();
       setStats(statsData);
+
+      // Fetch quiz scores
+      const quizScoresResponse = await fetch(`${BACKEND_URL}/api/quiz/scores`);
+      const quizScoresData = await quizScoresResponse.json();
+      setQuizScores(quizScoresData);
+
+      // Fetch quiz stats
+      const quizStatsResponse = await fetch(`${BACKEND_URL}/api/quiz/stats`);
+      const quizStatsData = await quizStatsResponse.json();
+      setQuizStats(quizStatsData);
 
       setLoading(false);
       setRefreshing(false);
