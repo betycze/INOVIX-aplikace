@@ -345,9 +345,20 @@ export default function AdminScreen() {
 
         {/* Ratings List */}
         <View style={styles.ratingsContainer}>
-          <Text style={styles.sectionTitle}>
-            All Feedback ({ratings.length})
-          </Text>
+          <View style={styles.subsectionHeader}>
+            <Text style={styles.sectionTitle}>
+              All Feedback ({ratings.length})
+            </Text>
+            {ratings.length > 0 && (
+              <TouchableOpacity
+                style={styles.deleteAllButton}
+                onPress={handleDeleteAllRatings}
+              >
+                <Ionicons name="trash" size={18} color="#FF6B6B" />
+                <Text style={styles.deleteAllText}>Delete All</Text>
+              </TouchableOpacity>
+            )}
+          </View>
 
           {ratings.length === 0 ? (
             <View style={styles.emptyState}>
