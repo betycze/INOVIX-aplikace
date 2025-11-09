@@ -92,15 +92,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  glowCircle: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#FEC11B',
-    left: -10,
-    top: 10,
-  },
 });
 
 export default AnimatedLogo;
