@@ -116,6 +116,70 @@ export default function AdminScreen() {
     });
   };
 
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('cs-CZ', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  };
+
+  const handleDeleteRating = async (ratingId: string) => {
+    if (!confirm('Are you sure you want to delete this rating?')) return;
+    
+    try {
+      const apiUrl = BACKEND_URL ? `${BACKEND_URL}/api/ratings/${ratingId}` : `/api/ratings/${ratingId}`;
+      const response = await fetch(apiUrl, { method: 'DELETE' });
+      if (response.ok) {
+        await fetchData();
+      }
+    } catch (error) {
+      console.error('Error deleting rating:', error);
+    }
+  };
+
+  const handleDeleteAllRatings = async () => {
+    if (!confirm(`Are you sure you want to delete ALL ${ratings.length} ratings? This cannot be undone!`)) return;
+    
+    try {
+      const apiUrl = BACKEND_URL ? `${BACKEND_URL}/api/ratings` : `/api/ratings`;
+      const response = await fetch(apiUrl, { method: 'DELETE' });
+      if (response.ok) {
+        await fetchData();
+      }
+    } catch (error) {
+      console.error('Error deleting all ratings:', error);
+    }
+  };
+
+  const handleDeleteQuizScore = async (scoreId: string) => {
+    if (!confirm('Are you sure you want to delete this quiz score?')) return;
+    
+    try {
+      const apiUrl = BACKEND_URL ? `${BACKEND_URL}/api/quiz/scores/${scoreId}` : `/api/quiz/scores/${scoreId}`;
+      const response = await fetch(apiUrl, { method: 'DELETE' });
+      if (response.ok) {
+        await fetchData();
+      }
+    } catch (error) {
+      console.error('Error deleting quiz score:', error);
+    }
+  };
+
+  const handleDeleteAllQuizScores = async () => {
+    if (!confirm(`Are you sure you want to delete ALL ${quizScores.length} quiz scores? This cannot be undone!`)) return;
+    
+    try {
+      const apiUrl = BACKEND_URL ? `${BACKEND_URL}/api/quiz/scores` : `/api/quiz/scores`;
+      const response = await fetch(apiUrl, { method: 'DELETE' });
+      if (response.ok) {
+        await fetchData();
+      }
+    } catch (error) {
+      console.error('Error deleting all quiz scores:', error);
+    }
+  };
+
   const renderStars = (count: number) => {
     return (
       <View style={styles.starsRow}>
