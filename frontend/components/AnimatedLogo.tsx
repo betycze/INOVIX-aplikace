@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, View, StyleSheet } from 'react-native';
-import Svg, { G, Path, Rect, Circle } from 'react-native-svg';
+import { Animated, Easing, View, StyleSheet, Image } from 'react-native';
 
 interface AnimatedLogoProps {
   width?: number;
@@ -11,8 +10,8 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
   // Animation values
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const rotateAnim = useRef(new Animated.Value(0)).current;
-  const blinkAnim = useRef(new Animated.Value(1)).current;
   const glowAnim = useRef(new Animated.Value(0)).current;
+  const bounceAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     // Initial entrance animation - scale up with slight rotation
@@ -31,24 +30,23 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
       }),
     ]).start();
 
-    // Continuous blinking animation
-    const blink = () => {
+    // Continuous bounce animation
+    Animated.loop(
       Animated.sequence([
-        Animated.timing(blinkAnim, {
-          toValue: 0,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-        Animated.timing(blinkAnim, {
+        Animated.timing(bounceAnim, {
           toValue: 1,
-          duration: 100,
+          duration: 1000,
+          easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
-      ]).start();
-    };
-
-    // Blink every 3 seconds
-    const blinkInterval = setInterval(blink, 3000);
+        Animated.timing(bounceAnim, {
+          toValue: 0,
+          duration: 1000,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
 
     // Continuous glow pulse animation
     Animated.loop(
@@ -57,23 +55,26 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
           toValue: 1,
           duration: 2000,
           easing: Easing.inOut(Easing.ease),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
         Animated.timing(glowAnim, {
           toValue: 0,
           duration: 2000,
           easing: Easing.inOut(Easing.ease),
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
       ])
     ).start();
-
-    return () => clearInterval(blinkInterval);
   }, []);
 
   const rotate = rotateAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['-10deg', '0deg'],
+  });
+
+  const bounce = bounceAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -10],
   });
 
   const glowOpacity = glowAnim.interpolate({
@@ -90,6 +91,7 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
             transform: [
               { scale: scaleAnim },
               { rotate: rotate },
+              { translateY: bounce },
             ],
           },
         ]}
@@ -104,60 +106,12 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
           ]}
         />
         
-        {/* Main SVG Logo */}
-        <Svg width={width} height={height} viewBox="0 0 200 120">
-          {/* Yellow background circle/glow */}
-          <Circle cx="40" cy="60" r="45" fill="#FEC11B" opacity="0.2" />
-          
-          {/* Robot Head */}
-          <G>
-            <Rect x="20" y="40" width="40" height="40" rx="5" fill="#FEC11B" />
-            
-            {/* Antenna */}
-            <Rect x="37" y="30" width="6" height="10" rx="2" fill="#FEC11B" />
-            <Circle cx="40" cy="27" r="4" fill="#FEC11B" />
-            
-            {/* Robot Eyes with blink animation */}
-            <Animated.View style={{ opacity: blinkAnim }}>
-              <Circle cx="30" cy="55" r="4" fill="#232426" />
-              <Circle cx="50" cy="55" r="4" fill="#232426" />
-              {/* Eye shine */}
-              <Circle cx="31" cy="54" r="1.5" fill="#FEC11B" />
-              <Circle cx="51" cy="54" r="1.5" fill="#FEC11B" />
-            </Animated.View>
-            
-            {/* Eyelids for blink effect */}
-            <Animated.View style={{ opacity: Animated.subtract(1, blinkAnim) }}>
-              <Rect x="26" y="53" width="8" height="4" fill="#FEC11B" />
-              <Rect x="46" y="53" width="8" height="4" fill="#FEC11B" />
-            </Animated.View>
-            
-            {/* Mouth */}
-            <Path
-              d="M 30 68 Q 40 73 50 68"
-              stroke="#232426"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-            />
-            
-            {/* Ears/Side panels */}
-            <Rect x="15" y="50" width="5" height="8" rx="2" fill="#FEC11B" />
-            <Rect x="60" y="50" width="5" height="8" rx="2" fill="#FEC11B" />
-          </G>
-          
-          {/* INOVIX Text */}
-          <G>
-            <Path
-              d="M85,45 L85,75 M90,45 L90,75 M105,45 L105,75 M105,45 Q115,45 115,55 Q115,65 105,65 M125,75 L125,45 L125,75 L135,45 L135,75 M145,75 L145,45 L155,75 L155,45 M165,45 L175,75 M175,45 L165,75 M190,45 L190,75 M180,45 L200,45"
-              stroke="#FEC11B"
-              strokeWidth="4"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </G>
-        </Svg>
+        {/* Use the SVG logo as an image */}
+        <Image
+          source={{ uri: 'https://customer-assets.emergentagent.com/job_fair-connect/artifacts/ypdpnm9m_Group%2027.svg' }}
+          style={{ width, height }}
+          resizeMode="contain"
+        />
       </Animated.View>
     </View>
   );
