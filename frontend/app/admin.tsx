@@ -221,7 +221,13 @@ export default function AdminScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Ionicons name="analytics" size={40} color="#FEC11B" />
+          <View style={styles.headerTop}>
+            <Ionicons name="analytics" size={40} color="#FEC11B" />
+            <View style={styles.clockContainer}>
+              <Ionicons name="time" size={16} color="#FEC11B" />
+              <Text style={styles.clockText}>{formatTime(currentTime)}</Text>
+            </View>
+          </View>
           <Text style={styles.headerTitle}>Feedback Dashboard</Text>
           <Text style={styles.headerSubtitle}>INOVIX Customer Portal</Text>
         </View>
