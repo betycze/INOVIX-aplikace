@@ -299,7 +299,18 @@ export default function AdminScreen() {
             </View>
 
             <View style={styles.quizScoresContainer}>
-              <Text style={styles.subsectionTitle}>Recent Quiz Scores</Text>
+              <View style={styles.subsectionHeader}>
+                <Text style={styles.subsectionTitle}>Recent Quiz Scores</Text>
+                {quizScores.length > 0 && (
+                  <TouchableOpacity
+                    style={styles.deleteAllButton}
+                    onPress={handleDeleteAllQuizScores}
+                  >
+                    <Ionicons name="trash" size={18} color="#FF6B6B" />
+                    <Text style={styles.deleteAllText}>Delete All</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
               {quizScores.slice(0, 10).map((score) => (
                 <View key={score.id} style={styles.quizScoreCard}>
                   <View style={styles.quizScoreHeader}>
@@ -319,6 +330,12 @@ export default function AdminScreen() {
                       size={24}
                       color={score.score >= 80 ? '#FEC11B' : score.score >= 60 ? '#4CAF50' : '#FF6B6B'}
                     />
+                    <TouchableOpacity
+                      style={styles.deleteIconButton}
+                      onPress={() => handleDeleteQuizScore(score.id)}
+                    >
+                      <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
+                    </TouchableOpacity>
                   </View>
                 </View>
               ))}
