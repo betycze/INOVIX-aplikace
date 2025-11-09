@@ -30,6 +30,20 @@ interface Stats {
   };
 }
 
+interface QuizScore {
+  id: string;
+  score: number;
+  total_questions: number;
+  correct_answers: number;
+  timestamp: string;
+}
+
+interface QuizStats {
+  total_attempts: number;
+  average_score: number;
+  highest_score: number;
+}
+
 export default function AdminScreen() {
   const { t } = useLanguage();
   const [ratings, setRatings] = useState<Rating[]>([]);
