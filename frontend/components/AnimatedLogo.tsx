@@ -10,7 +10,6 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
   // Animation values
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const rotateAnim = useRef(new Animated.Value(0)).current;
-  const glowAnim = useRef(new Animated.Value(0)).current;
   const bounceAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -47,24 +46,6 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
         }),
       ])
     ).start();
-
-    // Continuous glow pulse animation
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(glowAnim, {
-          toValue: 1,
-          duration: 2000,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(glowAnim, {
-          toValue: 0,
-          duration: 2000,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
   }, []);
 
   const rotate = rotateAnim.interpolate({
@@ -75,11 +56,6 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
   const bounce = bounceAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -10],
-  });
-
-  const glowOpacity = glowAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.3, 0.8],
   });
 
   return (
