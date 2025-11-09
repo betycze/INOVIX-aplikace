@@ -202,6 +202,25 @@ async def submit_quiz_score(quiz_data: QuizScore):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error submitting quiz score: {str(e)}")
 
+@app.get("/api/quiz/scores")
+async def get_quiz_scores():
+    """Get all quiz scores"""
+    try:
+        scores = list(quiz_scores_collection.find().sort("timestamp", -1))
+        
+        return [
+            {
+                "id": str(score["_id"]),
+                "score": score["score"],
+                "total_questions": score.get("total_questions", 10),
+                "correct_answers": score.get("correct_answers", 0),
+                "timestamp": score["timestamp"]
+            }
+            for score in scores
+        ]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching quiz scores: {str(e)}")
+
 @app.get("/api/quiz/stats")
 async def get_quiz_stats():
     """Get quiz statistics"""
