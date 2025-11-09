@@ -96,16 +96,6 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 200, height = 120 }
           },
         ]}
       >
-        {/* Glow effect */}
-        <Animated.View
-          style={[
-            styles.glowCircle,
-            {
-              opacity: glowOpacity,
-            },
-          ]}
-        />
-        
         {/* Use the SVG logo as an image */}
         <Image
           source={{ uri: 'https://customer-assets.emergentagent.com/job_fair-connect/artifacts/ypdpnm9m_Group%2027.svg' }}
