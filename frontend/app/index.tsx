@@ -134,11 +134,7 @@ export default function WelcomeScreen() {
       >
         {/* Logo and Welcome */}
         <View style={styles.welcomeSection}>
-          <Image
-            source={require('../assets/inovix-logo.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
+          <AnimatedLogo width={width * 0.6} height={120} />
           <Text style={styles.welcomeText}>{t('welcome')}</Text>
           <Text style={styles.portalText}>{t('customerPortal')}</Text>
         </View>
