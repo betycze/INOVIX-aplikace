@@ -197,6 +197,56 @@ export default function AdminScreen() {
           </View>
         )}
 
+        {/* Quiz Results Section */}
+        {quizStats && quizStats.total_attempts > 0 && (
+          <View style={styles.quizSection}>
+            <Text style={styles.sectionTitle}>
+              🏆 INOVIX Quiz Arena Results
+            </Text>
+            
+            <View style={styles.statsContainer}>
+              <View style={styles.statCard}>
+                <Text style={styles.statValue}>{quizStats.total_attempts}</Text>
+                <Text style={styles.statLabel}>Total Attempts</Text>
+              </View>
+              <View style={styles.statCard}>
+                <Text style={styles.statValue}>{quizStats.average_score}%</Text>
+                <Text style={styles.statLabel}>Average Score</Text>
+              </View>
+              <View style={styles.statCard}>
+                <Text style={styles.statValue}>{quizStats.highest_score}%</Text>
+                <Text style={styles.statLabel}>Highest Score</Text>
+              </View>
+            </View>
+
+            <View style={styles.quizScoresContainer}>
+              <Text style={styles.subsectionTitle}>Recent Quiz Scores</Text>
+              {quizScores.slice(0, 10).map((score) => (
+                <View key={score.id} style={styles.quizScoreCard}>
+                  <View style={styles.quizScoreHeader}>
+                    <View style={styles.quizScoreBadge}>
+                      <Text style={styles.quizScorePercentage}>{score.score}%</Text>
+                    </View>
+                    <View style={styles.quizScoreDetails}>
+                      <Text style={styles.quizScoreText}>
+                        {score.correct_answers} / {score.total_questions} correct
+                      </Text>
+                      <Text style={styles.quizScoreTime}>
+                        {formatDate(score.timestamp)}
+                      </Text>
+                    </View>
+                    <Ionicons
+                      name={score.score >= 80 ? 'trophy' : score.score >= 60 ? 'checkmark-circle' : 'close-circle'}
+                      size={24}
+                      color={score.score >= 80 ? '#FEC11B' : score.score >= 60 ? '#4CAF50' : '#FF6B6B'}
+                    />
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
         {/* Ratings List */}
         <View style={styles.ratingsContainer}>
           <Text style={styles.sectionTitle}>
