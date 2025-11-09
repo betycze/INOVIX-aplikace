@@ -4,14 +4,13 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   Dimensions,
   ScrollView,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLanguage } from '../contexts/LanguageContext';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import AnimatedLogo from '../components/AnimatedLogo';
 
 const { width } = Dimensions.get('window');
 
