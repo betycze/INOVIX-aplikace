@@ -85,9 +85,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  logo: {
+    // Will be sized by props
   },
 });
 
