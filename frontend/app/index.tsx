@@ -144,9 +144,9 @@ export default function WelcomeScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Logo and Welcome */}
+        {/* Logo and Welcome - TEMPORARILY REMOVED TO FIND GLOW */}
         <View style={styles.welcomeSection}>
-          <AnimatedLogo width={width * 0.6} height={120} />
+          {/* <AnimatedLogo width={width * 0.6} height={120} /> */}
           <Text style={styles.welcomeText}>{t('welcome')}</Text>
           <Text style={styles.portalText}>{t('customerPortal')}</Text>
         </View>
