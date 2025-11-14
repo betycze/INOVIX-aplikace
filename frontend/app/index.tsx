@@ -202,7 +202,7 @@ export default function WelcomeScreen() {
             </View>
             {/* Christmas micro-icon: star */}
             <View style={styles.microIcon}>
-              <Ionicons name="star" size={4} color="#FEC11B" style={{ opacity: 0.7 }} />
+              <Ionicons name="star" size={5} color="#FEC11B" style={{ opacity: 0.7 }} />
             </View>
           </TouchableOpacity>
 
@@ -216,7 +216,7 @@ export default function WelcomeScreen() {
             </View>
             {/* Christmas micro-icon: sparkle */}
             <View style={styles.microIcon}>
-              <Ionicons name="sparkles" size={4} color="#FEC11B" style={{ opacity: 0.7 }} />
+              <Ionicons name="sparkles" size={5} color="#FEC11B" style={{ opacity: 0.7 }} />
             </View>
           </TouchableOpacity>
 
@@ -230,7 +230,7 @@ export default function WelcomeScreen() {
             </View>
             {/* Christmas micro-icon: snowflake */}
             <View style={styles.microIcon}>
-              <Ionicons name="snow" size={4} color="#FEC11B" style={{ opacity: 0.7 }} />
+              <Ionicons name="snow" size={5} color="#FEC11B" style={{ opacity: 0.7 }} />
             </View>
           </TouchableOpacity>
 
