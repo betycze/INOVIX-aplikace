@@ -86,8 +86,8 @@ export default function WelcomeScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Falling Snow Background */}
-      <FallingSnow />
+      {/* Christmas Bokeh Lights Background */}
+      <ChristmasBokeh />
       
       {/* Christmas Header with Lights Image */}
       <ChristmasHeader />
