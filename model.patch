@@ -1,150 +1,170 @@
-diff --git a/frontend/app/admin.tsx b/frontend/app/admin.tsx
-index 132ee7f..826448b 100644
---- a/frontend/app/admin.tsx
-+++ b/frontend/app/admin.tsx
-@@ -471,6 +471,29 @@ const styles = StyleSheet.create({
-     borderBottomWidth: 2,
-     borderBottomColor: '#FEC11B',
-   },
-+  headerTop: {
-+    flexDirection: 'row',
-+    justifyContent: 'space-between',
-+    alignItems: 'center',
-+    marginBottom: 16,
-+  },
-+  clockContainer: {
-+    flexDirection: 'row',
-+    alignItems: 'center',
-+    gap: 8,
-+    backgroundColor: '#1B1B1B',
-+    paddingVertical: 8,
-+    paddingHorizontal: 12,
-+    borderRadius: 8,
-+    borderWidth: 1,
-+    borderColor: '#FEC11B',
-+  },
-+  clockText: {
-+    fontSize: 16,
-+    fontWeight: 'bold',
-+    color: '#FEC11B',
-+    fontFamily: 'monospace',
-+  },
-   headerTitle: {
-     fontSize: 24,
-     fontWeight: 'bold',
+diff --git a/frontend/app/index.tsx b/frontend/app/index.tsx
+index 348c838..5b30979 100644
+--- a/frontend/app/index.tsx
++++ b/frontend/app/index.tsx
+@@ -86,8 +86,8 @@ export default function WelcomeScreen() {
+ 
+   return (
+     <View style={styles.container}>
+-      {/* Christmas Bokeh Lights Background - TEMPORARILY DISABLED */}
+-      {/* <ChristmasBokeh /> */}
++      {/* Christmas Bokeh Lights Background */}
++      <ChristmasBokeh />
+       
+       {/* Christmas Header with Lights Image */}
+       <ChristmasHeader />
 diff --git a/model.patch b/model.patch
-index 0b9c22e..e69de29 100644
+index d7aa330..e69de29 100644
 --- a/model.patch
 +++ b/model.patch
-@@ -1,111 +0,0 @@
+@@ -1,150 +0,0 @@
+-diff --git a/frontend/app/admin.tsx b/frontend/app/admin.tsx
+-index 132ee7f..826448b 100644
+---- a/frontend/app/admin.tsx
+-+++ b/frontend/app/admin.tsx
+-@@ -471,6 +471,29 @@ const styles = StyleSheet.create({
+-     borderBottomWidth: 2,
+-     borderBottomColor: '#FEC11B',
+-   },
+-+  headerTop: {
+-+    flexDirection: 'row',
+-+    justifyContent: 'space-between',
+-+    alignItems: 'center',
+-+    marginBottom: 16,
+-+  },
+-+  clockContainer: {
+-+    flexDirection: 'row',
+-+    alignItems: 'center',
+-+    gap: 8,
+-+    backgroundColor: '#1B1B1B',
+-+    paddingVertical: 8,
+-+    paddingHorizontal: 12,
+-+    borderRadius: 8,
+-+    borderWidth: 1,
+-+    borderColor: '#FEC11B',
+-+  },
+-+  clockText: {
+-+    fontSize: 16,
+-+    fontWeight: 'bold',
+-+    color: '#FEC11B',
+-+    fontFamily: 'monospace',
+-+  },
+-   headerTitle: {
+-     fontSize: 24,
+-     fontWeight: 'bold',
 -diff --git a/model.patch b/model.patch
--index a865227..e69de29 100644
+-index 0b9c22e..e69de29 100644
 ---- a/model.patch
 -+++ b/model.patch
--@@ -1,106 +0,0 @@
---diff --git a/test_result.md b/test_result.md
---index 187cba4..24dc8b7 100644
------ a/test_result.md
---+++ b/test_result.md
---@@ -100,4 +100,98 @@
--- 
--- #====================================================================================================
--- # Testing Data - Main Agent and testing sub agent both should log testing data below this section
----#====================================================================================================
---\ No newline at end of file
---+#====================================================================================================
---+
---+user_problem_statement: "Test the INOVIX Customer Portal backend API thoroughly"
---+
---+backend:
---+  - task: "Health Check Endpoint"
---+    implemented: true
---+    working: true
---+    file: "/app/backend/server.py"
---+    stuck_count: 0
---+    priority: "high"
---+    needs_retesting: false
---+    status_history:
---+      - working: true
---+        agent: "testing"
---+        comment: "✅ GET /api/health endpoint working correctly. Returns proper status and message."
---+
---+  - task: "Submit Rating API"
---+    implemented: true
---+    working: false
---+    file: "/app/backend/server.py"
---+    stuck_count: 1
---+    priority: "high"
---+    needs_retesting: false
---+    status_history:
---+      - working: false
---+        agent: "testing"
---+        comment: "❌ CRITICAL BUG: HTTPException with status_code=400 is being caught by general Exception handler and re-raised as 500 error. Validation works but returns wrong HTTP status code. Lines 51-74 need fixing - HTTPException should not be caught by the general exception handler."
---+
---+  - task: "Get All Ratings API"
---+    implemented: true
---+    working: true
---+    file: "/app/backend/server.py"
---+    stuck_count: 0
---+    priority: "high"
---+    needs_retesting: false
---+    status_history:
---+      - working: true
---+        agent: "testing"
---+        comment: "✅ GET /api/ratings endpoint working correctly. Returns proper list structure with all required fields (id, stars, comment, company, photo, timestamp). Successfully retrieved 3 ratings."
---+
---+  - task: "Get Rating Statistics API"
---+    implemented: true
---+    working: true
---+    file: "/app/backend/server.py"
---+    stuck_count: 0
---+    priority: "high"
---+    needs_retesting: false
---+    status_history:
---+      - working: true
---+        agent: "testing"
---+        comment: "✅ GET /api/ratings/stats endpoint working correctly. Returns proper structure with total_ratings, average_stars, and star_distribution. Calculations are accurate."
---+
---+  - task: "Database Integration"
---+    implemented: true
---+    working: true
---+    file: "/app/backend/server.py"
---+    stuck_count: 0
---+    priority: "high"
---+    needs_retesting: false
---+    status_history:
---+      - working: true
---+        agent: "testing"
---+        comment: "✅ MongoDB integration working correctly. Connection established, data persistence verified, ObjectId to string conversion working properly."
---+
---+frontend:
---+  - task: "Frontend Testing"
---+    implemented: false
---+    working: "NA"
---+    file: "N/A"
---+    stuck_count: 0
---+    priority: "low"
---+    needs_retesting: false
---+    status_history:
---+      - working: "NA"
---+        agent: "testing"
---+        comment: "Frontend testing not performed as per testing agent instructions - backend testing only."
---+
---+metadata:
---+  created_by: "testing_agent"
---+  version: "1.0"
---+  test_sequence: 1
---+  run_ui: false
---+
---+test_plan:
---+  current_focus:
---+    - "Submit Rating API"
---+  stuck_tasks:
---+    - "Submit Rating API"
---+  test_all: false
---+  test_priority: "high_first"
---+
---+agent_communication:
---+  - agent: "testing"
---+    message: "Backend API testing completed. 5/6 test scenarios passed. Critical bug found in error handling - HTTPException being caught and re-raised as 500 error instead of proper 400 validation error. All other endpoints working correctly including database integration."
---\ No newline at end of file
+-@@ -1,111 +0,0 @@
+--diff --git a/model.patch b/model.patch
+--index a865227..e69de29 100644
+----- a/model.patch
+--+++ b/model.patch
+--@@ -1,106 +0,0 @@
+---diff --git a/test_result.md b/test_result.md
+---index 187cba4..24dc8b7 100644
+------ a/test_result.md
+---+++ b/test_result.md
+---@@ -100,4 +100,98 @@
+--- 
+--- #====================================================================================================
+--- # Testing Data - Main Agent and testing sub agent both should log testing data below this section
+----#====================================================================================================
+---\ No newline at end of file
+---+#====================================================================================================
+---+
+---+user_problem_statement: "Test the INOVIX Customer Portal backend API thoroughly"
+---+
+---+backend:
+---+  - task: "Health Check Endpoint"
+---+    implemented: true
+---+    working: true
+---+    file: "/app/backend/server.py"
+---+    stuck_count: 0
+---+    priority: "high"
+---+    needs_retesting: false
+---+    status_history:
+---+      - working: true
+---+        agent: "testing"
+---+        comment: "✅ GET /api/health endpoint working correctly. Returns proper status and message."
+---+
+---+  - task: "Submit Rating API"
+---+    implemented: true
+---+    working: false
+---+    file: "/app/backend/server.py"
+---+    stuck_count: 1
+---+    priority: "high"
+---+    needs_retesting: false
+---+    status_history:
+---+      - working: false
+---+        agent: "testing"
+---+        comment: "❌ CRITICAL BUG: HTTPException with status_code=400 is being caught by general Exception handler and re-raised as 500 error. Validation works but returns wrong HTTP status code. Lines 51-74 need fixing - HTTPException should not be caught by the general exception handler."
+---+
+---+  - task: "Get All Ratings API"
+---+    implemented: true
+---+    working: true
+---+    file: "/app/backend/server.py"
+---+    stuck_count: 0
+---+    priority: "high"
+---+    needs_retesting: false
+---+    status_history:
+---+      - working: true
+---+        agent: "testing"
+---+        comment: "✅ GET /api/ratings endpoint working correctly. Returns proper list structure with all required fields (id, stars, comment, company, photo, timestamp). Successfully retrieved 3 ratings."
+---+
+---+  - task: "Get Rating Statistics API"
+---+    implemented: true
+---+    working: true
+---+    file: "/app/backend/server.py"
+---+    stuck_count: 0
+---+    priority: "high"
+---+    needs_retesting: false
+---+    status_history:
+---+      - working: true
+---+        agent: "testing"
+---+        comment: "✅ GET /api/ratings/stats endpoint working correctly. Returns proper structure with total_ratings, average_stars, and star_distribution. Calculations are accurate."
+---+
+---+  - task: "Database Integration"
+---+    implemented: true
+---+    working: true
+---+    file: "/app/backend/server.py"
+---+    stuck_count: 0
+---+    priority: "high"
+---+    needs_retesting: false
+---+    status_history:
+---+      - working: true
+---+        agent: "testing"
+---+        comment: "✅ MongoDB integration working correctly. Connection established, data persistence verified, ObjectId to string conversion working properly."
+---+
+---+frontend:
+---+  - task: "Frontend Testing"
+---+    implemented: false
+---+    working: "NA"
+---+    file: "N/A"
+---+    stuck_count: 0
+---+    priority: "low"
+---+    needs_retesting: false
+---+    status_history:
+---+      - working: "NA"
+---+        agent: "testing"
+---+        comment: "Frontend testing not performed as per testing agent instructions - backend testing only."
+---+
+---+metadata:
+---+  created_by: "testing_agent"
+---+  version: "1.0"
+---+  test_sequence: 1
+---+  run_ui: false
+---+
+---+test_plan:
+---+  current_focus:
+---+    - "Submit Rating API"
+---+  stuck_tasks:
+---+    - "Submit Rating API"
+---+  test_all: false
+---+  test_priority: "high_first"
+---+
+---+agent_communication:
+---+  - agent: "testing"
+---+    message: "Backend API testing completed. 5/6 test scenarios passed. Critical bug found in error handling - HTTPException being caught and re-raised as 500 error instead of proper 400 validation error. All other endpoints working correctly including database integration."
+---\ No newline at end of file
