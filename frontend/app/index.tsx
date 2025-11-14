@@ -413,6 +413,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
+    position: 'relative',
   },
   menuButtonContent: {
     flexDirection: 'row',
@@ -424,6 +425,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
     flex: 1,
+  },
+  microIcon: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 8,
+    height: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   quizButton: {
     backgroundColor: '#FEC11B',
