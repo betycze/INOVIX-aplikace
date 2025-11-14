@@ -262,9 +262,10 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingHorizontal: 20,
     paddingBottom: 20,
-    backgroundColor: '#1a1b1d',
+    backgroundColor: 'transparent',
     borderBottomWidth: 2,
     borderBottomColor: '#FEC11B',
+    zIndex: 1000,
   },
   timeSection: {
     alignItems: 'center',
