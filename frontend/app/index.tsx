@@ -104,10 +104,7 @@ export default function WelcomeScreen() {
           <View style={styles.progressBarBackground}>
             <View style={[styles.progressBarFill, { width: `${progressPercentage()}%` }]} />
           </View>
-          <View style={styles.countdownTextWrapper}>
-            <ChristmasLights numberOfLights={8} mini={true} />
-            <Text style={styles.countdownText}>VELETRH KONČÍ ZA</Text>
-          </View>
+          <Text style={styles.countdownText}>VELETRH KONČÍ ZA</Text>
         </View>
         
         {fairEnded ? (
