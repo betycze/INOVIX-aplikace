@@ -130,7 +130,7 @@ const FallingSnow: React.FC = () => {
   }
 
   return (
-    <View style={styles.container} pointerEvents="none">
+    <View style={styles.container}>
       {snowflakes.map((flake) => (
         <Snowflake
           key={flake.key}
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 0,
     overflow: 'hidden',
+    pointerEvents: 'none',
   },
   snowflake: {
     position: 'absolute',
