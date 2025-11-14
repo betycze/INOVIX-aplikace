@@ -244,7 +244,7 @@ export default function WelcomeScreen() {
             </View>
             {/* Christmas micro-icon: mini trophy */}
             <View style={styles.microIcon}>
-              <Ionicons name="ribbon" size={4} color="#1B1B1B" style={{ opacity: 0.7 }} />
+              <Ionicons name="ribbon" size={5} color="#1B1B1B" style={{ opacity: 0.7 }} />
             </View>
           </TouchableOpacity>
         </View>
