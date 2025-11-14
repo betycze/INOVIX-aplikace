@@ -55,7 +55,7 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 234, height = 140 }
 
   const bounce = bounceAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, -10],
+    outputRange: [0, -6],
   });
 
   return (
