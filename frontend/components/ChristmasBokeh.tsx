@@ -86,61 +86,61 @@ const BokehParticle: React.FC<BokehParticleProps> = ({
 const ChristmasBokeh: React.FC = () => {
   const bokehParticles = [];
   
-  // Create bokeh particles around edges and corners
-  // Top edge - only far left and far right (avoid logo area)
-  for (let i = 0; i < 4; i++) {
-    const isLeft = i < 2;
+  // ONLY CORNERS - completely avoid center area where logo and content is
+  
+  // Top-left corner
+  for (let i = 0; i < 2; i++) {
     bokehParticles.push({
-      key: `top-${i}`,
-      size: 40 + Math.random() * 60,
-      opacity: 0.03 + Math.random() * 0.05,
+      key: `top-left-${i}`,
+      size: 40 + Math.random() * 50,
+      opacity: 0.03 + Math.random() * 0.04,
       delay: Math.random() * 5000,
       duration: 4000 + Math.random() * 4000,
-      startX: isLeft ? Math.random() * 200 : SCREEN_WIDTH - 200 + Math.random() * 200,
+      startX: Math.random() * 150,
+      startY: Math.random() * 100,
+      color: i % 2 === 0 ? '#FEC11B' : '#FFF7C4',
+    });
+  }
+  
+  // Top-right corner
+  for (let i = 0; i < 2; i++) {
+    bokehParticles.push({
+      key: `top-right-${i}`,
+      size: 40 + Math.random() * 50,
+      opacity: 0.03 + Math.random() * 0.04,
+      delay: Math.random() * 5000,
+      duration: 4000 + Math.random() * 4000,
+      startX: SCREEN_WIDTH - 150 + Math.random() * 150,
       startY: Math.random() * 100,
       color: i % 2 === 0 ? '#FEC11B' : '#FFF7C4',
     });
   }
 
-  // Bottom edge
-  for (let i = 0; i < 4; i++) {
+  // Bottom-left corner
+  for (let i = 0; i < 2; i++) {
     bokehParticles.push({
-      key: `bottom-${i}`,
-      size: 40 + Math.random() * 60,
-      opacity: 0.03 + Math.random() * 0.05,
+      key: `bottom-left-${i}`,
+      size: 40 + Math.random() * 50,
+      opacity: 0.03 + Math.random() * 0.04,
       delay: Math.random() * 5000,
       duration: 4000 + Math.random() * 4000,
-      startX: Math.random() * SCREEN_WIDTH,
-      startY: SCREEN_HEIGHT - 200 + Math.random() * 150,
+      startX: Math.random() * 150,
+      startY: SCREEN_HEIGHT - 150 + Math.random() * 150,
       color: i % 2 === 0 ? '#FEC11B' : '#FFFFFF',
     });
   }
-
-  // Left edge
-  for (let i = 0; i < 3; i++) {
+  
+  // Bottom-right corner
+  for (let i = 0; i < 2; i++) {
     bokehParticles.push({
-      key: `left-${i}`,
-      size: 30 + Math.random() * 50,
+      key: `bottom-right-${i}`,
+      size: 40 + Math.random() * 50,
       opacity: 0.03 + Math.random() * 0.04,
       delay: Math.random() * 5000,
       duration: 4000 + Math.random() * 4000,
-      startX: Math.random() * 100,
-      startY: 200 + Math.random() * (SCREEN_HEIGHT - 400),
-      color: '#FFF7C4',
-    });
-  }
-
-  // Right edge
-  for (let i = 0; i < 3; i++) {
-    bokehParticles.push({
-      key: `right-${i}`,
-      size: 30 + Math.random() * 50,
-      opacity: 0.03 + Math.random() * 0.04,
-      delay: Math.random() * 5000,
-      duration: 4000 + Math.random() * 4000,
-      startX: SCREEN_WIDTH - 100 + Math.random() * 80,
-      startY: 200 + Math.random() * (SCREEN_HEIGHT - 400),
-      color: '#FEC11B',
+      startX: SCREEN_WIDTH - 150 + Math.random() * 150,
+      startY: SCREEN_HEIGHT - 150 + Math.random() * 150,
+      color: i % 2 === 0 ? '#FEC11B' : '#FFFFFF',
     });
   }
 
