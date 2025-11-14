@@ -263,13 +263,19 @@ const styles = StyleSheet.create({
   progressBarContainer: {
     marginBottom: 12,
   },
+  countdownTextWrapper: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
   countdownText: {
     fontSize: 12,
     color: '#CCCCCC',
     textAlign: 'center',
-    marginBottom: 8,
     textTransform: 'uppercase',
     letterSpacing: 1,
+    zIndex: 10,
   },
   progressBarBackground: {
     height: 8,
