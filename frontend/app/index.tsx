@@ -14,10 +14,10 @@ import AnimatedLogo from '../components/AnimatedLogo';
 
 const { width } = Dimensions.get('window');
 
-// Fair end date - November 13, 2025, 12:00 PM Prague time (CET/CEST)
+// Fair end date - December 4, 2025, 13:30 Prague time (CET/CEST)
 // Prague is UTC+1 (CET) in winter, UTC+2 (CEST) in summer
-// November 13, 2025 is in winter, so UTC+1
-const FAIR_END_DATE = new Date('2025-11-13T11:00:00.000Z'); // 12:00 PM Prague (11:00 UTC)
+// December 4, 2025 is in winter, so UTC+1
+const FAIR_END_DATE = new Date('2025-12-04T12:30:00.000Z'); // 13:30 Prague (12:30 UTC)
 
 export default function WelcomeScreen() {
   const router = useRouter();
