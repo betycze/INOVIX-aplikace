@@ -36,8 +36,8 @@ interface LightProps {
 }
 
 const Light: React.FC<LightProps> = ({ index, total, mini }) => {
-  const opacity = useSharedValue(0.6);
-  const scale = useSharedValue(1);
+  const opacity = useRef(new Animated.Value(0.6)).current;
+  const scale = useRef(new Animated.Value(1)).current;
   
   // Alternate colors
   const colors = ['#FEC11B', '#FFF7C4'];
@@ -45,31 +45,52 @@ const Light: React.FC<LightProps> = ({ index, total, mini }) => {
   
   useEffect(() => {
     // Staggered animation start for each light
-    const delay = (index / total) * 2000;
+    const delay = (index / total) * 1000;
+    const duration = 3000 + Math.random() * 1000;
     
-    opacity.value = withRepeat(
-      withTiming(1, {
-        duration: 3000 + Math.random() * 1000,
-        easing: Easing.inOut(Easing.ease),
-      }),
-      -1,
-      true
-    );
+    // Opacity animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.delay(delay),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: duration,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 0.6,
+          duration: duration,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
     
-    scale.value = withRepeat(
-      withTiming(1.2, {
-        duration: 3000 + Math.random() * 1000,
-        easing: Easing.inOut(Easing.ease),
-      }),
-      -1,
-      true
-    );
-  }, []);
+    // Scale animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.delay(delay),
+        Animated.timing(scale, {
+          toValue: 1.2,
+          duration: duration,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: duration,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [index, total]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ scale: scale.value }],
-  }));
+  const animatedStyle = {
+    opacity: opacity,
+    transform: [{ scale: scale }],
+  };
 
   // Calculate position along a catenary curve (arch)
   const calculatePosition = () => {
