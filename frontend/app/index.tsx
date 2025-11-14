@@ -200,6 +200,10 @@ export default function WelcomeScreen() {
               <Ionicons name="book" size={40} color="#FEC11B" />
               <Text style={styles.menuButtonText}>{t('viewCatalog')}</Text>
             </View>
+            {/* Christmas micro-icon: star */}
+            <View style={styles.microIcon}>
+              <Ionicons name="star" size={4} color="#FEC11B" style={{ opacity: 0.7 }} />
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -210,6 +214,10 @@ export default function WelcomeScreen() {
               <Ionicons name="star" size={40} color="#FEC11B" />
               <Text style={styles.menuButtonText}>{t('rateOurBooth')}</Text>
             </View>
+            {/* Christmas micro-icon: sparkle */}
+            <View style={styles.microIcon}>
+              <Ionicons name="sparkles" size={4} color="#FEC11B" style={{ opacity: 0.7 }} />
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -219,6 +227,10 @@ export default function WelcomeScreen() {
             <View style={styles.menuButtonContent}>
               <Ionicons name="help-circle" size={40} color="#FEC11B" />
               <Text style={styles.menuButtonText}>{t('faq')}</Text>
+            </View>
+            {/* Christmas micro-icon: snowflake */}
+            <View style={styles.microIcon}>
+              <Ionicons name="snow" size={4} color="#FEC11B" style={{ opacity: 0.7 }} />
             </View>
           </TouchableOpacity>
 
