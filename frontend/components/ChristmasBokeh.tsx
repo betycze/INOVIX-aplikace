@@ -87,16 +87,17 @@ const ChristmasBokeh: React.FC = () => {
   const bokehParticles = [];
   
   // Create bokeh particles around edges and corners
-  // Top edge
-  for (let i = 0; i < 5; i++) {
+  // Top edge - only far left and far right (avoid logo area)
+  for (let i = 0; i < 4; i++) {
+    const isLeft = i < 2;
     bokehParticles.push({
       key: `top-${i}`,
       size: 40 + Math.random() * 60,
       opacity: 0.03 + Math.random() * 0.05,
       delay: Math.random() * 5000,
       duration: 4000 + Math.random() * 4000,
-      startX: Math.random() * SCREEN_WIDTH,
-      startY: Math.random() * 150,
+      startX: isLeft ? Math.random() * 200 : SCREEN_WIDTH - 200 + Math.random() * 200,
+      startY: Math.random() * 100,
       color: i % 2 === 0 ? '#FEC11B' : '#FFF7C4',
     });
   }
