@@ -242,6 +242,10 @@ export default function WelcomeScreen() {
               <Ionicons name="trophy" size={40} color="#1B1B1B" />
               <Text style={[styles.menuButtonText, styles.quizButtonText]}>{t('quizArena')}</Text>
             </View>
+            {/* Christmas micro-icon: mini trophy */}
+            <View style={styles.microIcon}>
+              <Ionicons name="ribbon" size={4} color="#1B1B1B" style={{ opacity: 0.7 }} />
+            </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
