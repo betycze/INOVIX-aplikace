@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   countdownContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   timeBox: {
     alignItems: 'center',
@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FEC11B',
+    lineHeight: 28,
   },
   timeLabel: {
     fontSize: 10,
@@ -325,8 +326,10 @@ const styles = StyleSheet.create({
   timeSeparator: {
     fontSize: 24,
     color: '#FEC11B',
-    marginHorizontal: 4,
+    marginHorizontal: 6,
     fontWeight: 'bold',
+    lineHeight: 28,
+    marginTop: 0,
   },
   fairEndedContainer: {
     paddingVertical: 20,
