@@ -12,7 +12,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
 import AnimatedLogo from '../components/AnimatedLogo';
 import ChristmasHeader from '../components/ChristmasHeader';
-import FallingSnow from '../components/FallingSnow';
+import ChristmasBokeh from '../components/ChristmasBokeh';
 import GlowBar from '../components/GlowBar';
 
 const { width } = Dimensions.get('window');
