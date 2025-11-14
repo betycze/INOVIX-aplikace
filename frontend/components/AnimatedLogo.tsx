@@ -61,7 +61,7 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ width = 234, height = 140 }
   return (
     <View style={styles.container}>
       <Animated.Image
-        source={require('../assets/inovix-logo-yellow.png')}
+        source={require('../assets/inovix-logo-santa.png')}
         style={[
           styles.logo,
           {
