@@ -1,0 +1,87 @@
+<analysis>
+The trajectory documents the iterative development of the INOVIX Customer Portal, a bilingual (Czech/English) Expo application with a FastAPI backend. The initial phase focused on building the core features: a welcome screen with a live clock and countdown, a PDF catalog viewer, a feedback form, and an FAQ section, all styled with a dark theme and yellow accents.
+
+Subsequent development was driven by user requests, leading to significant feature enhancements and refactoring. The static PDF catalog was replaced first with a problematic in-app PDF viewer, and then with a robust, custom image-based gallery served from the backend. A major feature, the INOVIX Quiz Arena, was added, including backend endpoints for storing scores and frontend UI for the quiz flow and results screen.
+
+An admin dashboard was created at  to provide a view of user feedback and quiz statistics. This was later augmented with functionality to delete individual or all records.
+
+Throughout the process, the AI engineer addressed numerous technical challenges, including React Native version mismatches, issues with platform-specific library compatibility (e.g.,  on the web), and fixing backend URL routing to correctly serve static assets through the Kubernetes ingress. The application's logo was also updated from a static image to an animated component, which required debugging SVG rendering issues before settling on a PNG-based animation. The final actions involved updating the countdown timer's logic and text based on a new user request.
+</analysis>
+
+<product_requirements>
+The INOVIX Customer Portal is a bilingual (Czech/English) web application for business fair visitors, built with Expo and FastAPI.
+
+**Core Features:**
+*   **Welcome Screen:** Displays a live clock, a countdown to the fair's end date (currently set to Dec 4, 2025, 13:30 Prague time), the animated INOVIX logo, and navigation to other sections.
+*   **Language Selection:** Toggles the entire UI between Czech (🇨🇿) and English (🇬🇧).
+*   **Catalog Viewer:** An interactive, image-based viewer displaying catalog pages. It supports horizontal swiping, shows page numbers, and is populated by images uploaded to the backend.
+*   **Rate Our Booth:** A feedback form with a 1-5 star rating, an optional comment, and a photo upload feature. Submissions are stored in a MongoDB database.
+*   **FAQ Section:** A bilingual, accordion-style display of frequently asked questions.
+*   **INOVIX Quiz Arena:** An interactive 10-question multiple-choice quiz on electronics. It shows the final score, a feedback message, and comparison to an average score.
+*   **Admin Dashboard ():** A private page that displays all submitted ratings and quiz results. It includes a real-time clock and functionality to delete individual records or clear all data for both ratings and quizzes.
+
+**Design:**
+*   **Theme:** Dark background () with yellow accents ().
+*   **Typography:** Montserrat font.
+*   **Layout:** Modern, responsive, and clean UI optimized for tablets and smartphones.
+</product_requirements>
+
+<key_technical_concepts>
+- **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI (Python) backend, and MongoDB database.
+- **Mobile/Web Development:** Expo for cross-platform development, using file-based routing with .
+- **State Management:** React Context API () for localization.
+- **Backend API:** RESTful endpoints for CRUD operations on ratings and quiz scores, and for serving static catalog images.
+- **UI/Animation:**  for animations (bouncing logo) and  for vector graphics.
+- **Platform Handling:** Conditional rendering () to handle web vs. mobile differences, especially for the catalog viewer.
+</key_technical_concepts>
+
+<code_architecture>
+The application follows a standard monorepo structure with distinct  and  directories. The frontend is an Expo app using file-based routing, while the backend is a Python FastAPI server.
+
+
+
+- ****
+    - **Importance:** This is the sole backend file, containing all API logic. It connects to MongoDB, defines data models for ratings and quiz scores, and exposes all API endpoints.
+    - **Changes:** It was heavily modified to add endpoints for: fetching catalog images (), submitting/fetching/deleting ratings (), submitting/fetching/deleting quiz scores (, ), and serving static catalog images under an API-prefixed route () to work with the ingress. Database name was changed from hardcoded to an environment variable.
+
+- ****
+    - **Importance:** The main entry point and home screen of the application. It contains the live clock, countdown timer, language switcher, and navigation buttons.
+    - **Changes:** The countdown logic was updated multiple times to new target dates and timezones. The static logo was replaced with the  component. A new button for the INOVIX Quiz Arena was added. The most recent edit updated the countdown to target December 4, 2025, 13:30 Prague time and changed the label to Veletrh končí za.
+
+- ****
+    - **Importance:** Displays the product catalog. It evolved from a simple PDF link to a fully interactive, image-based viewer.
+    - **Changes:** This file was completely rewritten to fetch a list of image URLs from  and display them in a swipeable . It includes page navigation controls and a page counter. This replaced a problematic implementation that tried to use , which was incompatible with the web environment.
+
+- ****
+    - **Importance:** The administrative dashboard for viewing application data.
+    - **Changes:** Created from scratch, it fetches and displays all ratings and quiz statistics. It was later enhanced with a real-time clock in the header and functions to send DELETE requests to the backend for clearing individual or all records from the quiz and feedback collections.
+
+- ****
+    - **Importance:** A reusable component for the animated INOVIX logo.
+    - **Changes:** Created to encapsulate the logo animation logic. It initially used an SVG but was refactored to use a PNG image () with a  bouncing animation for better cross-platform compatibility after rendering issues. An extraneous glow effect was also removed per user request.
+
+- ****
+    - **Importance:** Manages the global language state (Czech/English) and provides translations for the entire app.
+    - **Changes:** Updated multiple times to add new translations for the redesigned catalog, the quiz, and the admin pages.
+</code_architecture>
+
+<pending_tasks>
+- Verify that all 8 newly uploaded catalog images are correctly displayed in order in the catalog viewer. The last 3 images were downloaded but the agent was interrupted before verification.
+- Restart the Expo service to apply the latest countdown timer changes.
+- Verify through a screenshot that the countdown timer on the main page correctly displays the countdown to 4. prosince 2025, 13:30 and shows the text Veletrh končí za.
+</pending_tasks>
+
+<current_work>
+The most recent task was a direct request from the user to update the countdown timer. The user asked in Czech to change the timer to count down to **December 4, 2025, at 13:30 (Europe/Prague timezone)** and to change the label above it to **Veletrh končí za**.
+
+To address this, the AI engineer performed three successive edits on the  file:
+1.  Updated the  constant to  to reflect the new end time.
+2.  Changed the text label in the JSX from  to a hardcoded .
+3.  Updated the  function to use the new  and  for calculating the progress bar percentage.
+
+The very last action taken was the thought to restart the Expo service to apply these changes. The restart command itself has not yet been executed.
+</current_work>
+
+<optional_next_step>
+Restart the Expo service, then take a screenshot of the home page to verify that the countdown timer is correctly updated as per the user's latest request.
+</optional_next_step>
