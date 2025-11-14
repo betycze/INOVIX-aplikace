@@ -71,7 +71,7 @@ export default function WelcomeScreen() {
 
   const progressPercentage = () => {
     // Calculate total fair duration (assume fair started some time ago)
-    const fairStart = new Date('2025-11-08T09:00:00.000Z'); // Approximate start
+    const fairStart = new Date('2025-11-09T09:00:00.000Z'); // Approximate start
     const totalDuration = FAIR_END_DATE.getTime() - fairStart.getTime();
     const elapsed = new Date().getTime() - fairStart.getTime();
     
