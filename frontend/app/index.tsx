@@ -86,8 +86,11 @@ export default function WelcomeScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Christmas Lights at the top */}
-      <ChristmasLights numberOfLights={20} />
+      {/* Falling Snow Background */}
+      <FallingSnow />
+      
+      {/* Christmas Header with Lights Image */}
+      <ChristmasHeader />
       
       {/* Header with Clock and Countdown */}
       <View style={styles.header}>
