@@ -134,6 +134,9 @@ export default function WelcomeScreen() {
             </View>
           </View>
         )}
+        
+        {/* Yellow Glow Bar */}
+        <GlowBar />
       </View>
 
       <ScrollView 
