@@ -508,9 +508,22 @@ export default function QuizArena() {
             </View>
           </View>
           
+          <Text style={styles.motivationText}>{t.motivationText}</Text>
+          
           <TouchableOpacity style={styles.startButton} onPress={handleStart}>
             <Ionicons name="play" size={28} color="#000000" style={{ marginRight: 8 }} />
             <Text style={styles.startButtonText}>{t.startButton}</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.leaderboardButton} 
+            onPress={async () => {
+              await fetchLeaderboard();
+              setScreen('leaderboard');
+            }}
+          >
+            <Ionicons name="list" size={24} color="#FEC11B" style={{ marginRight: 8 }} />
+            <Text style={styles.leaderboardButtonText}>{t.showLeaderboard}</Text>
           </TouchableOpacity>
         </View>
       </View>
