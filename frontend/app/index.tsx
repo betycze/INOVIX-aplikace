@@ -200,10 +200,6 @@ export default function WelcomeScreen() {
               <Ionicons name="book" size={40} color="#FEC11B" />
               <Text style={styles.menuButtonText}>{t('viewCatalog')}</Text>
             </View>
-            {/* Christmas micro-icon: star */}
-            <View style={styles.microIcon}>
-              <Ionicons name="star" size={5} color="#FEC11B" style={{ opacity: 0.7 }} />
-            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -213,10 +209,6 @@ export default function WelcomeScreen() {
             <View style={styles.menuButtonContent}>
               <Ionicons name="star" size={40} color="#FEC11B" />
               <Text style={styles.menuButtonText}>{t('rateOurBooth')}</Text>
-            </View>
-            {/* Christmas micro-icon: sparkle */}
-            <View style={styles.microIcon}>
-              <Ionicons name="sparkles" size={5} color="#FEC11B" style={{ opacity: 0.7 }} />
             </View>
           </TouchableOpacity>
 
@@ -228,10 +220,6 @@ export default function WelcomeScreen() {
               <Ionicons name="help-circle" size={40} color="#FEC11B" />
               <Text style={styles.menuButtonText}>{t('faq')}</Text>
             </View>
-            {/* Christmas micro-icon: snowflake */}
-            <View style={styles.microIcon}>
-              <Ionicons name="snow" size={5} color="#FEC11B" style={{ opacity: 0.7 }} />
-            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -241,10 +229,6 @@ export default function WelcomeScreen() {
             <View style={styles.menuButtonContent}>
               <Ionicons name="trophy" size={40} color="#1B1B1B" />
               <Text style={[styles.menuButtonText, styles.quizButtonText]}>{t('quizArena')}</Text>
-            </View>
-            {/* Christmas micro-icon: mini trophy */}
-            <View style={styles.microIcon}>
-              <Ionicons name="ribbon" size={5} color="#1B1B1B" style={{ opacity: 0.7 }} />
             </View>
           </TouchableOpacity>
         </View>
