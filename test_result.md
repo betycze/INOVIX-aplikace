@@ -222,7 +222,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Submit Rating API"
+    - "Get All Quiz Arena Results API"
+    - "Delete Single Quiz Arena Score API"
+    - "Delete All Quiz Arena Scores API"
   stuck_tasks:
     - "Submit Rating API"
   test_all: false
