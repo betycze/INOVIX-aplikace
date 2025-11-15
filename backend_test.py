@@ -1,264 +1,378 @@
 #!/usr/bin/env python3
 """
-INOVIX Customer Portal Backend API Test Suite
-Tests all backend endpoints with comprehensive scenarios
+Backend API Testing for INOVIX Quiz Arena
+Tests the Quiz Arena endpoints thoroughly as requested.
 """
 
 import requests
 import json
-import base64
+import time
 from datetime import datetime
-import sys
-import os
 
-# Backend URL from environment
-BACKEND_URL = os.getenv("BACKEND_URL", "https://customer-hub-63.preview.emergentagent.com/api")
+# Get backend URL from environment
+BACKEND_URL = "https://customer-hub-63.preview.emergentagent.com/api"
 
-class BackendTester:
-    def __init__(self):
-        self.test_results = []
-        self.failed_tests = []
+def log_test(test_name, status, details=""):
+    """Log test results with timestamp"""
+    timestamp = datetime.now().strftime("%H:%M:%S")
+    status_symbol = "✅" if status == "PASS" else "❌" if status == "FAIL" else "⚠️"
+    print(f"[{timestamp}] {status_symbol} {test_name}")
+    if details:
+        print(f"    {details}")
+    print()
+
+def test_health_check():
+    """Test if backend is running"""
+    try:
+        response = requests.get(f"{BACKEND_URL}/health", timeout=10)
+        if response.status_code == 200:
+            log_test("Health Check", "PASS", f"Backend is running: {response.json()}")
+            return True
+        else:
+            log_test("Health Check", "FAIL", f"Status: {response.status_code}")
+            return False
+    except Exception as e:
+        log_test("Health Check", "FAIL", f"Connection error: {str(e)}")
+        return False
+
+def create_test_quiz_result(name, correct_answers, total_questions=15, average_time=45.5, instagram=""):
+    """Helper function to create a test quiz result"""
+    data = {
+        "name": name,
+        "correct_answers": correct_answers,
+        "total_questions": total_questions,
+        "average_time": average_time,
+        "instagram": instagram
+    }
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/quiz-arena/submit", json=data, timeout=10)
+        if response.status_code == 200:
+            result = response.json()
+            return result.get("id")
+        else:
+            print(f"Failed to create test data: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        print(f"Error creating test data: {str(e)}")
+        return None
+
+def test_get_all_quiz_arena_empty():
+    """Test GET /api/quiz-arena/all with empty database"""
+    try:
+        # First clear all data
+        requests.delete(f"{BACKEND_URL}/quiz-arena", timeout=10)
         
-    def log_test(self, test_name, success, message="", response_data=None):
-        """Log test result"""
-        result = {
-            "test": test_name,
-            "success": success,
-            "message": message,
-            "timestamp": datetime.now().isoformat(),
-            "response_data": response_data
-        }
-        self.test_results.append(result)
+        response = requests.get(f"{BACKEND_URL}/quiz-arena/all", timeout=10)
         
-        if not success:
-            self.failed_tests.append(result)
-            
-        status = "✅ PASS" if success else "❌ FAIL"
-        print(f"{status}: {test_name}")
-        if message:
-            print(f"   {message}")
-        if response_data and not success:
-            print(f"   Response: {response_data}")
-        print()
-
-    def test_health_check(self):
-        """Test GET /api/health endpoint"""
-        try:
-            response = requests.get(f"{BACKEND_URL}/health", timeout=10)
-            
-            if response.status_code == 200:
-                data = response.json()
-                if data.get("status") == "ok":
-                    self.log_test("Health Check", True, "API is running correctly")
-                    return True
-                else:
-                    self.log_test("Health Check", False, f"Unexpected response format: {data}")
-                    return False
-            else:
-                self.log_test("Health Check", False, f"HTTP {response.status_code}: {response.text}")
-                return False
-                
-        except requests.exceptions.RequestException as e:
-            self.log_test("Health Check", False, f"Connection error: {str(e)}")
-            return False
-
-    def test_submit_rating_full(self):
-        """Test POST /api/ratings with all fields"""
-        try:
-            # Create sample base64 image (small PNG)
-            sample_image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-            
-            rating_data = {
-                "stars": 5,
-                "comment": "Excellent service! Very satisfied with the quality and professionalism.",
-                "company": "INOVIX Solutions Ltd",
-                "photo": sample_image
-            }
-            
-            response = requests.post(
-                f"{BACKEND_URL}/ratings",
-                json=rating_data,
-                headers={"Content-Type": "application/json"},
-                timeout=10
-            )
-            
-            if response.status_code == 200:
-                data = response.json()
-                if data.get("success") and data.get("id"):
-                    self.log_test("Submit Rating (Full)", True, f"Rating submitted with ID: {data['id']}")
-                    return True
-                else:
-                    self.log_test("Submit Rating (Full)", False, f"Unexpected response: {data}")
-                    return False
-            else:
-                self.log_test("Submit Rating (Full)", False, f"HTTP {response.status_code}: {response.text}")
-                return False
-                
-        except requests.exceptions.RequestException as e:
-            self.log_test("Submit Rating (Full)", False, f"Connection error: {str(e)}")
-            return False
-
-    def test_submit_rating_minimal(self):
-        """Test POST /api/ratings with only required fields"""
-        try:
-            rating_data = {
-                "stars": 3
-            }
-            
-            response = requests.post(
-                f"{BACKEND_URL}/ratings",
-                json=rating_data,
-                headers={"Content-Type": "application/json"},
-                timeout=10
-            )
-            
-            if response.status_code == 200:
-                data = response.json()
-                if data.get("success") and data.get("id"):
-                    self.log_test("Submit Rating (Minimal)", True, f"Rating submitted with ID: {data['id']}")
-                    return True
-                else:
-                    self.log_test("Submit Rating (Minimal)", False, f"Unexpected response: {data}")
-                    return False
-            else:
-                self.log_test("Submit Rating (Minimal)", False, f"HTTP {response.status_code}: {response.text}")
-                return False
-                
-        except requests.exceptions.RequestException as e:
-            self.log_test("Submit Rating (Minimal)", False, f"Connection error: {str(e)}")
-            return False
-
-    def test_submit_rating_invalid_stars(self):
-        """Test POST /api/ratings with invalid stars (should fail)"""
-        try:
-            # Test with stars = 0 (invalid)
-            rating_data = {
-                "stars": 0,
-                "comment": "This should fail"
-            }
-            
-            response = requests.post(
-                f"{BACKEND_URL}/ratings",
-                json=rating_data,
-                headers={"Content-Type": "application/json"},
-                timeout=10
-            )
-            
-            if response.status_code == 400:
-                self.log_test("Submit Rating (Invalid Stars)", True, "Correctly rejected invalid stars value")
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list) and len(data) == 0:
+                log_test("GET /api/quiz-arena/all (empty)", "PASS", "Returns empty array correctly")
                 return True
             else:
-                self.log_test("Submit Rating (Invalid Stars)", False, f"Expected 400 error, got {response.status_code}: {response.text}")
+                log_test("GET /api/quiz-arena/all (empty)", "FAIL", f"Expected empty array, got: {data}")
                 return False
-                
-        except requests.exceptions.RequestException as e:
-            self.log_test("Submit Rating (Invalid Stars)", False, f"Connection error: {str(e)}")
+        else:
+            log_test("GET /api/quiz-arena/all (empty)", "FAIL", f"Status: {response.status_code}, Response: {response.text}")
             return False
+    except Exception as e:
+        log_test("GET /api/quiz-arena/all (empty)", "FAIL", f"Error: {str(e)}")
+        return False
 
-    def test_get_ratings(self):
-        """Test GET /api/ratings endpoint"""
-        try:
-            response = requests.get(f"{BACKEND_URL}/ratings", timeout=10)
-            
-            if response.status_code == 200:
-                data = response.json()
-                if isinstance(data, list):
-                    self.log_test("Get All Ratings", True, f"Retrieved {len(data)} ratings")
-                    
-                    # Validate structure if ratings exist
-                    if data:
-                        first_rating = data[0]
-                        required_fields = ["id", "stars", "comment", "company", "photo", "timestamp"]
-                        missing_fields = [field for field in required_fields if field not in first_rating]
-                        
-                        if missing_fields:
-                            self.log_test("Get All Ratings - Structure", False, f"Missing fields: {missing_fields}")
-                            return False
-                        else:
-                            self.log_test("Get All Ratings - Structure", True, "Rating structure is correct")
-                    
-                    return True
-                else:
-                    self.log_test("Get All Ratings", False, f"Expected list, got: {type(data)}")
-                    return False
-            else:
-                self.log_test("Get All Ratings", False, f"HTTP {response.status_code}: {response.text}")
-                return False
-                
-        except requests.exceptions.RequestException as e:
-            self.log_test("Get All Ratings", False, f"Connection error: {str(e)}")
-            return False
-
-    def test_get_rating_stats(self):
-        """Test GET /api/ratings/stats endpoint"""
-        try:
-            response = requests.get(f"{BACKEND_URL}/ratings/stats", timeout=10)
-            
-            if response.status_code == 200:
-                data = response.json()
-                required_fields = ["total_ratings", "average_stars", "star_distribution"]
-                missing_fields = [field for field in required_fields if field not in data]
-                
-                if missing_fields:
-                    self.log_test("Get Rating Stats", False, f"Missing fields: {missing_fields}")
-                    return False
-                
-                # Validate star_distribution structure
-                star_dist = data.get("star_distribution", {})
-                expected_keys = ["1", "2", "3", "4", "5"]
-                missing_star_keys = [key for key in expected_keys if key not in star_dist]
-                
-                if missing_star_keys:
-                    self.log_test("Get Rating Stats", False, f"Missing star distribution keys: {missing_star_keys}")
-                    return False
-                
-                self.log_test("Get Rating Stats", True, f"Stats: {data['total_ratings']} ratings, avg: {data['average_stars']}")
-                return True
-            else:
-                self.log_test("Get Rating Stats", False, f"HTTP {response.status_code}: {response.text}")
-                return False
-                
-        except requests.exceptions.RequestException as e:
-            self.log_test("Get Rating Stats", False, f"Connection error: {str(e)}")
-            return False
-
-    def run_all_tests(self):
-        """Run all backend tests"""
-        print("=" * 60)
-        print("INOVIX Customer Portal Backend API Tests")
-        print("=" * 60)
-        print(f"Testing backend at: {BACKEND_URL}")
-        print()
-        
-        # Run tests in order
-        tests = [
-            self.test_health_check,
-            self.test_submit_rating_full,
-            self.test_submit_rating_minimal,
-            self.test_submit_rating_invalid_stars,
-            self.test_get_ratings,
-            self.test_get_rating_stats
+def test_get_all_quiz_arena_with_data():
+    """Test GET /api/quiz-arena/all with multiple results"""
+    try:
+        # Create test data
+        test_results = [
+            ("Alice Johnson", 12, 15, 42.3, "@alice_quiz"),
+            ("Bob Smith", 10, 15, 55.7, "@bob_gamer"),
+            ("Carol Davis", 14, 15, 38.9, ""),
+            ("David Wilson", 8, 15, 67.2, "@david_learns"),
+            ("Eva Martinez", 13, 15, 41.1, "@eva_smart")
         ]
         
-        passed = 0
-        total = len(tests)
+        created_ids = []
+        for name, correct, total, avg_time, instagram in test_results:
+            quiz_id = create_test_quiz_result(name, correct, total, avg_time, instagram)
+            if quiz_id:
+                created_ids.append(quiz_id)
+            time.sleep(0.1)  # Small delay between creations
         
-        for test in tests:
-            if test():
-                passed += 1
+        if len(created_ids) != len(test_results):
+            log_test("GET /api/quiz-arena/all (with data)", "FAIL", f"Failed to create all test data. Created: {len(created_ids)}/{len(test_results)}")
+            return False, []
         
-        print("=" * 60)
-        print(f"TEST SUMMARY: {passed}/{total} tests passed")
-        print("=" * 60)
+        # Test the endpoint
+        response = requests.get(f"{BACKEND_URL}/quiz-arena/all", timeout=10)
         
-        if self.failed_tests:
-            print("\nFAILED TESTS:")
-            for failure in self.failed_tests:
-                print(f"❌ {failure['test']}: {failure['message']}")
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Validate response structure
+            if not isinstance(data, list):
+                log_test("GET /api/quiz-arena/all (with data)", "FAIL", "Response is not a list")
+                return False, created_ids
+            
+            if len(data) < len(test_results):
+                log_test("GET /api/quiz-arena/all (with data)", "FAIL", f"Expected at least {len(test_results)} results, got {len(data)}")
+                return False, created_ids
+            
+            # Check required fields in first result
+            if data:
+                first_result = data[0]
+                required_fields = ["_id", "name", "correct_answers", "total_questions", "average_time", "instagram", "timestamp"]
+                missing_fields = [field for field in required_fields if field not in first_result]
+                
+                if missing_fields:
+                    log_test("GET /api/quiz-arena/all (with data)", "FAIL", f"Missing fields: {missing_fields}")
+                    return False, created_ids
+                
+                # Check if sorted by timestamp (newest first)
+                if len(data) > 1:
+                    timestamps = [result["timestamp"] for result in data[:2]]
+                    if timestamps[0] < timestamps[1]:
+                        log_test("GET /api/quiz-arena/all (with data)", "WARN", "Results may not be sorted by timestamp (newest first)")
+                
+                log_test("GET /api/quiz-arena/all (with data)", "PASS", f"Returns {len(data)} results with all required fields")
+                return True, created_ids
+            else:
+                log_test("GET /api/quiz-arena/all (with data)", "FAIL", "No results returned despite creating test data")
+                return False, created_ids
+        else:
+            log_test("GET /api/quiz-arena/all (with data)", "FAIL", f"Status: {response.status_code}, Response: {response.text}")
+            return False, created_ids
+            
+    except Exception as e:
+        log_test("GET /api/quiz-arena/all (with data)", "FAIL", f"Error: {str(e)}")
+        return False, []
+
+def test_delete_single_quiz_arena_score(score_id):
+    """Test DELETE /api/quiz-arena/{score_id}"""
+    try:
+        response = requests.delete(f"{BACKEND_URL}/quiz-arena/{score_id}", timeout=10)
         
-        return passed == total
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and data.get("deleted") == 1:
+                log_test("DELETE /api/quiz-arena/{score_id} (valid)", "PASS", f"Successfully deleted score {score_id}")
+                return True
+            else:
+                log_test("DELETE /api/quiz-arena/{score_id} (valid)", "FAIL", f"Unexpected response: {data}")
+                return False
+        else:
+            log_test("DELETE /api/quiz-arena/{score_id} (valid)", "FAIL", f"Status: {response.status_code}, Response: {response.text}")
+            return False
+    except Exception as e:
+        log_test("DELETE /api/quiz-arena/{score_id} (valid)", "FAIL", f"Error: {str(e)}")
+        return False
+
+def test_delete_nonexistent_quiz_arena_score():
+    """Test DELETE /api/quiz-arena/{score_id} with invalid ID"""
+    try:
+        fake_id = "507f1f77bcf86cd799439011"  # Valid ObjectId format but doesn't exist
+        response = requests.delete(f"{BACKEND_URL}/quiz-arena/{fake_id}", timeout=10)
+        
+        if response.status_code == 404:
+            log_test("DELETE /api/quiz-arena/{score_id} (invalid)", "PASS", "Correctly returns 404 for non-existent ID")
+            return True
+        else:
+            log_test("DELETE /api/quiz-arena/{score_id} (invalid)", "FAIL", f"Expected 404, got {response.status_code}: {response.text}")
+            return False
+    except Exception as e:
+        log_test("DELETE /api/quiz-arena/{score_id} (invalid)", "FAIL", f"Error: {str(e)}")
+        return False
+
+def test_delete_all_quiz_arena_scores():
+    """Test DELETE /api/quiz-arena"""
+    try:
+        response = requests.delete(f"{BACKEND_URL}/quiz-arena", timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "deleted" in data:
+                deleted_count = data.get("deleted", 0)
+                log_test("DELETE /api/quiz-arena", "PASS", f"Successfully deleted {deleted_count} scores")
+                return True, deleted_count
+            else:
+                log_test("DELETE /api/quiz-arena", "FAIL", f"Unexpected response: {data}")
+                return False, 0
+        else:
+            log_test("DELETE /api/quiz-arena", "FAIL", f"Status: {response.status_code}, Response: {response.text}")
+            return False, 0
+    except Exception as e:
+        log_test("DELETE /api/quiz-arena", "FAIL", f"Error: {str(e)}")
+        return False, 0
+
+def verify_score_deleted(score_id):
+    """Verify that a score was actually deleted from database"""
+    try:
+        response = requests.get(f"{BACKEND_URL}/quiz-arena/all", timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            for result in data:
+                if result.get("_id") == score_id:
+                    return False  # Score still exists
+            return True  # Score not found (deleted)
+        return False
+    except:
+        return False
+
+def run_integration_test():
+    """Run comprehensive integration test as requested"""
+    print("=" * 60)
+    print("INTEGRATION TEST - Quiz Arena Admin Panel Endpoints")
+    print("=" * 60)
+    
+    # Step 1: Clear database and verify empty
+    print("Step 1: Testing with empty database...")
+    if not test_get_all_quiz_arena_empty():
+        return False
+    
+    # Step 2: Create 3-5 test results
+    print("Step 2: Creating test quiz results...")
+    test_data = [
+        ("Emma Thompson", 13, 15, 39.2, "@emma_quiz"),
+        ("James Rodriguez", 11, 15, 48.7, "@james_gamer"),
+        ("Sophia Chen", 14, 15, 35.8, ""),
+        ("Michael Brown", 9, 15, 62.1, "@mike_learns"),
+        ("Isabella Garcia", 12, 15, 44.3, "@bella_smart")
+    ]
+    
+    created_ids = []
+    for name, correct, total, avg_time, instagram in test_data:
+        quiz_id = create_test_quiz_result(name, correct, total, avg_time, instagram)
+        if quiz_id:
+            created_ids.append(quiz_id)
+            print(f"    Created: {name} (ID: {quiz_id})")
+        time.sleep(0.1)
+    
+    if len(created_ids) != len(test_data):
+        log_test("Integration Test", "FAIL", f"Failed to create all test data. Created: {len(created_ids)}/{len(test_data)}")
+        return False
+    
+    # Step 3: Verify GET /api/quiz-arena/all returns all of them
+    print("\nStep 3: Verifying GET /api/quiz-arena/all returns all results...")
+    response = requests.get(f"{BACKEND_URL}/quiz-arena/all", timeout=10)
+    if response.status_code != 200:
+        log_test("Integration Test", "FAIL", f"GET all failed: {response.status_code}")
+        return False
+    
+    all_results = response.json()
+    if len(all_results) < len(created_ids):
+        log_test("Integration Test", "FAIL", f"Expected {len(created_ids)} results, got {len(all_results)}")
+        return False
+    
+    print(f"    ✅ GET /api/quiz-arena/all returned {len(all_results)} results")
+    
+    # Step 4: Delete one using DELETE /api/quiz-arena/{score_id}
+    print("\nStep 4: Deleting one result...")
+    target_id = created_ids[0]
+    if not test_delete_single_quiz_arena_score(target_id):
+        return False
+    
+    # Verify it was deleted
+    if not verify_score_deleted(target_id):
+        log_test("Integration Test", "FAIL", f"Score {target_id} was not actually deleted from database")
+        return False
+    
+    print(f"    ✅ Verified score {target_id} was deleted from database")
+    
+    # Step 5: Verify GET /api/quiz-arena/all returns remaining ones
+    print("\nStep 5: Verifying remaining results...")
+    response = requests.get(f"{BACKEND_URL}/quiz-arena/all", timeout=10)
+    if response.status_code != 200:
+        log_test("Integration Test", "FAIL", f"GET all failed after deletion: {response.status_code}")
+        return False
+    
+    remaining_results = response.json()
+    expected_remaining = len(created_ids) - 1
+    
+    if len(remaining_results) != expected_remaining:
+        log_test("Integration Test", "FAIL", f"Expected {expected_remaining} remaining results, got {len(remaining_results)}")
+        return False
+    
+    print(f"    ✅ GET /api/quiz-arena/all returned {len(remaining_results)} remaining results")
+    
+    # Step 6: Delete all using DELETE /api/quiz-arena
+    print("\nStep 6: Deleting all remaining results...")
+    success, deleted_count = test_delete_all_quiz_arena_scores()
+    if not success:
+        return False
+    
+    print(f"    ✅ Deleted {deleted_count} results")
+    
+    # Step 7: Verify GET /api/quiz-arena/all returns empty array
+    print("\nStep 7: Verifying empty database...")
+    response = requests.get(f"{BACKEND_URL}/quiz-arena/all", timeout=10)
+    if response.status_code != 200:
+        log_test("Integration Test", "FAIL", f"GET all failed after delete all: {response.status_code}")
+        return False
+    
+    final_results = response.json()
+    if len(final_results) != 0:
+        log_test("Integration Test", "FAIL", f"Expected empty array, got {len(final_results)} results")
+        return False
+    
+    print(f"    ✅ GET /api/quiz-arena/all returned empty array")
+    
+    log_test("INTEGRATION TEST", "PASS", "All steps completed successfully")
+    return True
+
+def main():
+    """Main test runner"""
+    print("INOVIX Quiz Arena Backend API Testing")
+    print("=" * 50)
+    
+    # Test backend connectivity
+    if not test_health_check():
+        print("❌ Backend is not accessible. Stopping tests.")
+        return
+    
+    print("Testing Quiz Arena Admin Panel Endpoints...")
+    print("-" * 50)
+    
+    # Test individual endpoints
+    test_results = []
+    
+    # Test 1: GET /api/quiz-arena/all with empty database
+    test_results.append(test_get_all_quiz_arena_empty())
+    
+    # Test 2: GET /api/quiz-arena/all with data
+    success, created_ids = test_get_all_quiz_arena_with_data()
+    test_results.append(success)
+    
+    # Test 3: DELETE single score (if we have IDs)
+    if created_ids:
+        test_results.append(test_delete_single_quiz_arena_score(created_ids[0]))
+    
+    # Test 4: DELETE non-existent score
+    test_results.append(test_delete_nonexistent_quiz_arena_score())
+    
+    # Test 5: DELETE all scores
+    success, _ = test_delete_all_quiz_arena_scores()
+    test_results.append(success)
+    
+    # Run comprehensive integration test
+    integration_success = run_integration_test()
+    test_results.append(integration_success)
+    
+    # Summary
+    print("\n" + "=" * 60)
+    print("TEST SUMMARY")
+    print("=" * 60)
+    
+    passed = sum(test_results)
+    total = len(test_results)
+    
+    print(f"Tests Passed: {passed}/{total}")
+    
+    if passed == total:
+        print("🎉 ALL TESTS PASSED - Quiz Arena endpoints are working correctly!")
+    else:
+        print("⚠️  Some tests failed. Check the detailed output above.")
+    
+    return passed == total
 
 if __name__ == "__main__":
-    tester = BackendTester()
-    success = tester.run_all_tests()
-    sys.exit(0 if success else 1)
+    main()
