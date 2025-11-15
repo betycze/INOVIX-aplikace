@@ -155,6 +155,8 @@ async def delete_rating(rating_id: str):
         if result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="Rating not found")
         return {"success": True, "message": "Rating deleted"}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting rating: {str(e)}")
 
