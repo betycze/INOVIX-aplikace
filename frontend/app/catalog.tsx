@@ -363,4 +363,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#232426',
   },
+  backToStartButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1a1b1d',
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#FEC11B',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    gap: 8,
+  },
+  backToStartText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FEC11B',
+  },
 });
