@@ -394,6 +394,22 @@ export default function QuizArena() {
       const response = await fetch(`${backendUrl}/api/quiz-arena/stats`);
       const statsData = await response.json();
       setStats(statsData);
+      
+      // Fetch leaderboard to check if potentially top 3
+      const leaderboardResponse = await fetch(`${backendUrl}/api/quiz-arena/leaderboard`);
+      const leaderboardData = await leaderboardResponse.json();
+      
+      // Check if current score would be top 3
+      if (leaderboardData.length < 3) {
+        setIsTopThree(true);
+      } else {
+        const thirdPlace = leaderboardData[2];
+        const avgTime = answerTimes.reduce((a, b) => a + b, 0) / answerTimes.length;
+        if (correctAnswers > thirdPlace.correct_answers || 
+           (correctAnswers === thirdPlace.correct_answers && avgTime < thirdPlace.average_time)) {
+          setIsTopThree(true);
+        }
+      }
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
