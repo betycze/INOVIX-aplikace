@@ -279,6 +279,11 @@ export default function QuizArena() {
     noResults: language === 'cs' ? 'Zatím žádné výsledky' : 'No results yet',
     correctly: language === 'cs' ? 'správně' : 'correct',
     backToHome: language === 'cs' ? 'Zpět na hlavní stránku' : 'Back to Home',
+    topThreeMessage: language === 'cs' 
+      ? 'Jsi v top 3! Pokud se udržíš, sdílíme tvůj výsledek na náš IG a označíme tě!' 
+      : 'You are in top 3! If you stay there, we will share your result on our IG and tag you!',
+    instagram: language === 'cs' ? 'Instagram' : 'Instagram',
+    instagramHandle: language === 'cs' ? '@tvůj_instagram' : '@your_instagram',
   };
 
   // Timer countdown
