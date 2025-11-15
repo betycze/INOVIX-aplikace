@@ -104,7 +104,9 @@ export default function WelcomeScreen() {
           <View style={styles.progressBarBackground}>
             <View style={[styles.progressBarFill, { width: `${progressPercentage()}%` }]} />
           </View>
-          <Text style={styles.countdownText}>VELETRH KONČÍ ZA</Text>
+          <Text style={styles.countdownText}>
+            {language === 'cs' ? 'VELETRH KONČÍ ZA' : 'FAIR ENDS IN'}
+          </Text>
         </View>
         
         {fairEnded ? (
