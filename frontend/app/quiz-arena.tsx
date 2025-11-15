@@ -22,21 +22,45 @@ interface Question {
   correctIndex: number;
 }
 
-const QUESTIONS: Question[] = [
+interface QuestionData {
+  question: { cs: string; en: string };
+  options: { cs: string[]; en: string[] };
+  correctIndex: number;
+}
+
+const QUESTIONS_DATA: QuestionData[] = [
   {
-    question: 'Který produkt od Applu byl nejprodávanější na Vánoce 2024?',
-    options: ['Apple Watch Series 9', 'AirPods (3. generace)', 'iPhone 15', 'Apple TV 4K'],
+    question: {
+      cs: 'Který produkt od Applu byl v roce 2024 jedním z nejpopulárnějších vánočních dárků?',
+      en: 'Which Apple product was one of the most popular Christmas gifts in 2024?'
+    },
+    options: {
+      cs: ['iPhone', 'AirPods', 'Apple Watch', 'iPad'],
+      en: ['iPhone', 'AirPods', 'Apple Watch', 'iPad']
+    },
     correctIndex: 1
   },
   {
-    question: 'Který člověk založil Microsoft?',
-    options: ['Steve Jobs', 'Mark Zuckerberg', 'Bill Gates', 'Tim Cook'],
+    question: {
+      cs: 'Který člověk založil Microsoft?',
+      en: 'Who founded Microsoft?'
+    },
+    options: {
+      cs: ['Steve Jobs', 'Mark Zuckerberg', 'Bill Gates', 'Tim Cook'],
+      en: ['Steve Jobs', 'Mark Zuckerberg', 'Bill Gates', 'Tim Cook']
+    },
     correctIndex: 2
   },
   {
-    question: 'Co znamenají jedničky a nuly ve světě elektroniky?',
-    options: ['Dvě různé síťové frekvence', 'Reprezentace stavů napětí – zapnuto/vypnuto', 'Počet vodičů v obvodu', 'Typy elektronických čipů'],
-    correctIndex: 1
+    question: {
+      cs: 'Koupíš si disk s kapacitou 2 TB. Kolik je to přibližně gigabajtů (GB)?',
+      en: 'You buy a 2 TB disk. How many gigabytes (GB) is that approximately?'
+    },
+    options: {
+      cs: ['1 000 GB', '1 024 GB', '2 000 GB', '2 048 GB'],
+      en: ['1,000 GB', '1,024 GB', '2,000 GB', '2,048 GB']
+    },
+    correctIndex: 3
   },
   {
     question: 'Jak se jmenuje první video na YouTube vůbec?',
