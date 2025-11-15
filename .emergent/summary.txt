@@ -1,87 +1,88 @@
 <analysis>
-The trajectory documents the iterative development of the INOVIX Customer Portal, a bilingual (Czech/English) Expo application with a FastAPI backend. The initial phase focused on building the core features: a welcome screen with a live clock and countdown, a PDF catalog viewer, a feedback form, and an FAQ section, all styled with a dark theme and yellow accents.
+The trajectory documents an extensive, iterative development process for the INOVIX Customer Portal, a bilingual (Czech/English) application. The work was driven by a series of detailed user requests, primarily in Czech. I must continue to communicate in Czech.
 
-Subsequent development was driven by user requests, leading to significant feature enhancements and refactoring. The static PDF catalog was replaced first with a problematic in-app PDF viewer, and then with a robust, custom image-based gallery served from the backend. A major feature, the INOVIX Quiz Arena, was added, including backend endpoints for storing scores and frontend UI for the quiz flow and results screen.
+The initial phase involved implementing a complete Christmas Mode theme. This included adding a header image with a gradient, a Santa hat on the logo, a falling snow effect (later replaced with a more subtle bokeh effect), a glowing progress bar, and micro-icons on buttons. A significant portion of this phase was dedicated to debugging an unwanted glow effect around the logo, which was traced to a mispositioned particle from the background effect. This was resolved by constraining the effect to the screen corners and ultimately removing it to ensure the logo was clean.
 
-An admin dashboard was created at  to provide a view of user feedback and quiz statistics. This was later augmented with functionality to delete individual or all records.
+The next major feature was the creation of the INOVIX Quiz Arena, a complex, Kahoot-style quiz game. This required new backend endpoints in  for storing scores and a new frontend screen, , with logic for questions, timers, results, and a leaderboard. This feature underwent multiple refinements: UI polishing, adding a skip button, localizing the entire quiz into English, and adding a feature to request an Instagram handle from top-3 players.
 
-Throughout the process, the AI engineer addressed numerous technical challenges, including React Native version mismatches, issues with platform-specific library compatibility (e.g.,  on the web), and fixing backend URL routing to correctly serve static assets through the Kubernetes ingress. The application's logo was also updated from a static image to an animated component, which required debugging SVG rendering issues before settling on a PNG-based animation. The final actions involved updating the countdown timer's logic and text based on a new user request.
+A recurring and critical task was updating the product catalog. This involved a frustrating debugging cycle related to server-side caching, which prevented new images from appearing for the user. The issue was definitively solved by systematically clearing the image directory, re-uploading the correct assets, and restarting both frontend and backend services.
+
+The final task involved a user request to fix the admin panel, as deleting individual quiz scores was not working. I correctly diagnosed that the required  endpoint was missing in the backend. The work stopped just before implementing this fix.
+
+The next agent must respond in Czech.
 </analysis>
 
 <product_requirements>
-The INOVIX Customer Portal is a bilingual (Czech/English) web application for business fair visitors, built with Expo and FastAPI.
+The INOVIX Customer Portal is a bilingual (Czech/English) Expo web application designed for a business fair. It features a dark theme with yellow accents (, ).
 
 **Core Features:**
-*   **Welcome Screen:** Displays a live clock, a countdown to the fair's end date (currently set to Dec 4, 2025, 13:30 Prague time), the animated INOVIX logo, and navigation to other sections.
-*   **Language Selection:** Toggles the entire UI between Czech (🇨🇿) and English (🇬🇧).
-*   **Catalog Viewer:** An interactive, image-based viewer displaying catalog pages. It supports horizontal swiping, shows page numbers, and is populated by images uploaded to the backend.
-*   **Rate Our Booth:** A feedback form with a 1-5 star rating, an optional comment, and a photo upload feature. Submissions are stored in a MongoDB database.
-*   **FAQ Section:** A bilingual, accordion-style display of frequently asked questions.
-*   **INOVIX Quiz Arena:** An interactive 10-question multiple-choice quiz on electronics. It shows the final score, a feedback message, and comparison to an average score.
-*   **Admin Dashboard ():** A private page that displays all submitted ratings and quiz results. It includes a real-time clock and functionality to delete individual records or clear all data for both ratings and quizzes.
-
-**Design:**
-*   **Theme:** Dark background () with yellow accents ().
-*   **Typography:** Montserrat font.
-*   **Layout:** Modern, responsive, and clean UI optimized for tablets and smartphones.
+*   **Welcome Screen:** Features a full Christmas Mode design, including a header image with lights, an animated logo with a Santa hat, a subtle background bokeh effect, and a glowing progress bar under the countdown timer. Navigation to all app sections is provided.
+*   **Product Catalog:** A swipe-based image gallery displaying 9 pages of products. It includes navigation buttons and an animated Return to Start button. The images are served from the backend and were the subject of several updates.
+*   **INOVIX Quiz Arena:** A comprehensive, Kahoot-style quiz game. It is fully bilingual (CZ/EN) and includes:
+    *   15 questions with a 15-second timer per question.
+    *   A skip question option.
+    *   Post-quiz statistics (score, time, comparison to median).
+    *   A Top-10 leaderboard.
+    *   A feature to ask for a user's Instagram handle if they place in the Top 3.
+*   **Admin Panel ():** A Czech-language dashboard with a tabbed interface to view and delete all submitted booth ratings and quiz scores. It supports both individual and bulk deletion.
+*   **Feedback Form & FAQ:** Standard sections for user feedback and frequently asked questions.
 </product_requirements>
 
 <key_technical_concepts>
-- **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI (Python) backend, and MongoDB database.
-- **Mobile/Web Development:** Expo for cross-platform development, using file-based routing with .
-- **State Management:** React Context API () for localization.
-- **Backend API:** RESTful endpoints for CRUD operations on ratings and quiz scores, and for serving static catalog images.
-- **UI/Animation:**  for animations (bouncing logo) and  for vector graphics.
-- **Platform Handling:** Conditional rendering () to handle web vs. mobile differences, especially for the catalog viewer.
+- **Full-Stack:** Expo (React Native) frontend, FastAPI (Python) backend, MongoDB database.
+- **Routing:** File-based routing with .
+- **State Management:** React Context API for localization ().
+- **UI & Animation:**  and standard  API for various effects (pulsating text, fade-in),  for gradients.
+- **Backend API:** RESTful API for CRUD operations on ratings and quiz scores (including leaderboard stats) and serving static catalog images.
+- **Debugging:** Resolved critical issues with frontend asset caching and component-level style conflicts (e.g., the glow effect).
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a standard monorepo structure with distinct  and  directories. The frontend is an Expo app using file-based routing, while the backend is a Python FastAPI server.
+The application uses a monorepo structure with  and  directories. The frontend is an Expo app with file-based routing in the  directory. The backend is a single-file FastAPI server.
 
 
 
 - ****
-    - **Importance:** This is the sole backend file, containing all API logic. It connects to MongoDB, defines data models for ratings and quiz scores, and exposes all API endpoints.
-    - **Changes:** It was heavily modified to add endpoints for: fetching catalog images (), submitting/fetching/deleting ratings (), submitting/fetching/deleting quiz scores (, ), and serving static catalog images under an API-prefixed route () to work with the ingress. Database name was changed from hardcoded to an environment variable.
+    - **Importance:** The single source of truth for all API logic and database interaction.
+    - **Summary of Changes:** Heavily modified to support the Quiz Arena. New Pydantic models (, ) and several endpoints were added:  to submit scores (including an optional  field),  for the top 10, and  for aggregate data. The endpoint for catalog images () was updated to find both  and  files. The logic to delete all quiz scores exists, but the logic to delete a *single* score is missing.
 
 - ****
-    - **Importance:** The main entry point and home screen of the application. It contains the live clock, countdown timer, language switcher, and navigation buttons.
-    - **Changes:** The countdown logic was updated multiple times to new target dates and timezones. The static logo was replaced with the  component. A new button for the INOVIX Quiz Arena was added. The most recent edit updated the countdown to target December 4, 2025, 13:30 Prague time and changed the label to Veletrh končí za.
+    - **Importance:** This is the most complex frontend component, containing the entire Kahoot-style quiz game.
+    - **Summary of Changes:** Created from scratch, it manages multiple screens internally (, , , , , ). It was made fully bilingual by integrating  and a local translation dictionary. The UI was significantly polished, replacing emojis with , improving the timer's appearance, and moving the skip button to a less intrusive position. Logic was added to conditionally display an Instagram input for Top-3 finishers.
 
 - ****
-    - **Importance:** Displays the product catalog. It evolved from a simple PDF link to a fully interactive, image-based viewer.
-    - **Changes:** This file was completely rewritten to fetch a list of image URLs from  and display them in a swipeable . It includes page navigation controls and a page counter. This replaced a problematic implementation that tried to use , which was incompatible with the web environment.
+    - **Importance:** The application's home screen.
+    - **Summary of Changes:** Completely overhauled to implement the Christmas Mode theme. It now integrates several new components (, , ) and uses the Santa-hat version of the logo. The Christmas-themed micro-icons on the navigation buttons were added and later removed per user request.
 
 - ****
-    - **Importance:** The administrative dashboard for viewing application data.
-    - **Changes:** Created from scratch, it fetches and displays all ratings and quiz statistics. It was later enhanced with a real-time clock in the header and functions to send DELETE requests to the backend for clearing individual or all records from the quiz and feedback collections.
+    - **Importance:** Displays the product catalog.
+    - **Summary of Changes:** The underlying static image assets in  were repeatedly deleted and replaced, which caused significant caching issues that required full service restarts to resolve. An animated Return to Start button was added, which appears with a fade-in animation when the user is not on the first page.
 
 - ****
-    - **Importance:** A reusable component for the animated INOVIX logo.
-    - **Changes:** Created to encapsulate the logo animation logic. It initially used an SVG but was refactored to use a PNG image () with a  bouncing animation for better cross-platform compatibility after rendering issues. An extraneous glow effect was also removed per user request.
+    - **Importance:** The new administrative dashboard.
+    - **Summary of Changes:** Created as a new file to provide a more robust and user-friendly admin interface. It features a tabbed layout to separate Ratings and Quiz Results and includes functionality to call DELETE endpoints for clearing data. The button to delete individual quiz results is present but non-functional due to the missing backend endpoint.
 
-- ****
-    - **Importance:** Manages the global language state (Czech/English) and provides translations for the entire app.
-    - **Changes:** Updated multiple times to add new translations for the redesigned catalog, the quiz, and the admin pages.
 </code_architecture>
 
 <pending_tasks>
-- Verify that all 8 newly uploaded catalog images are correctly displayed in order in the catalog viewer. The last 3 images were downloaded but the agent was interrupted before verification.
-- Restart the Expo service to apply the latest countdown timer changes.
-- Verify through a screenshot that the countdown timer on the main page correctly displays the countdown to 4. prosince 2025, 13:30 and shows the text Veletrh končí za.
+- **Fix Admin Panel:** The user reported that deleting individual quiz results does not work. The backend is missing the required API endpoint.
+- **Verify Final Admin Panel Fix:** After implementing the backend fix, the entire deletion flow on the  page must be tested to confirm it works as expected.
 </pending_tasks>
 
 <current_work>
-The most recent task was a direct request from the user to update the countdown timer. The user asked in Czech to change the timer to count down to **December 4, 2025, at 13:30 (Europe/Prague timezone)** and to change the label above it to **Veletrh končí za**.
+The most recent task was to address a bug reported by the user: the inability to delete individual records from the INOVIX Quiz Arena section of the new admin page ().
 
-To address this, the AI engineer performed three successive edits on the  file:
-1.  Updated the  constant to  to reflect the new end time.
-2.  Changed the text label in the JSX from  to a hardcoded .
-3.  Updated the  function to use the new  and  for calculating the progress bar percentage.
+I correctly diagnosed that while the frontend button exists to trigger this action, the corresponding backend API endpoint is missing. The  file has endpoints for deleting *all* quiz scores () and for deleting individual ratings, but it lacks an endpoint to delete a single quiz score by its ID (e.g., ).
 
-The very last action taken was the thought to restart the Expo service to apply these changes. The restart command itself has not yet been executed.
+The last action performed was identifying this gap in the backend logic, and the next step was planned to be the implementation of this missing  endpoint in .
 </current_work>
 
 <optional_next_step>
-Restart the Expo service, then take a screenshot of the home page to verify that the countdown timer is correctly updated as per the user's latest request.
+Add the missing  endpoint to  to allow for the deletion of individual quiz results.
 </optional_next_step>
+
+<direct_quotes>
+**User:** nejdou mazat data pro INOVIX Quiz Arenu v admin stránce (Data for the INOVIX Quiz Arena cannot be deleted on the admin page)
+
+**AI Engineer's last thought:** Rozumím! Problém je, že backend nemá endpoint pro mazání jednotlivých Quiz Arena výsledků. Opravím to! **Krok 1: Přidám DELETE endpointy do backendu** (I understand! The problem is that the backend doesn't have an endpoint to delete individual Quiz Arena results. I will fix it! **Step 1: I will add DELETE endpoints to the backend**)
+</direct_quotes>

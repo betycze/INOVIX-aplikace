@@ -12,7 +12,7 @@ import sys
 import os
 
 # Backend URL from environment
-BACKEND_URL = os.getenv("BACKEND_URL", "https://expo-inovix.preview.emergentagent.com/api")
+BACKEND_URL = os.getenv("BACKEND_URL", "https://customer-hub-63.preview.emergentagent.com/api")
 
 class BackendTester:
     def __init__(self):
