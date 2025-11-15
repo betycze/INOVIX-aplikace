@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing for INOVIX Quiz Arena
-Tests the Quiz Arena endpoints thoroughly as requested.
+Backend API Testing for INOVIX Customer Portal - Admin Panel Deletion Endpoints
+Tests all deletion endpoints as requested by user for admin panel functionality.
 """
 
 import requests
