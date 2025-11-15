@@ -34,6 +34,7 @@ client = MongoClient(MONGO_URL)
 db = client[DB_NAME]
 ratings_collection = db["ratings"]
 quiz_scores_collection = db["quiz_scores"]
+quiz_arena_collection = db["quiz_arena"]
 
 # Models
 class RatingSubmission(BaseModel):
