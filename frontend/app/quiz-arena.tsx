@@ -500,9 +500,17 @@ export default function QuizArena() {
         <View style={styles.quizHeader}>
           <View style={styles.headerLeft}>
             <Text style={styles.questionNumber}>
-              Otázka {currentQuestion + 1}/{QUESTIONS.length}
+              {t.question} {currentQuestion + 1}/{QUESTIONS.length}
             </Text>
           </View>
+          
+          <TouchableOpacity 
+            style={styles.skipButtonTop} 
+            onPress={() => handleAnswer(-1)}
+          >
+            <Ionicons name="play-skip-forward-outline" size={20} color="#FEC11B" />
+            <Text style={styles.skipButtonTopText}>{t.skipQuestion}</Text>
+          </TouchableOpacity>
           
           <View style={styles.timerBox}>
             <View style={styles.timerCircle}>
@@ -544,13 +552,6 @@ export default function QuizArena() {
             </TouchableOpacity>
           ))}
         </View>
-        
-        <TouchableOpacity 
-          style={styles.skipButton} 
-          onPress={() => handleAnswer(-1)}
-        >
-          <Text style={styles.skipButtonText}>Přeskočit otázku →</Text>
-        </TouchableOpacity>
       </View>
     );
   }
