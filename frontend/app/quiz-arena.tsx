@@ -451,36 +451,36 @@ export default function QuizArena() {
         
         <View style={styles.startContainer}>
           <Animated.View style={[styles.titleContainer, { opacity: fadeAnim }]}>
-            <Text style={styles.title}>INOVIX QUIZ ARENA</Text>
+            <Text style={styles.title}>{t.title}</Text>
           </Animated.View>
-          <Text style={styles.subtitle}>Dokážeš odpovědět na všech 15 otázek?</Text>
+          <Text style={styles.subtitle}>{t.subtitle}</Text>
           
           <View style={styles.rulesBox}>
             <View style={styles.ruleItem}>
               <View style={styles.ruleIconContainer}>
                 <Ionicons name="help-circle-outline" size={32} color="#FEC11B" />
               </View>
-              <Text style={styles.ruleText}>15 otázek</Text>
+              <Text style={styles.ruleText}>{t.rule1}</Text>
             </View>
             
             <View style={styles.ruleItem}>
               <View style={styles.ruleIconContainer}>
                 <Ionicons name="timer-outline" size={32} color="#FEC11B" />
               </View>
-              <Text style={styles.ruleText}>15 sekund na odpověď</Text>
+              <Text style={styles.ruleText}>{t.rule2}</Text>
             </View>
             
             <View style={styles.ruleItem}>
               <View style={styles.ruleIconContainer}>
                 <Ionicons name="trophy-outline" size={32} color="#FEC11B" />
               </View>
-              <Text style={styles.ruleText}>Buď mezi nejlepšími!</Text>
+              <Text style={styles.ruleText}>{t.rule3}</Text>
             </View>
           </View>
           
           <TouchableOpacity style={styles.startButton} onPress={handleStart}>
             <Ionicons name="play" size={28} color="#000000" style={{ marginRight: 8 }} />
-            <Text style={styles.startButtonText}>SPUSTIT KVÍZ</Text>
+            <Text style={styles.startButtonText}>{t.startButton}</Text>
           </TouchableOpacity>
         </View>
       </View>
