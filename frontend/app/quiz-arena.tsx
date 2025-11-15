@@ -417,7 +417,8 @@ export default function QuizArena() {
 
   const handleSubmitName = async () => {
     if (!playerName.trim()) {
-      alert('Zadej prosím své jméno!');
+      const alertMessage = language === 'cs' ? 'Zadej prosím své jméno!' : 'Please enter your name!';
+      alert(alertMessage);
       return;
     }
     
@@ -432,7 +433,8 @@ export default function QuizArena() {
           name: playerName.trim(),
           correct_answers: correctAnswers,
           total_questions: QUESTIONS.length,
-          average_time: avgTime
+          average_time: avgTime,
+          instagram: playerInstagram.trim()
         })
       });
       
@@ -443,7 +445,8 @@ export default function QuizArena() {
       }
     } catch (error) {
       console.error('Error submitting score:', error);
-      alert('Chyba při ukládání výsledku');
+      const errorMessage = language === 'cs' ? 'Chyba při ukládání výsledku' : 'Error saving result';
+      alert(errorMessage);
     }
   };
 
