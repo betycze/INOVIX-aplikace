@@ -164,7 +164,7 @@ export default function AdminNewScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`${backendUrl}/api/quiz_scores`, {
+              const response = await fetch(`${backendUrl}/api/quiz-arena`, {
                 method: 'DELETE',
               });
               if (response.ok) {
