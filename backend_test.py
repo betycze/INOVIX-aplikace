@@ -472,59 +472,76 @@ def run_integration_test():
     return True
 
 def main():
-    """Main test runner"""
-    print("INOVIX Quiz Arena Backend API Testing")
-    print("=" * 50)
+    """Main test runner - Testing Admin Panel Deletion Endpoints"""
+    print("INOVIX Customer Portal - Admin Panel Deletion Endpoints Testing")
+    print("=" * 70)
     
     # Test backend connectivity
     if not test_health_check():
         print("❌ Backend is not accessible. Stopping tests.")
-        return
+        return False
     
-    print("Testing Quiz Arena Admin Panel Endpoints...")
-    print("-" * 50)
+    # Run ratings deletion tests
+    ratings_success = run_ratings_deletion_tests()
     
-    # Test individual endpoints
-    test_results = []
-    
-    # Test 1: GET /api/quiz-arena/all with empty database
-    test_results.append(test_get_all_quiz_arena_empty())
-    
-    # Test 2: GET /api/quiz-arena/all with data
-    success, created_ids = test_get_all_quiz_arena_with_data()
-    test_results.append(success)
-    
-    # Test 3: DELETE single score (if we have IDs)
-    if created_ids:
-        test_results.append(test_delete_single_quiz_arena_score(created_ids[0]))
-    
-    # Test 4: DELETE non-existent score
-    test_results.append(test_delete_nonexistent_quiz_arena_score())
-    
-    # Test 5: DELETE all scores
-    success, _ = test_delete_all_quiz_arena_scores()
-    test_results.append(success)
-    
-    # Run comprehensive integration test
-    integration_success = run_integration_test()
-    test_results.append(integration_success)
-    
-    # Summary
+    # Run quiz arena deletion tests (existing functionality)
     print("\n" + "=" * 60)
-    print("TEST SUMMARY")
+    print("QUIZ ARENA DELETION TESTS - Admin Panel Endpoints")
     print("=" * 60)
     
-    passed = sum(test_results)
-    total = len(test_results)
+    quiz_test_results = []
     
-    print(f"Tests Passed: {passed}/{total}")
-    
-    if passed == total:
-        print("🎉 ALL TESTS PASSED - Quiz Arena endpoints are working correctly!")
+    # Test 1: DELETE single quiz arena score
+    print("Test 1: Creating test quiz arena score for deletion...")
+    test_score_id = create_test_quiz_result("Test User", 12, 15, 45.5, "@testuser")
+    if test_score_id:
+        quiz_test_results.append(test_delete_single_quiz_arena_score(test_score_id))
     else:
-        print("⚠️  Some tests failed. Check the detailed output above.")
+        print("❌ Could not create test quiz arena score")
+        quiz_test_results.append(False)
     
-    return passed == total
+    # Test 2: DELETE non-existent quiz arena score
+    print("Test 2: DELETE /api/quiz-arena/{invalid_id}")
+    quiz_test_results.append(test_delete_nonexistent_quiz_arena_score())
+    
+    # Test 3: DELETE all quiz arena scores
+    print("Test 3: DELETE /api/quiz-arena (delete all)")
+    # Create some test data first
+    for i in range(3):
+        create_test_quiz_result(f"Test User {i+1}", 10+i, 15, 40.0+i*5, f"@test{i+1}")
+    
+    success, _ = test_delete_all_quiz_arena_scores()
+    quiz_test_results.append(success)
+    
+    quiz_passed = sum(quiz_test_results)
+    quiz_total = len(quiz_test_results)
+    
+    print(f"\nQuiz Arena Deletion Tests: {quiz_passed}/{quiz_total} passed")
+    
+    if quiz_passed == quiz_total:
+        print("✅ All quiz arena deletion endpoints working correctly!")
+    else:
+        print("❌ Some quiz arena deletion endpoints have issues")
+    
+    # Overall summary
+    print("\n" + "=" * 70)
+    print("OVERALL TEST SUMMARY - ADMIN PANEL DELETION ENDPOINTS")
+    print("=" * 70)
+    
+    total_tests = 6  # 3 ratings + 3 quiz arena
+    total_passed = (3 if ratings_success else 0) + quiz_passed
+    
+    print(f"Ratings Deletion Tests: {'✅ PASS' if ratings_success else '❌ FAIL'}")
+    print(f"Quiz Arena Deletion Tests: {'✅ PASS' if quiz_passed == quiz_total else '❌ FAIL'}")
+    print(f"\nTotal Tests: {total_passed}/{total_tests} passed")
+    
+    if total_passed == total_tests:
+        print("🎉 ALL DELETION ENDPOINTS WORKING CORRECTLY!")
+        print("Admin panel deletion functionality is ready for use.")
+    else:
+        print("⚠️  Some deletion endpoints have issues that need to be addressed.")
+    
+    return total_passed == total_tests
 
 if __name__ == "__main__":
     main()
