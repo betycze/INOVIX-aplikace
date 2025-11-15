@@ -32,8 +32,8 @@ interface QuestionData {
 const QUESTIONS_DATA: QuestionData[] = [
   {
     question: {
-      cs: 'Který produkt od Applu byl v roce 2024 jedním z nejpopulárnějších vánočních dárků?',
-      en: 'Which Apple product was one of the most popular Christmas gifts in 2024?'
+      cs: 'Který produkt od Applu byl nejprodávanější na Vánoce 2024?',
+      en: 'Which Apple product was the best-selling on Christmas 2024?'
     },
     options: {
       cs: ['iPhone', 'AirPods', 'Apple Watch', 'iPad'],
