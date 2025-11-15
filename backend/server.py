@@ -124,8 +124,11 @@ async def get_catalog_images():
         if not os.path.exists(catalog_dir):
             return {"images": [], "total": 0}
         
-        # Get all PNG files and sort them by filename (numbered prefix ensures order)
-        image_files = sorted(glob.glob(os.path.join(catalog_dir, "*.png")))
+        # Get all image files (PNG and JPG) and sort them by filename (numbered prefix ensures order)
+        image_files = sorted(
+            glob.glob(os.path.join(catalog_dir, "*.png")) + 
+            glob.glob(os.path.join(catalog_dir, "*.jpg"))
+        )
         
         # Create URLs for each image
         images = [
