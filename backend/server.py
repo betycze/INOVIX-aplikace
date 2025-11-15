@@ -437,6 +437,8 @@ async def delete_quiz_arena_score(score_id: str):
             raise HTTPException(status_code=404, detail="Score not found")
         
         return {"success": True, "deleted": result.deleted_count}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting quiz arena score: {str(e)}")
 
