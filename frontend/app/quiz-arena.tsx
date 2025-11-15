@@ -38,7 +38,7 @@ const QUESTIONS: Question[] = [
     correctIndex: 1
   },
   {
-    question: 'Na jakém místě se natočilo první video na YouTube?',
+    question: 'Jak se jmenuje první video na YouTube vůbec?',
     options: ['Times Square', 'Me at the Zoo', 'Google Campus', 'San Francisco Pier'],
     correctIndex: 1
   },
