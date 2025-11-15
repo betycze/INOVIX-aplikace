@@ -937,18 +937,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
   },
-  skipButton: {
-    padding: 16,
-    alignItems: 'center',
-    marginHorizontal: 20,
-    marginBottom: 20,
-  },
-  skipButtonText: {
-    fontSize: 16,
-    color: '#FEC11B',
-    textDecorationLine: 'underline',
-  },
-  
   // FEEDBACK SCREEN
   correctBg: {
     backgroundColor: '#26890C',
