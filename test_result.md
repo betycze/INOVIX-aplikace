@@ -195,3 +195,5 @@ test_plan:
 agent_communication:
   - agent: "testing"
     message: "Backend API testing completed. 5/6 test scenarios passed. Critical bug found in error handling - HTTPException being caught and re-raised as 500 error instead of proper 400 validation error. All other endpoints working correctly including database integration."
+  - agent: "main"
+    message: "Fixed admin panel quiz deletion issue. Added new GET /api/quiz-arena/all endpoint to fetch all quiz results. Fixed deleteAllQuizResults() to call correct endpoint /api/quiz-arena. Simplified fetchQuizResults() to use the new endpoint. Need to test all quiz arena endpoints including the new one and verify admin panel deletion works correctly."
