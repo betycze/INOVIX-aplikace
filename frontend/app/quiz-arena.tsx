@@ -900,12 +900,22 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 60,
   },
+  leaderboardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+    marginBottom: 24,
+  },
   leaderboardTitle: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#FEC11B',
     textAlign: 'center',
-    marginBottom: 24,
+    letterSpacing: 1,
+    textShadowColor: '#FEC11B',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 16,
   },
   noDataText: {
     fontSize: 18,
