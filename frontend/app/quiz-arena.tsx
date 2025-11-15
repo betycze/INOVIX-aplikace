@@ -626,12 +626,29 @@ const styles = StyleSheet.create({
   },
   
   // QUIZ SCREEN
+  quizTopBar: {
+    paddingTop: 50,
+    paddingBottom: 16,
+    alignItems: 'center',
+    backgroundColor: '#1a1b1d',
+    borderBottomWidth: 2,
+    borderBottomColor: '#FEC11B',
+  },
+  quizTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FEC11B',
+    letterSpacing: 2,
+    textShadowColor: '#FEC11B',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 20,
+  },
   quizHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    paddingTop: 60,
+    paddingTop: 20,
   },
   headerLeft: {
     flex: 1,
