@@ -821,6 +821,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 40,
   },
+  motivationText: {
+    fontSize: 16,
+    color: '#FEC11B',
+    textAlign: 'center',
+    marginBottom: 32,
+    fontStyle: 'italic',
+    paddingHorizontal: 20,
+    lineHeight: 24,
+  },
   rulesBox: {
     backgroundColor: '#1a1b1d',
     padding: 32,
