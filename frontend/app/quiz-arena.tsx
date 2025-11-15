@@ -610,41 +610,41 @@ export default function QuizArena() {
   if (screen === 'results') {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.resultsContainer}>
-        <Text style={styles.resultsTitle}>🎉 DOKONČENO! 🎉</Text>
+        <Text style={styles.resultsTitle}>🎉 {t.completed}! 🎉</Text>
         
         <View style={styles.statsBox}>
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{correctAnswers}/{QUESTIONS.length}</Text>
-            <Text style={styles.statLabel}>Správné odpovědi</Text>
+            <Text style={styles.statLabel}>{t.correctAnswers}</Text>
           </View>
           
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{avgAnswerTime.toFixed(1)}s</Text>
-            <Text style={styles.statLabel}>Průměrný čas</Text>
+            <Text style={styles.statLabel}>{t.averageTime}</Text>
           </View>
           
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{successRate}%</Text>
-            <Text style={styles.statLabel}>Úspěšnost</Text>
+            <Text style={styles.statLabel}>{t.successRate}</Text>
           </View>
         </View>
         
         {stats && (
           <View style={styles.comparisonBox}>
-            <Text style={styles.comparisonTitle}>📊 Porovnání s ostatními</Text>
+            <Text style={styles.comparisonTitle}>📊 {t.comparisonTitle}</Text>
             <Text style={styles.comparisonText}>
-              Průměrný čas: {stats.median_time.toFixed(1)}s
-              {avgAnswerTime < stats.median_time ? ' (Jsi rychlejší! 🚀)' : ' (Můžeš být rychlejší)'}
+              {t.medianTime} {stats.median_time.toFixed(1)}s
+              {avgAnswerTime < stats.median_time ? ` ${t.fasterThanAverage}` : ` ${t.slowerPrompt}`}
             </Text>
             <Text style={styles.comparisonText}>
-              Průměrná úspěšnost: {stats.average_success_rate}%
-              {parseFloat(successRate) > stats.average_success_rate ? ' (Lepší než průměr! 🎯)' : ''}
+              {t.averageSuccess} {stats.average_success_rate}%
+              {parseFloat(successRate) > stats.average_success_rate ? ` ${t.betterThanAverage}` : ''}
             </Text>
           </View>
         )}
         
         <TouchableOpacity style={styles.continueButton} onPress={() => setScreen('name-input')}>
-          <Text style={styles.continueButtonText}>Pokračovat →</Text>
+          <Text style={styles.continueButtonText}>{t.continue}</Text>
         </TouchableOpacity>
       </ScrollView>
     );
