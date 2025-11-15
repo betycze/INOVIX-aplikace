@@ -167,39 +167,48 @@ backend:
 
   - task: "Get All Quiz Arena Results API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added new endpoint GET /api/quiz-arena/all to fetch all quiz arena results (not just top 10). Returns all fields including _id, name, correct_answers, total_questions, average_time, instagram, timestamp. Needs testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ GET /api/quiz-arena/all endpoint working correctly. Returns array of all quiz arena results with all required fields (_id, name, correct_answers, total_questions, average_time, instagram, timestamp). Tested with empty database (returns empty array) and with multiple results (returns all results sorted by timestamp newest first). Comprehensive testing completed successfully."
 
   - task: "Delete Single Quiz Arena Score API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "DELETE /api/quiz-arena/{score_id} endpoint exists (lines 404-416). Needs testing to verify it works correctly with admin panel."
+      - working: true
+        agent: "testing"
+        comment: "✅ DELETE /api/quiz-arena/{score_id} endpoint working correctly. Successfully deletes individual quiz arena scores by MongoDB ObjectId. Returns proper success response with deleted count. Correctly returns 404 for non-existent IDs. Fixed HTTPException handling issue to return proper 404 status instead of 500 error. Database deletion verified."
 
   - task: "Delete All Quiz Arena Scores API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "DELETE /api/quiz-arena endpoint exists (lines 418-425). Needs testing to verify it works correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ DELETE /api/quiz-arena endpoint working correctly. Successfully deletes all quiz arena scores from database. Returns proper success response with count of deleted items. Database clearing verified through subsequent GET requests returning empty arrays."
 
 frontend:
   - task: "Frontend Testing"
