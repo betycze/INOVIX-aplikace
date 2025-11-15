@@ -477,7 +477,10 @@ export default function QuizArena() {
   if (screen === 'leaderboard') {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.leaderboardContainer}>
-        <Text style={styles.leaderboardTitle}>🏆 TOP 10 ŽEBŘÍČEK</Text>
+        <View style={styles.leaderboardHeader}>
+          <Ionicons name="trophy" size={48} color="#FEC11B" />
+          <Text style={styles.leaderboardTitle}>TOP 10 ŽEBŘÍČEK</Text>
+        </View>
         
         {leaderboard.length === 0 ? (
           <Text style={styles.noDataText}>Zatím žádné výsledky</Text>
@@ -489,7 +492,19 @@ export default function QuizArena() {
               entry.rank === 2 && styles.secondPlace,
               entry.rank === 3 && styles.thirdPlace,
             ]}>
-              <Text style={styles.rank}>#{entry.rank}</Text>
+              <View style={[
+                styles.rankBadge,
+                entry.rank === 1 && styles.rank1Badge,
+                entry.rank === 2 && styles.rank2Badge,
+                entry.rank === 3 && styles.rank3Badge,
+              ]}>
+                <Text style={[
+                  styles.rankText,
+                  entry.rank <= 3 && styles.rankTextTop
+                ]}>
+                  {entry.rank}
+                </Text>
+              </View>
               <View style={styles.playerInfo}>
                 <Text style={styles.playerName}>{entry.name}</Text>
                 <Text style={styles.playerStats}>
@@ -497,16 +512,21 @@ export default function QuizArena() {
                 </Text>
               </View>
               {entry.rank <= 3 && (
-                <Text style={styles.medal}>
-                  {entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : '🥉'}
-                </Text>
+                <View style={styles.crownContainer}>
+                  <Ionicons 
+                    name="ribbon" 
+                    size={32} 
+                    color={entry.rank === 1 ? '#FFD700' : entry.rank === 2 ? '#C0C0C0' : '#CD7F32'} 
+                  />
+                </View>
               )}
             </View>
           ))
         )}
         
         <TouchableOpacity style={styles.homeButton} onPress={() => router.back()}>
-          <Text style={styles.homeButtonText}>← Zpět na hlavní stránku</Text>
+          <Ionicons name="arrow-back" size={20} color="#FEC11B" style={{ marginRight: 8 }} />
+          <Text style={styles.homeButtonText}>Zpět na hlavní stránku</Text>
         </TouchableOpacity>
       </ScrollView>
     );
