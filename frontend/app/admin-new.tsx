@@ -181,10 +181,15 @@ export default function AdminNewScreen() {
                 method: 'DELETE',
               });
               if (response.ok) {
+                const result = await response.json();
+                Alert.alert('Úspěch', `Smazáno ${result.deleted} výsledků. Tabulka byla resetována!`);
                 await fetchQuizResults();
+              } else {
+                Alert.alert('Chyba', 'Nepodařilo se smazat výsledky');
               }
             } catch (error) {
               console.error('Error deleting all quiz results:', error);
+              Alert.alert('Chyba', 'Nepodařilo se smazat výsledky');
             }
           },
         },
