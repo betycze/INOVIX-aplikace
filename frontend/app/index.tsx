@@ -236,7 +236,7 @@ export default function WelcomeScreen() {
 
           <TouchableOpacity
             style={[styles.menuButton, styles.quizButton]}
-            onPress={() => router.push('/quiz')}
+            onPress={() => router.push('/quiz-arena')}
           >
             <View style={styles.menuButtonContent}>
               <Ionicons name="trophy" size={40} color="#1B1B1B" />
