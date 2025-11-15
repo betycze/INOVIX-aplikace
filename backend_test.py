@@ -239,6 +239,137 @@ def verify_score_deleted(score_id):
     except:
         return False
 
+def test_delete_single_rating():
+    """Test DELETE /api/ratings/{rating_id}"""
+    try:
+        # Create a test rating first
+        rating_id = create_test_rating(stars=4, comment="Test rating for deletion", company="Test Company")
+        if not rating_id:
+            log_test("DELETE /api/ratings/{rating_id}", "FAIL", "Could not create test rating")
+            return False
+        
+        # Delete the rating
+        response = requests.delete(f"{BACKEND_URL}/ratings/{rating_id}", timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success"):
+                # Verify it's actually deleted from database
+                verify_response = requests.get(f"{BACKEND_URL}/ratings", timeout=10)
+                if verify_response.status_code == 200:
+                    ratings = verify_response.json()
+                    for rating in ratings:
+                        if rating.get('id') == rating_id:
+                            log_test("DELETE /api/ratings/{rating_id}", "FAIL", "Rating still exists in database after deletion")
+                            return False
+                    log_test("DELETE /api/ratings/{rating_id}", "PASS", f"Successfully deleted rating {rating_id}")
+                    return True
+                else:
+                    log_test("DELETE /api/ratings/{rating_id}", "FAIL", "Could not verify deletion")
+                    return False
+            else:
+                log_test("DELETE /api/ratings/{rating_id}", "FAIL", f"API returned success=false: {data}")
+                return False
+        else:
+            log_test("DELETE /api/ratings/{rating_id}", "FAIL", f"Status: {response.status_code}, Response: {response.text}")
+            return False
+    except Exception as e:
+        log_test("DELETE /api/ratings/{rating_id}", "FAIL", f"Error: {str(e)}")
+        return False
+
+def test_delete_nonexistent_rating():
+    """Test DELETE /api/ratings/{rating_id} with invalid ID"""
+    try:
+        fake_id = "507f1f77bcf86cd799439011"  # Valid ObjectId format but doesn't exist
+        response = requests.delete(f"{BACKEND_URL}/ratings/{fake_id}", timeout=10)
+        
+        if response.status_code == 404:
+            log_test("DELETE /api/ratings/{rating_id} (invalid)", "PASS", "Correctly returns 404 for non-existent ID")
+            return True
+        else:
+            log_test("DELETE /api/ratings/{rating_id} (invalid)", "FAIL", f"Expected 404, got {response.status_code}: {response.text}")
+            return False
+    except Exception as e:
+        log_test("DELETE /api/ratings/{rating_id} (invalid)", "FAIL", f"Error: {str(e)}")
+        return False
+
+def test_delete_all_ratings():
+    """Test DELETE /api/ratings"""
+    try:
+        # Create multiple test ratings first
+        rating_ids = []
+        for i in range(3):
+            rating_id = create_test_rating(stars=i+3, comment=f"Test rating {i+1}", company=f"Company {i+1}")
+            if rating_id:
+                rating_ids.append(rating_id)
+        
+        if len(rating_ids) == 0:
+            log_test("DELETE /api/ratings", "FAIL", "Could not create test ratings")
+            return False
+        
+        # Delete all ratings
+        response = requests.delete(f"{BACKEND_URL}/ratings", timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success"):
+                deleted_count = data.get("deleted_count", 0)
+                
+                # Verify all ratings are deleted
+                verify_response = requests.get(f"{BACKEND_URL}/ratings", timeout=10)
+                if verify_response.status_code == 200:
+                    remaining_ratings = verify_response.json()
+                    if len(remaining_ratings) == 0:
+                        log_test("DELETE /api/ratings", "PASS", f"Successfully deleted {deleted_count} ratings")
+                        return True
+                    else:
+                        log_test("DELETE /api/ratings", "FAIL", f"{len(remaining_ratings)} ratings still exist in database")
+                        return False
+                else:
+                    log_test("DELETE /api/ratings", "FAIL", "Could not verify deletion")
+                    return False
+            else:
+                log_test("DELETE /api/ratings", "FAIL", f"API returned success=false: {data}")
+                return False
+        else:
+            log_test("DELETE /api/ratings", "FAIL", f"Status: {response.status_code}, Response: {response.text}")
+            return False
+    except Exception as e:
+        log_test("DELETE /api/ratings", "FAIL", f"Error: {str(e)}")
+        return False
+
+def run_ratings_deletion_tests():
+    """Run comprehensive ratings deletion tests"""
+    print("=" * 60)
+    print("RATINGS DELETION TESTS - Admin Panel Endpoints")
+    print("=" * 60)
+    
+    test_results = []
+    
+    # Test 1: Delete single rating
+    print("Test 1: DELETE /api/ratings/{rating_id}")
+    test_results.append(test_delete_single_rating())
+    
+    # Test 2: Delete non-existent rating
+    print("Test 2: DELETE /api/ratings/{invalid_id}")
+    test_results.append(test_delete_nonexistent_rating())
+    
+    # Test 3: Delete all ratings
+    print("Test 3: DELETE /api/ratings (delete all)")
+    test_results.append(test_delete_all_ratings())
+    
+    passed = sum(test_results)
+    total = len(test_results)
+    
+    print(f"\nRatings Deletion Tests: {passed}/{total} passed")
+    
+    if passed == total:
+        print("✅ All ratings deletion endpoints working correctly!")
+    else:
+        print("❌ Some ratings deletion endpoints have issues")
+    
+    return passed == total
+
 def run_integration_test():
     """Run comprehensive integration test as requested"""
     print("=" * 60)
