@@ -39,6 +39,19 @@ export default function CatalogScreen() {
     fetchCatalogImages();
   }, []);
 
+  // Animate button appearance
+  useEffect(() => {
+    if (currentPage > 1) {
+      Animated.timing(buttonFadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      buttonFadeAnim.setValue(0);
+    }
+  }, [currentPage]);
+
   const fetchCatalogImages = async () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/catalog/images`);
