@@ -125,6 +125,7 @@ export default function QuizArena() {
   
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const glowAnim = useRef(new Animated.Value(1)).current;
 
   // Timer countdown
   useEffect(() => {
