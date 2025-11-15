@@ -206,20 +206,22 @@ export default function CatalogScreen() {
       
       {/* Back to Start Button - only show if not on first page */}
       {currentPage > 1 && (
-        <TouchableOpacity
-          style={styles.backToStartButton}
-          onPress={() => {
-            setCurrentPage(1);
-            setShowEndMessage(false);
-            scrollViewRef.current?.scrollTo({
-              x: 0,
-              animated: true,
-            });
-          }}
-        >
-          <Ionicons name="home-outline" size={20} color="#FEC11B" />
-          <Text style={styles.backToStartText}>Vrátit se na úvod katalogu</Text>
-        </TouchableOpacity>
+        <Animated.View style={{ opacity: buttonFadeAnim }}>
+          <TouchableOpacity
+            style={styles.backToStartButton}
+            onPress={() => {
+              setCurrentPage(1);
+              setShowEndMessage(false);
+              scrollViewRef.current?.scrollTo({
+                x: 0,
+                animated: true,
+              });
+            }}
+          >
+            <Ionicons name="home-outline" size={20} color="#FEC11B" />
+            <Text style={styles.backToStartText}>Vrátit se na úvod katalogu</Text>
+          </TouchableOpacity>
+        </Animated.View>
       )}
 
       {/* End of Catalog Modal */}
