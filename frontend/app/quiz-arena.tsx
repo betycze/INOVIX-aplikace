@@ -653,35 +653,52 @@ export default function QuizArena() {
   // NAME INPUT SCREEN
   if (screen === 'name-input') {
     return (
-      <View style={styles.container}>
-        <View style={styles.nameInputContainer}>
-          <Text style={styles.nameInputTitle}>🏆 Žebříček nejlepších</Text>
-          <Text style={styles.nameInputSubtitle}>Zadej jméno, pokud chceš být v žebříčku</Text>
-          
-          <TextInput
-            style={styles.nameInput}
-            placeholder="Tvoje jméno"
-            placeholderTextColor="#888"
-            value={playerName}
-            onChangeText={setPlayerName}
-            maxLength={20}
-          />
-          
-          <TouchableOpacity style={styles.submitButton} onPress={handleSubmitName}>
-            <Text style={styles.submitButtonText}>Uložit výsledek</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={styles.skipButton} 
-            onPress={async () => {
-              await fetchLeaderboard();
-              setScreen('leaderboard');
-            }}
-          >
-            <Text style={styles.skipButtonText}>Přeskočit</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <ScrollView style={styles.container} contentContainerStyle={styles.nameInputContainer}>
+        <Ionicons name="trophy" size={64} color="#FEC11B" style={{ marginBottom: 16 }} />
+        <Text style={styles.nameInputTitle}>{t.leaderboardTitle}</Text>
+        <Text style={styles.nameInputSubtitle}>{t.enterName}</Text>
+        
+        <TextInput
+          style={styles.nameInput}
+          placeholder={t.yourName}
+          placeholderTextColor="#888"
+          value={playerName}
+          onChangeText={setPlayerName}
+          maxLength={20}
+        />
+        
+        {isTopThree && (
+          <>
+            <View style={styles.topThreeBox}>
+              <Ionicons name="sparkles" size={24} color="#FEC11B" />
+              <Text style={styles.topThreeText}>{t.topThreeMessage}</Text>
+            </View>
+            
+            <TextInput
+              style={styles.nameInput}
+              placeholder={t.instagramHandle}
+              placeholderTextColor="#888"
+              value={playerInstagram}
+              onChangeText={setPlayerInstagram}
+              maxLength={30}
+            />
+          </>
+        )}
+        
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmitName}>
+          <Text style={styles.submitButtonText}>{t.saveResult}</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.skipButtonBottom} 
+          onPress={async () => {
+            await fetchLeaderboard();
+            setScreen('leaderboard');
+          }}
+        >
+          <Text style={styles.skipButtonBottomText}>{t.skip}</Text>
+        </TouchableOpacity>
+      </ScrollView>
     );
   }
 
