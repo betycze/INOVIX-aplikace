@@ -590,14 +590,14 @@ export default function QuizArena() {
           {isCorrect ? (
             <>
               <Text style={styles.feedbackIcon}>✅</Text>
-              <Text style={styles.feedbackText}>SPRÁVNĚ!</Text>
+              <Text style={styles.feedbackText}>{t.correct}</Text>
             </>
           ) : (
             <>
               <Text style={styles.feedbackIcon}>❌</Text>
-              <Text style={styles.feedbackText}>ŠPATNĚ</Text>
+              <Text style={styles.feedbackText}>{t.incorrect}</Text>
               <Text style={styles.correctAnswerText}>
-                Správně: {QUESTIONS[currentQuestion].options[QUESTIONS[currentQuestion].correctIndex]}
+                {t.correctAnswer} {QUESTIONS[currentQuestion].options[QUESTIONS[currentQuestion].correctIndex]}
               </Text>
             </>
           )}
