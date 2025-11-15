@@ -188,6 +188,24 @@ export default function CatalogScreen() {
           />
         </TouchableOpacity>
       </View>
+      
+      {/* Back to Start Button - only show if not on first page */}
+      {currentPage > 1 && (
+        <TouchableOpacity
+          style={styles.backToStartButton}
+          onPress={() => {
+            setCurrentPage(1);
+            setShowEndMessage(false);
+            scrollViewRef.current?.scrollTo({
+              x: 0,
+              animated: true,
+            });
+          }}
+        >
+          <Ionicons name="home-outline" size={20} color="#FEC11B" />
+          <Text style={styles.backToStartText}>Vrátit se na úvod katalogu</Text>
+        </TouchableOpacity>
+      )}
 
       {/* End of Catalog Modal */}
       <Modal
