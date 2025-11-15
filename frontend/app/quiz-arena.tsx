@@ -856,6 +856,10 @@ const styles = StyleSheet.create({
     color: '#FEC11B',
     textAlign: 'center',
     marginBottom: 16,
+    letterSpacing: 1,
+    textShadowColor: '#FEC11B',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 16,
   },
   nameInputSubtitle: {
     fontSize: 18,
