@@ -298,6 +298,7 @@ class QuizArenaSubmission(BaseModel):
     correct_answers: int
     total_questions: int
     average_time: float  # in seconds
+    instagram: str = ""  # Optional Instagram handle
 
 @app.post("/api/quiz-arena/submit")
 async def submit_quiz_arena(data: QuizArenaSubmission):
