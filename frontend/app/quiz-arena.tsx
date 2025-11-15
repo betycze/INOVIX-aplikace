@@ -1144,10 +1144,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000000',
   },
-  skipButton: {
+  skipButtonBottom: {
     padding: 16,
   },
-  skipButtonText: {
+  skipButtonBottomText: {
     fontSize: 16,
     color: '#FEC11B',
     textDecorationLine: 'underline',
