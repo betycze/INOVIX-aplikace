@@ -65,29 +65,13 @@ export default function AdminNewScreen() {
       // Fetch all quiz arena results directly from database
       const response = await fetch(`${backendUrl}/api/quiz-arena/all`);
       if (!response.ok) {
-        // Fallback to leaderboard if /all endpoint doesn't exist
-        const leaderboardResponse = await fetch(`${backendUrl}/api/quiz-arena/leaderboard`);
-        const data = await leaderboardResponse.json();
-        
-        // Get all results from a different endpoint or use leaderboard
-        const allResponse = await fetch(`${backendUrl}/api/quiz_scores`);
-        const allData = await allResponse.json();
-        
-        setQuizResults(allData.map((item: any) => ({
-          _id: item._id || item.id,
-          name: item.name || 'Unknown',
-          correct_answers: item.correct_answers || 0,
-          total_questions: item.total_questions || 15,
-          average_time: item.average_time || 0,
-          instagram: item.instagram || '',
-          timestamp: item.timestamp
-        })));
-      } else {
-        const data = await response.json();
-        setQuizResults(data);
+        throw new Error('Failed to fetch quiz results');
       }
+      const data = await response.json();
+      setQuizResults(data);
     } catch (error) {
       console.error('Error fetching quiz results:', error);
+      setQuizResults([]);
     }
   };
 
