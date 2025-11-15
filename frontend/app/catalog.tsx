@@ -29,6 +29,7 @@ export default function CatalogScreen() {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showEndMessage, setShowEndMessage] = useState(false);
+  const buttonFadeAnim = useRef(new Animated.Value(0)).current;
   const [catalogImages, setCatalogImages] = useState<CatalogImage[]>([]);
   const scrollViewRef = useRef<ScrollView>(null);
 
