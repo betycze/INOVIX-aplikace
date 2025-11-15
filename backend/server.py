@@ -401,6 +401,31 @@ async def get_arena_stats():
         raise HTTPException(status_code=500, detail=f"Error fetching arena stats: {str(e)}")
 
 
+@app.delete("/api/quiz-arena/{score_id}")
+async def delete_quiz_arena_score(score_id: str):
+    """Delete a single quiz arena score by ID"""
+    try:
+        from bson import ObjectId
+        result = quiz_arena_collection.delete_one({"_id": ObjectId(score_id)})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Score not found")
+        
+        return {"success": True, "deleted": result.deleted_count}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting quiz arena score: {str(e)}")
+
+@app.delete("/api/quiz-arena")
+async def delete_all_quiz_arena_scores():
+    """Delete all quiz arena scores"""
+    try:
+        result = quiz_arena_collection.delete_many({})
+        return {"success": True, "deleted": result.deleted_count}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting all quiz arena scores: {str(e)}")
+
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
