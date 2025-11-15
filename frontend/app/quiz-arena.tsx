@@ -284,6 +284,10 @@ export default function QuizArena() {
       : 'You are in top 3! If you stay there, we will share your result on our IG and tag you!',
     instagram: language === 'cs' ? 'Instagram' : 'Instagram',
     instagramHandle: language === 'cs' ? '@tvůj_instagram' : '@your_instagram',
+    motivationText: language === 'cs' 
+      ? 'Nejde pouze o přesnost, ale i o rychlost - ukaž, co v tobě je!' 
+      : 'It\'s not just about accuracy, but also about speed - show what you\'ve got!',
+    showLeaderboard: language === 'cs' ? 'Zobrazit tabulku' : 'Show Leaderboard',
   };
 
   // Timer countdown
