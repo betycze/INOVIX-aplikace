@@ -120,10 +120,14 @@ export default function AdminNewScreen() {
                 method: 'DELETE',
               });
               if (response.ok) {
+                Alert.alert('Úspěch', 'Výsledek byl smazán');
                 await fetchQuizResults();
+              } else {
+                Alert.alert('Chyba', 'Nepodařilo se smazat výsledek');
               }
             } catch (error) {
               console.error('Error deleting quiz result:', error);
+              Alert.alert('Chyba', 'Nepodařilo se smazat výsledek');
             }
           },
         },
