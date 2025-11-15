@@ -312,6 +312,10 @@ export default function QuizArena() {
     
     return (
       <View style={styles.container}>
+        <View style={styles.quizTopBar}>
+          <Text style={styles.quizTitle}>INOVIX QUIZ ARENA</Text>
+        </View>
+        
         <View style={styles.quizHeader}>
           <View style={styles.headerLeft}>
             <Text style={styles.questionNumber}>
