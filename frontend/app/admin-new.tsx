@@ -150,10 +150,15 @@ export default function AdminNewScreen() {
                 method: 'DELETE',
               });
               if (response.ok) {
+                const result = await response.json();
+                Alert.alert('Úspěch', `Smazáno ${result.deleted_count} hodnocení`);
                 await fetchRatings();
+              } else {
+                Alert.alert('Chyba', 'Nepodařilo se smazat hodnocení');
               }
             } catch (error) {
               console.error('Error deleting all ratings:', error);
+              Alert.alert('Chyba', 'Nepodařilo se smazat hodnocení');
             }
           },
         },
