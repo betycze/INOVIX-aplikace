@@ -589,16 +589,18 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   titleContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
-    marginBottom: 16,
+    marginBottom: 24,
   },
   title: {
-    fontSize: 36,
+    fontSize: 42,
     fontWeight: 'bold',
     color: '#FEC11B',
     textAlign: 'center',
+    letterSpacing: 3,
+    textShadowColor: '#FEC11B',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 30,
   },
   subtitle: {
     fontSize: 18,
