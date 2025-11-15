@@ -308,16 +308,33 @@ export default function QuizArena() {
 
   // QUIZ SCREEN
   if (screen === 'quiz') {
+    const progressPercentage = ((15 - timeLeft) / 15) * 100;
+    
     return (
       <View style={styles.container}>
         <View style={styles.quizHeader}>
-          <Text style={styles.questionNumber}>
-            Otázka {currentQuestion + 1}/{QUESTIONS.length}
-          </Text>
-          <View style={styles.timerContainer}>
-            <Text style={[styles.timer, timeLeft <= 5 && styles.timerWarning]}>
-              {timeLeft}s
+          <View style={styles.headerLeft}>
+            <Text style={styles.questionNumber}>
+              Otázka {currentQuestion + 1}/{QUESTIONS.length}
             </Text>
+          </View>
+          
+          <View style={styles.timerBox}>
+            <View style={styles.timerCircle}>
+              <Ionicons name="time-outline" size={24} color={timeLeft <= 5 ? '#FF0000' : '#FEC11B'} />
+              <Text style={[styles.timer, timeLeft <= 5 && styles.timerWarning]}>
+                {timeLeft}
+              </Text>
+            </View>
+            <View style={styles.progressBar}>
+              <View 
+                style={[
+                  styles.progressFill, 
+                  { width: `${progressPercentage}%` },
+                  timeLeft <= 5 && styles.progressWarning
+                ]} 
+              />
+            </View>
           </View>
         </View>
         
@@ -342,6 +359,13 @@ export default function QuizArena() {
             </TouchableOpacity>
           ))}
         </View>
+        
+        <TouchableOpacity 
+          style={styles.skipButton} 
+          onPress={() => handleAnswer(-1)}
+        >
+          <Text style={styles.skipButtonText}>Přeskočit otázku →</Text>
+        </TouchableOpacity>
       </View>
     );
   }
