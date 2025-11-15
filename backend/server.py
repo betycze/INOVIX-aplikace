@@ -302,13 +302,14 @@ class QuizArenaSubmission(BaseModel):
 
 @app.post("/api/quiz-arena/submit")
 async def submit_quiz_arena(data: QuizArenaSubmission):
-    """Submit Quiz Arena score with name"""
+    """Submit Quiz Arena score with name and optional Instagram"""
     try:
         score_doc = {
             "name": data.name,
             "correct_answers": data.correct_answers,
             "total_questions": data.total_questions,
             "average_time": data.average_time,
+            "instagram": data.instagram if data.instagram else "",
             "timestamp": datetime.utcnow().isoformat()
         }
         
