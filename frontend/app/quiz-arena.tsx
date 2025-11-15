@@ -267,17 +267,39 @@ export default function QuizArena() {
         </TouchableOpacity>
         
         <View style={styles.startContainer}>
-          <Text style={styles.title}>⚡ INOVIX QUIZ ARENA ⚡</Text>
+          <View style={styles.titleContainer}>
+            <Ionicons name="flash" size={48} color="#FEC11B" />
+            <Text style={styles.title}>INOVIX QUIZ ARENA</Text>
+            <Ionicons name="flash" size={48} color="#FEC11B" />
+          </View>
           <Text style={styles.subtitle}>Dokážeš odpovědět na všech 15 otázek?</Text>
           
           <View style={styles.rulesBox}>
-            <Text style={styles.ruleText}>📝 15 otázek</Text>
-            <Text style={styles.ruleText}>⏱️ 15 sekund na odpověď</Text>
-            <Text style={styles.ruleText}>🏆 Buď mezi nejlepšími!</Text>
+            <View style={styles.ruleItem}>
+              <View style={styles.ruleIconContainer}>
+                <Ionicons name="help-circle-outline" size={32} color="#FEC11B" />
+              </View>
+              <Text style={styles.ruleText}>15 otázek</Text>
+            </View>
+            
+            <View style={styles.ruleItem}>
+              <View style={styles.ruleIconContainer}>
+                <Ionicons name="timer-outline" size={32} color="#FEC11B" />
+              </View>
+              <Text style={styles.ruleText}>15 sekund na odpověď</Text>
+            </View>
+            
+            <View style={styles.ruleItem}>
+              <View style={styles.ruleIconContainer}>
+                <Ionicons name="trophy-outline" size={32} color="#FEC11B" />
+              </View>
+              <Text style={styles.ruleText}>Buď mezi nejlepšími!</Text>
+            </View>
           </View>
           
           <TouchableOpacity style={styles.startButton} onPress={handleStart}>
-            <Text style={styles.startButtonText}>⚡ START ⚡</Text>
+            <Ionicons name="play" size={28} color="#000000" style={{ marginRight: 8 }} />
+            <Text style={styles.startButtonText}>SPUSTIT KVÍZ</Text>
           </TouchableOpacity>
         </View>
       </View>
