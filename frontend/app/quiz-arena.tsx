@@ -267,11 +267,9 @@ export default function QuizArena() {
         </TouchableOpacity>
         
         <View style={styles.startContainer}>
-          <View style={styles.titleContainer}>
-            <Ionicons name="flash" size={48} color="#FEC11B" />
+          <Animated.View style={[styles.titleContainer, { opacity: fadeAnim }]}>
             <Text style={styles.title}>INOVIX QUIZ ARENA</Text>
-            <Ionicons name="flash" size={48} color="#FEC11B" />
-          </View>
+          </Animated.View>
           <Text style={styles.subtitle}>Dokážeš odpovědět na všech 15 otázek?</Text>
           
           <View style={styles.rulesBox}>
