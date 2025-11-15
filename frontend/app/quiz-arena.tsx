@@ -244,6 +244,41 @@ export default function QuizArena() {
     correctIndex: q.correctIndex
   }));
 
+  // Translations
+  const t = {
+    title: language === 'cs' ? 'INOVIX QUIZ ARENA' : 'INOVIX QUIZ ARENA',
+    subtitle: language === 'cs' ? 'Dokážeš odpovědět na všech 15 otázek?' : 'Can you answer all 15 questions?',
+    rule1: language === 'cs' ? '15 otázek' : '15 questions',
+    rule2: language === 'cs' ? '15 sekund na odpověď' : '15 seconds per answer',
+    rule3: language === 'cs' ? 'Buď mezi nejlepšími!' : 'Be among the best!',
+    startButton: language === 'cs' ? 'SPUSTIT KVÍZ' : 'START QUIZ',
+    question: language === 'cs' ? 'Otázka' : 'Question',
+    skipQuestion: language === 'cs' ? 'Přeskočit otázku' : 'Skip Question',
+    correct: language === 'cs' ? 'SPRÁVNĚ!' : 'CORRECT!',
+    incorrect: language === 'cs' ? 'ŠPATNĚ' : 'INCORRECT',
+    correctAnswer: language === 'cs' ? 'Správně:' : 'Correct:',
+    completed: language === 'cs' ? 'DOKONČENO!' : 'COMPLETED!',
+    correctAnswers: language === 'cs' ? 'Správné odpovědi' : 'Correct Answers',
+    averageTime: language === 'cs' ? 'Průměrný čas' : 'Average Time',
+    successRate: language === 'cs' ? 'Úspěšnost' : 'Success Rate',
+    comparisonTitle: language === 'cs' ? 'Porovnání s ostatními' : 'Comparison with Others',
+    medianTime: language === 'cs' ? 'Průměrný čas:' : 'Median Time:',
+    fasterThanAverage: language === 'cs' ? '(Jsi rychlejší! 🚀)' : '(You are faster! 🚀)',
+    slowerPrompt: language === 'cs' ? '(Můžeš být rychlejší)' : '(You can be faster)',
+    averageSuccess: language === 'cs' ? 'Průměrná úspěšnost:' : 'Average Success:',
+    betterThanAverage: language === 'cs' ? '(Lepší než průměr! 🎯)' : '(Better than average! 🎯)',
+    continue: language === 'cs' ? 'Pokračovat →' : 'Continue →',
+    leaderboardTitle: language === 'cs' ? 'Žebříček nejlepších' : 'Best Players',
+    enterName: language === 'cs' ? 'Zadej jméno, pokud chceš být v žebříčku' : 'Enter your name to be on the leaderboard',
+    yourName: language === 'cs' ? 'Tvoje jméno' : 'Your Name',
+    saveResult: language === 'cs' ? 'Uložit výsledek' : 'Save Result',
+    skip: language === 'cs' ? 'Přeskočit' : 'Skip',
+    topLeaderboard: language === 'cs' ? 'TOP 10 ŽEBŘÍČEK' : 'TOP 10 LEADERBOARD',
+    noResults: language === 'cs' ? 'Zatím žádné výsledky' : 'No results yet',
+    correctly: language === 'cs' ? 'správně' : 'correct',
+    backToHome: language === 'cs' ? 'Zpět na hlavní stránku' : 'Back to Home',
+  };
+
   // Timer countdown
   useEffect(() => {
     if (screen === 'quiz' && timeLeft > 0) {
