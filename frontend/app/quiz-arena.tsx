@@ -877,6 +877,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000000',
   },
+  leaderboardButton: {
+    flexDirection: 'row',
+    backgroundColor: '#1a1b1d',
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: '#FEC11B',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  leaderboardButtonText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FEC11B',
+  },
   
   // QUIZ SCREEN
   quizTopBar: {
