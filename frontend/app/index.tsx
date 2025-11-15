@@ -147,11 +147,15 @@ export default function WelcomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Logo and Welcome */}
-        <View style={styles.welcomeSection}>
+        <TouchableOpacity 
+          style={styles.welcomeSection}
+          onLongPress={() => router.push('/admin-new')}
+          activeOpacity={0.9}
+        >
           <AnimatedLogo width={width * 0.6} height={120} />
           <Text style={styles.welcomeText}>{t('welcome')}</Text>
           <Text style={styles.portalText}>{t('customerPortal')}</Text>
-        </View>
+        </TouchableOpacity>
 
         {/* Language Selector */}
         <View style={styles.languageSelector}>
