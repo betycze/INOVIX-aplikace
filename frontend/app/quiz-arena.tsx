@@ -63,63 +63,146 @@ const QUESTIONS_DATA: QuestionData[] = [
     correctIndex: 3
   },
   {
-    question: 'Jak se jmenuje první video na YouTube vůbec?',
-    options: ['Times Square', 'Me at the Zoo', 'Google Campus', 'San Francisco Pier'],
+    question: {
+      cs: 'Jak se jmenuje první video na YouTube vůbec?',
+      en: 'What is the name of the very first video on YouTube?'
+    },
+    options: {
+      cs: ['Times Square', 'Me at the Zoo', 'Google Campus', 'San Francisco Pier'],
+      en: ['Times Square', 'Me at the Zoo', 'Google Campus', 'San Francisco Pier']
+    },
     correctIndex: 1
   },
   {
-    question: 'Co je to phishing?',
-    options: ['vysokorychlostní připojení', 'hledání chyb', 'podvodný pokus získat údaje', 'test výkonnosti'],
+    question: {
+      cs: 'Co je to phishing?',
+      en: 'What is phishing?'
+    },
+    options: {
+      cs: ['vysokorychlostní připojení', 'hledání chyb', 'podvodný pokus získat údaje', 'test výkonnosti'],
+      en: ['high-speed connection', 'bug hunting', 'fraudulent attempt to obtain data', 'performance test']
+    },
     correctIndex: 2
   },
   {
-    question: 'Který jazyk slouží ke stylování webu?',
-    options: ['JavaScript', 'Python', 'CSS', 'HTML'],
+    question: {
+      cs: 'Který jazyk slouží ke stylování webu?',
+      en: 'Which language is used for web styling?'
+    },
+    options: {
+      cs: ['JavaScript', 'Python', 'CSS', 'HTML'],
+      en: ['JavaScript', 'Python', 'CSS', 'HTML']
+    },
     correctIndex: 2
   },
   {
-    question: 'Co měří Hertz u monitoru?',
-    options: ['rozlišení', 'jas', 'kontrast', 'počet překreslení za sekundu'],
+    question: {
+      cs: 'Co měří Hertz u monitoru?',
+      en: 'What does Hertz measure on a monitor?'
+    },
+    options: {
+      cs: ['rozlišení', 'jas', 'kontrast', 'počet překreslení za sekundu'],
+      en: ['resolution', 'brightness', 'contrast', 'refresh rate per second']
+    },
     correctIndex: 3
   },
   {
-    question: 'Které zařízení je výstupní?',
-    options: ['Klávesnice', 'Myš', 'Monitor', 'Mikrofon'],
+    question: {
+      cs: 'Které zařízení je výstupní?',
+      en: 'Which device is an output device?'
+    },
+    options: {
+      cs: ['Klávesnice', 'Myš', 'Monitor', 'Mikrofon'],
+      en: ['Keyboard', 'Mouse', 'Monitor', 'Microphone']
+    },
     correctIndex: 2
   },
   {
-    question: 'Co znamená cloud?',
-    options: ['počítačový virus', 'sdílené online úložiště', 'typ procesoru', 'grafická karta'],
+    question: {
+      cs: 'Co znamená cloud?',
+      en: 'What does cloud mean?'
+    },
+    options: {
+      cs: ['počítačový virus', 'sdílené online úložiště', 'typ procesoru', 'grafická karta'],
+      en: ['computer virus', 'shared online storage', 'processor type', 'graphics card']
+    },
     correctIndex: 1
   },
   {
-    question: 'Co znamená rychlost „100 Mbps"?',
-    options: ['100 megabajtů za sekundu', '100 megabitů za sekundu včetně overheadu', '100 milionů paketů', '100 MHz frekvence'],
+    question: {
+      cs: 'Co znamená rychlost „100 Mbps"?',
+      en: 'What does "100 Mbps" speed mean?'
+    },
+    options: {
+      cs: ['100 megabajtů za sekundu', '100 megabitů za sekundu včetně overheadu', '100 milionů paketů', '100 MHz frekvence'],
+      en: ['100 megabytes per second', '100 megabits per second including overhead', '100 million packets', '100 MHz frequency']
+    },
     correctIndex: 1
   },
   {
-    question: 'Co označuje open source?',
-    options: ['uzavřený software', 'veřejně dostupný zdrojový kód', 'placený program', 'antivirový program'],
+    question: {
+      cs: 'Co označuje open source?',
+      en: 'What does open source mean?'
+    },
+    options: {
+      cs: ['uzavřený software', 'veřejně dostupný zdrojový kód', 'placený program', 'antivirový program'],
+      en: ['closed software', 'publicly available source code', 'paid program', 'antivirus program']
+    },
     correctIndex: 1
   },
   {
-    question: 'Který kabel přenáší obraz?',
-    options: ['HDMI', 'USB-C (pouze data)', 'Ethernet', 'Audio jack'],
+    question: {
+      cs: 'Který kabel přenáší obraz?',
+      en: 'Which cable transmits video?'
+    },
+    options: {
+      cs: ['HDMI', 'USB-C (pouze data)', 'Ethernet', 'Audio jack'],
+      en: ['HDMI', 'USB-C (data only)', 'Ethernet', 'Audio jack']
+    },
     correctIndex: 0
   },
   {
-    question: 'Kdo vlastní YouTube?',
-    options: ['Facebook', 'Microsoft', 'Google', 'Amazon'],
+    question: {
+      cs: 'Která firma prodávající reproduktory uvádí obrat cca 10,5 mld USD za rok 2024?',
+      en: 'Which speaker company reports approximately $10.5 billion USD revenue for 2024?'
+    },
+    options: {
+      cs: ['Sonos', 'Bose', 'Harman International', 'JBL'],
+      en: ['Sonos', 'Bose', 'Harman International', 'JBL']
+    },
     correctIndex: 2
   },
   {
-    question: 'Kolik bitů má IPv6 adresa?',
-    options: ['32', '64', '128', '256'],
+    question: {
+      cs: 'Kdo vlastní YouTube?',
+      en: 'Who owns YouTube?'
+    },
+    options: {
+      cs: ['Facebook', 'Microsoft', 'Google', 'Amazon'],
+      en: ['Facebook', 'Microsoft', 'Google', 'Amazon']
+    },
     correctIndex: 2
   },
   {
-    question: 'Za co byla udělena Nobelova cena související s informatikou?',
-    options: ['hardware', 'operační systémy', 'databáze', 'programový kód / neuronové sítě'],
+    question: {
+      cs: 'Kolik bitů má IPv6 adresa?',
+      en: 'How many bits does an IPv6 address have?'
+    },
+    options: {
+      cs: ['32', '64', '128', '256'],
+      en: ['32', '64', '128', '256']
+    },
+    correctIndex: 2
+  },
+  {
+    question: {
+      cs: 'Za co byla udělena Nobelova cena související s informatikou?',
+      en: 'What was the Nobel Prize related to computer science awarded for?'
+    },
+    options: {
+      cs: ['hardware', 'operační systémy', 'databáze', 'programový kód / neuronové sítě'],
+      en: ['hardware', 'operating systems', 'databases', 'code / neural networks']
+    },
     correctIndex: 3
   }
 ];
