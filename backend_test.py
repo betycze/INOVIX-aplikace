@@ -57,6 +57,27 @@ def create_test_quiz_result(name, correct_answers, total_questions=15, average_t
         print(f"Error creating test data: {str(e)}")
         return None
 
+def create_test_rating(stars=4, comment="Test rating for deletion", company="Test Company", photo=""):
+    """Helper function to create a test rating"""
+    data = {
+        "stars": stars,
+        "comment": comment,
+        "company": company,
+        "photo": photo
+    }
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/ratings", json=data, timeout=10)
+        if response.status_code == 200:
+            result = response.json()
+            return result.get("id")
+        else:
+            print(f"Failed to create test rating: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        print(f"Error creating test rating: {str(e)}")
+        return None
+
 def test_get_all_quiz_arena_empty():
     """Test GET /api/quiz-arena/all with empty database"""
     try:
