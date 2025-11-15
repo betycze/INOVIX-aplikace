@@ -147,6 +147,36 @@ export default function QuizArena() {
     }
   }, [currentQuestion, screen]);
 
+  // Animate title on start screen
+  useEffect(() => {
+    if (screen === 'start') {
+      // Fade in animation
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start();
+      
+      // Pulsating glow effect
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(glowAnim, {
+            toValue: 1.3,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(glowAnim, {
+            toValue: 1,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ])
+      ).start();
+    }
+  }, [screen]);
+
   const handleStart = () => {
     setScreen('quiz');
     setCurrentQuestion(0);
