@@ -788,6 +788,10 @@ const styles = StyleSheet.create({
     color: '#FEC11B',
     textAlign: 'center',
     marginBottom: 32,
+    letterSpacing: 2,
+    textShadowColor: '#FEC11B',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 20,
   },
   statsBox: {
     flexDirection: 'row',
