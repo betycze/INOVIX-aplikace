@@ -220,6 +220,7 @@ interface LeaderboardEntry {
 
 export default function QuizArena() {
   const router = useRouter();
+  const { language } = useLanguage();
   const [screen, setScreen] = useState<Screen>('start');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -235,6 +236,13 @@ export default function QuizArena() {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const glowAnim = useRef(new Animated.Value(1)).current;
+
+  // Get questions based on language
+  const QUESTIONS: Question[] = QUESTIONS_DATA.map(q => ({
+    question: language === 'cs' ? q.question.cs : q.question.en,
+    options: language === 'cs' ? q.options.cs : q.options.en,
+    correctIndex: q.correctIndex
+  }));
 
   // Timer countdown
   useEffect(() => {
