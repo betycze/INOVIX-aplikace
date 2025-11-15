@@ -609,26 +609,50 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 60,
   },
+  headerLeft: {
+    flex: 1,
+  },
   questionNumber: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#FEC11B',
   },
-  timerContainer: {
-    backgroundColor: '#FEC11B',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
+  timerBox: {
     alignItems: 'center',
+    gap: 8,
+  },
+  timerCircle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#1a1b1d',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 24,
+    borderWidth: 2,
+    borderColor: '#FEC11B',
   },
   timer: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#FEC11B',
   },
   timerWarning: {
     color: '#FF0000',
+  },
+  progressBar: {
+    width: 100,
+    height: 6,
+    backgroundColor: '#1a1b1d',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#FEC11B',
+  },
+  progressWarning: {
+    backgroundColor: '#FF0000',
   },
   questionContainer: {
     padding: 20,
