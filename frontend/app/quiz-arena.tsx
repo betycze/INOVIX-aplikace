@@ -708,11 +708,11 @@ export default function QuizArena() {
       <ScrollView style={styles.container} contentContainerStyle={styles.leaderboardContainer}>
         <View style={styles.leaderboardHeader}>
           <Ionicons name="trophy" size={48} color="#FEC11B" />
-          <Text style={styles.leaderboardTitle}>TOP 10 ŽEBŘÍČEK</Text>
+          <Text style={styles.leaderboardTitle}>{t.topLeaderboard}</Text>
         </View>
         
         {leaderboard.length === 0 ? (
-          <Text style={styles.noDataText}>Zatím žádné výsledky</Text>
+          <Text style={styles.noDataText}>{t.noResults}</Text>
         ) : (
           leaderboard.map((entry) => (
             <View key={entry.rank} style={[
@@ -737,7 +737,7 @@ export default function QuizArena() {
               <View style={styles.playerInfo}>
                 <Text style={styles.playerName}>{entry.name}</Text>
                 <Text style={styles.playerStats}>
-                  {entry.correct_answers}/{entry.total_questions} správně • {entry.average_time.toFixed(1)}s avg
+                  {entry.correct_answers}/{entry.total_questions} {t.correctly} • {entry.average_time.toFixed(1)}s avg
                 </Text>
               </View>
               {entry.rank <= 3 && (
@@ -755,7 +755,7 @@ export default function QuizArena() {
         
         <TouchableOpacity style={styles.homeButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={20} color="#FEC11B" style={{ marginRight: 8 }} />
-          <Text style={styles.homeButtonText}>Zpět na hlavní stránku</Text>
+          <Text style={styles.homeButtonText}>{t.backToHome}</Text>
         </TouchableOpacity>
       </ScrollView>
     );
