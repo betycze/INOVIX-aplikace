@@ -180,6 +180,30 @@ backend:
         agent: "testing"
         comment: "✅ GET /api/quiz-arena/all endpoint working correctly. Returns array of all quiz arena results with all required fields (_id, name, correct_answers, total_questions, average_time, instagram, timestamp). Tested with empty database (returns empty array) and with multiple results (returns all results sorted by timestamp newest first). Comprehensive testing completed successfully."
 
+  - task: "Delete Single Rating API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ DELETE /api/ratings/{rating_id} endpoint working correctly. Successfully deletes individual ratings by MongoDB ObjectId. Returns proper success response. Correctly returns 404 for non-existent IDs. Fixed HTTPException handling issue to return proper 404 status instead of 500 error. Database deletion verified."
+
+  - task: "Delete All Ratings API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ DELETE /api/ratings endpoint working correctly. Successfully deletes all ratings from database. Returns proper success response with count of deleted items. Database clearing verified through subsequent GET requests returning empty arrays."
+
   - task: "Delete Single Quiz Arena Score API"
     implemented: true
     working: true
