@@ -833,9 +833,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     paddingTop: 20,
+    gap: 12,
   },
   headerLeft: {
     flex: 1,
+  },
+  skipButtonTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1a1b1d',
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#FEC11B',
+    gap: 6,
+  },
+  skipButtonTopText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#FEC11B',
   },
   questionNumber: {
     fontSize: 20,
