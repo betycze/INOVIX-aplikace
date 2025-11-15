@@ -230,8 +230,10 @@ export default function QuizArena() {
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
   const [isCorrect, setIsCorrect] = useState(false);
   const [playerName, setPlayerName] = useState('');
+  const [playerInstagram, setPlayerInstagram] = useState('');
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [stats, setStats] = useState<any>(null);
+  const [isTopThree, setIsTopThree] = useState(false);
   
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
