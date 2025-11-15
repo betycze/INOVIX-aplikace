@@ -9,6 +9,7 @@ import {
   Modal,
   ScrollView,
   Image,
+  Animated,
 } from 'react-native';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
