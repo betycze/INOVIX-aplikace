@@ -165,6 +165,42 @@ backend:
         agent: "testing"
         comment: "✅ MongoDB integration working correctly. Connection established, data persistence verified, ObjectId to string conversion working properly."
 
+  - task: "Get All Quiz Arena Results API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added new endpoint GET /api/quiz-arena/all to fetch all quiz arena results (not just top 10). Returns all fields including _id, name, correct_answers, total_questions, average_time, instagram, timestamp. Needs testing."
+
+  - task: "Delete Single Quiz Arena Score API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "DELETE /api/quiz-arena/{score_id} endpoint exists (lines 404-416). Needs testing to verify it works correctly with admin panel."
+
+  - task: "Delete All Quiz Arena Scores API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "DELETE /api/quiz-arena endpoint exists (lines 418-425). Needs testing to verify it works correctly."
+
 frontend:
   - task: "Frontend Testing"
     implemented: false
