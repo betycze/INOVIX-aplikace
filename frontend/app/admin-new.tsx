@@ -90,10 +90,14 @@ export default function AdminNewScreen() {
                 method: 'DELETE',
               });
               if (response.ok) {
+                Alert.alert('Úspěch', 'Hodnocení bylo smazáno');
                 await fetchRatings();
+              } else {
+                Alert.alert('Chyba', 'Nepodařilo se smazat hodnocení');
               }
             } catch (error) {
               console.error('Error deleting rating:', error);
+              Alert.alert('Chyba', 'Nepodařilo se smazat hodnocení');
             }
           },
         },
