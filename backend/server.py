@@ -292,6 +292,110 @@ async def get_quiz_stats():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching quiz stats: {str(e)}")
 
+# Quiz Arena endpoints
+class QuizArenaSubmission(BaseModel):
+    name: str
+    correct_answers: int
+    total_questions: int
+    average_time: float  # in seconds
+
+@app.post("/api/quiz-arena/submit")
+async def submit_quiz_arena(data: QuizArenaSubmission):
+    """Submit Quiz Arena score with name"""
+    try:
+        score_doc = {
+            "name": data.name,
+            "correct_answers": data.correct_answers,
+            "total_questions": data.total_questions,
+            "average_time": data.average_time,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        result = quiz_arena_collection.insert_one(score_doc)
+        
+        return {
+            "success": True,
+            "id": str(result.inserted_id)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error submitting quiz arena score: {str(e)}")
+
+@app.get("/api/quiz-arena/leaderboard")
+async def get_leaderboard():
+    """Get Top 10 leaderboard - sorted by correct answers DESC, then by average time ASC"""
+    try:
+        # Get top 10 sorted by correct_answers (desc), then average_time (asc)
+        scores = list(
+            quiz_arena_collection
+            .find()
+            .sort([("correct_answers", -1), ("average_time", 1)])
+            .limit(10)
+        )
+        
+        return [
+            {
+                "rank": idx + 1,
+                "name": score["name"],
+                "correct_answers": score["correct_answers"],
+                "total_questions": score.get("total_questions", 15),
+                "average_time": round(score["average_time"], 2),
+                "timestamp": score["timestamp"]
+            }
+            for idx, score in enumerate(scores)
+        ]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching leaderboard: {str(e)}")
+
+@app.get("/api/quiz-arena/stats")
+async def get_arena_stats():
+    """Get statistics for comparison"""
+    try:
+        total_attempts = quiz_arena_collection.count_documents({})
+        
+        if total_attempts == 0:
+            return {
+                "total_attempts": 0,
+                "median_time": 0,
+                "average_success_rate": 0
+            }
+        
+        # Get all average times and calculate median
+        all_times = [doc["average_time"] for doc in quiz_arena_collection.find({}, {"average_time": 1})]
+        all_times.sort()
+        median_time = all_times[len(all_times) // 2] if all_times else 0
+        
+        # Calculate average success rate
+        pipeline = [
+            {
+                "$project": {
+                    "success_rate": {
+                        "$multiply": [
+                            {"$divide": ["$correct_answers", "$total_questions"]},
+                            100
+                        ]
+                    }
+                }
+            },
+            {
+                "$group": {
+                    "_id": None,
+                    "avg_success_rate": {"$avg": "$success_rate"}
+                }
+            }
+        ]
+        
+        result = list(quiz_arena_collection.aggregate(pipeline))
+        avg_success_rate = result[0]["avg_success_rate"] if result else 0
+        
+        return {
+            "total_attempts": total_attempts,
+            "median_time": round(median_time, 2),
+            "average_success_rate": round(avg_success_rate, 1)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching arena stats: {str(e)}")
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
