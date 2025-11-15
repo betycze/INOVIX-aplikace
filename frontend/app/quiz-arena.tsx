@@ -945,11 +945,36 @@ const styles = StyleSheet.create({
     borderColor: '#CD7F32',
     backgroundColor: '#2a2216',
   },
-  rank: {
+  rankBadge: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#1a1b1d',
+    borderWidth: 2,
+    borderColor: '#FEC11B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  rank1Badge: {
+    borderColor: '#FFD700',
+    backgroundColor: '#2a2416',
+  },
+  rank2Badge: {
+    borderColor: '#C0C0C0',
+    backgroundColor: '#252525',
+  },
+  rank3Badge: {
+    borderColor: '#CD7F32',
+    backgroundColor: '#2a2216',
+  },
+  rankText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FEC11B',
-    width: 50,
+  },
+  rankTextTop: {
+    color: '#FFFFFF',
   },
   playerInfo: {
     flex: 1,
@@ -964,14 +989,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#888',
   },
-  medal: {
-    fontSize: 32,
+  crownContainer: {
+    marginLeft: 8,
   },
   homeButton: {
+    flexDirection: 'row',
     backgroundColor: '#1a1b1d',
     padding: 20,
     borderRadius: 12,
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 24,
     borderWidth: 2,
     borderColor: '#FEC11B',
