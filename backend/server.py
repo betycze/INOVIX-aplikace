@@ -325,6 +325,31 @@ async def submit_quiz_arena(data: QuizArenaSubmission):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error submitting quiz arena score: {str(e)}")
 
+@app.get("/api/quiz-arena/all")
+async def get_all_quiz_arena_results():
+    """Get ALL quiz arena results for admin panel"""
+    try:
+        scores = list(
+            quiz_arena_collection
+            .find()
+            .sort("timestamp", -1)
+        )
+        
+        return [
+            {
+                "_id": str(score["_id"]),
+                "name": score["name"],
+                "correct_answers": score["correct_answers"],
+                "total_questions": score.get("total_questions", 15),
+                "average_time": round(score["average_time"], 2),
+                "instagram": score.get("instagram", ""),
+                "timestamp": score["timestamp"]
+            }
+            for score in scores
+        ]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching all quiz arena results: {str(e)}")
+
 @app.get("/api/quiz-arena/leaderboard")
 async def get_leaderboard():
     """Get Top 10 leaderboard - sorted by correct answers DESC, then by average time ASC"""
